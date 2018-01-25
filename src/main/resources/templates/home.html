@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/designer">
+<body>
+<div id="page" layout:fragment="content">
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar">
+
+            <div class="design-logo"><i class="fa fa-paw" aria-hidden="true"></i> Seating Plan</div>
+
+
+            <form action="#" th:action="@{/design}" th:object="${floor}" method="get">
+                <select name="id" id="floors">
+                    <option
+                            th:each="floor : ${floors}"
+                            th:value="${floor.id}"
+                            th:text="${floor.name}"
+                            th:selected="(${floor.id} == ${param.id[0]})" >{name}</option>
+                </select>
+                <input type="submit" value="Edit">
+            </form>
+
+
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="drawing1">
+
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div><!-- /#wrapper -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
+

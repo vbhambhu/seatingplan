@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/designer">
+<body>
+<div id="page" layout:fragment="content">
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <div class="design-logo"><i class="fa fa-paw" aria-hidden="true"></i> Designer</div>
+
+
+            <a th:href=@{/(id=${param.id[0]})}>Preview</a>
+
+
+
+            <form action="#" th:action="@{/design}" th:object="${floor}" method="get">
+                <select name="id">
+                    <option
+                            th:each="floor : ${floors}"
+                            th:value="${floor.id}"
+                            th:text="${floor.name}"
+                            th:selected="(${floor.id} == ${param.id[0]})" >{name}</option>
+                </select>
+                <input type="submit" value="Edit">
+            </form>
+
+
+
+
+
+            <div id="shape-list">
+
+
+
+
+
+            </div>
+
+            <div class="btn-group shape-btn" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-dark" onclick="add_shape('orect')" >
+                    <span class="icon-rectangle" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
+                </button>
+                <button type="button" class="btn btn-dark" onclick="add_shape('hrect')">
+                    <span class="icon-right" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
+                </button>
+                <button type="button" class="btn btn-dark" onclick="add_shape('crect')">
+                    <span class="icon-square" data-toggle="tooltip" data-placement="top" title="Tooltip on right"></span>
+                </button>
+                <button type="button" class="btn btn-dark"onclick="add_shape('line')">
+                    <span class="icon-substract" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
+                </button>
+                <button type="button" class="btn btn-dark" onclick="add_shape('text')">
+                    <span class="icon-text" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
+                </button>
+            </div>
+
+
+            <br>
+
+            <button class="btn btn-success btn-sm btn-block" id="save_svg">Save</button>
+
+
+
+            <div id="rect_prop">
+
+                <h4>Property</h4>
+
+
+                <label>Color</label>
+                <input class="form-control form-control-sm jscolor" id="shape_color">
+                <br>
+
+
+                <div class="btn-group btn-group-sm shape-btn" role="group" aria-label="Basic example">
+                    <button type="button" id="to_front" class="btn btn-primary">To Front</button>
+                    <button type="button" id="to_back" class="btn btn-primary">To Back</button>
+                </div>
+
+                <br>
+
+
+
+                <div class="row">
+                    <div class="col-sm-2">Left</div>
+                    <div class="col-sm-4"><input type="number" id="x_pos" class="form-control form-control-sm"></div>
+                    <div class="col-sm-2">Right</div>
+                    <div class="col-sm-4"><input type="number" id="y_pos" class="form-control form-control-sm"></div>
+                </div>
+
+                <br>
+
+                <div class="row">
+                    <div class="col-sm-2">Width</div>
+                    <div class="col-sm-4"><input type="number" id="w_pos" class="form-control form-control-sm"></div>
+                    <div class="col-sm-2">Height</div>
+                    <div class="col-sm-4"><input type="number" id="h_pos" class="form-control form-control-sm"></div>
+                </div>
+
+                <br>
+
+                <div class="row">
+                    <div class="col-sm-2">Thick</div>
+                    <div class="col-sm-4"><input type="number" id="stroke_width" class="form-control form-control-sm"></div>
+                    <div class="col-sm-2">Angle</div>
+                    <div class="col-sm-4"><input type="number" id="rotation" class="form-control form-control-sm"></div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-2">ID</div>
+                    <div class="col-sm-4"><input type="number" class="form-control form-control-sm"></div>
+                    <div class="col-sm-2">Class</div>
+                    <div class="col-sm-4"><input type="number" class="form-control form-control-sm"></div>
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="drawing">
+
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div><!-- /#wrapper -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

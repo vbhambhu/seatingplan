@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
+
+@font-face {
+    font-family: 'icomoon';
+    src:  url('fonts/icomoon.eot?4iokpz');
+    src:  url('fonts/icomoon.eot?4iokpz#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?4iokpz') format('truetype'),
+    url('fonts/icomoon.woff?4iokpz') format('woff'),
+    url('fonts/icomoon.svg?4iokpz#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+
+body {
+    overflow-x: hidden;
+    font-family: 'Open Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.42857143;
+}
+
+#wrapper {
+    padding-left: 250px;
+}
+
+
+
+#sidebar {
+    z-index: 1000;
+    background: #1e2835;
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    left: 0;
+    overflow-y: auto;
+    color: #fff;
+}
+
+#drawing {
+    background-size: 10px 10px;
+    background-image: linear-gradient(to right, #f2f2f2 1px, transparent 1px), linear-gradient(to bottom, #f2f2f2 1px, transparent 1px);
+}
+
+
+.design-logo{
+    font-size: 22px;
+    text-align: center;
+    padding: 20px;
+    background-color: #222e3e;
+    font-weight: 700;
+}
+
+
+.btn-group.shape-btn {
+    display: flex;
+}
+
+.shape-btn .btn {
+    flex: 1
+}
+
+
+#rect_prop{
+    padding: 10px;
+    font-size: 12px;
+    /* display: none;*/
+}
+
+
+
+#shape-list{
+    margin-top: 20px;
+}
+
+.tooltip-inner {
+    color: #000;
+    background-color: #ffdd0a;
+}
+
+.tooltip.bs-tooltip-auto[x-placement^=top] .arrow::before, .tooltip.bs-tooltip-top .arrow::before {
+    border-top-color: #ffdd0a;
+    color: #000;
+}
+
+
+.tooltip.bs-tooltip-auto[x-placement^=right] .arrow::before, .tooltip.bs-tooltip-right .arrow::before {
+    border-right-color: #ffdd0a;
+}
+
+.tooltip.bs-tooltip-auto[x-placement^=bottom] .arrow::before, .tooltip.bs-tooltip-bottom .arrow::before {
+    border-bottom-color: #ffdd0a;
+}
+
+.tooltip.bs-tooltip-auto[x-placement^=left] .arrow::before, .tooltip.bs-tooltip-left .arrow::before {
+    border-left-color: #ffdd0a;
+}
+
+
+
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-rectangle:before {
+    content: "\e900";
+}
+.icon-right:before {
+    content: "\e901";
+}
+.icon-square:before {
+    content: "\e902";
+}
+.icon-substract:before {
+    content: "\e903";
+}
+.icon-text:before {
+    content: "\e904";
+}
+
+
+
+.svg_select_points_lt{
+    cursor: nw-resize;
+    fill: #007dfc;
+}
+.svg_select_points_rt{
+    cursor: ne-resize;
+    fill: #007dfc;
+}
+.svg_select_points_rb{
+    cursor: se-resize;
+    fill: #007dfc;
+}
+.svg_select_points_lb{
+    cursor: sw-resize;
+    fill: #007dfc;
+}
+.svg_select_points_t{
+    cursor: n-resize;
+    fill: #007dfc;
+}
+.svg_select_points_r{
+    cursor: e-resize;
+    fill: #007dfc;
+}
+.svg_select_points_b{
+    cursor: s-resize;
+    fill: #007dfc;
+}
+.svg_select_points_l{
+    cursor: w-resize;
+    fill: #007dfc;
+}
+
+.svg_select_points_rot{
+    stroke-width:1;
+    stroke:black;
+    fill: #007dfc;
+}
+
+.svg_select_points_point{
+    cursor: move;
+}
+
+.svg_select_boundingRect{
+    stroke-width:1;
+    fill:#fff;
+    stroke-dasharray:10 10;
+    stroke:#007dfc;
+    fill-opacity:0.1;
+    pointer-events:none; /* This ons is needed if you want to deselect or drag the shape*/
+}
