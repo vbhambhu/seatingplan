@@ -79,8 +79,8 @@ $( "#save_svg" ).click(function() {
     var floorId = $("#floor-list").val();
 
     $.post( "/api/design/save", {floorid: floorId, svg_content: draw.svg() })
-        .done(function( data ) {
-            console.log( "Data Loaded: " + data );
+        .done(function( response ) {
+            alert(response);
         });
 });
 

@@ -20,7 +20,7 @@ public class APIController {
         Floor floor = floorService.getFloorById(Long.valueOf(floorid));
         floor.setSvgContent(svg_content);
         floorService.save(floor);
-        return "saved";
+        return "Saved successfully!";
 
     }
 
