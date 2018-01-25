@@ -20,4 +20,10 @@ public class FloorService {
     public List<Floor> findAll() {
         return floorRepository.findAll();
     }
+
+    public Floor getFloorById(Long id) {
+
+        return floorRepository.findOne(id);
+
+    }
 }

@@ -2,57 +2,22 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
 
-// var tools = SVG('shape-listww').size(200,45);
 
-// var s1 = tools.rect(30, 30).fill('#fff').move(5,10);
-
-
-// var s2 = tools.rect(30, 30).fill('#fff').move(45,10);
-
-// var s3 = tools.line(130, 25, 160, 25).stroke({ width: 5, color: '#000' })
-
-//s3.toParent(s2)
-
-// var s1 = tools.rect(30, 30).fill('#fff').move(5,10);
-// s1.data('toggle', 'tooltip');
-// s1.data('placement', 'right');
-// s1.data('title', 'Seat');
-
-// s1.click(function() {
-//   add_shape('crect');
-// });
-
-// s1.mouseover(function() {
-//   this.attr('cursor', 'pointer');
-// });
+var floorId = $("#floor-list").val();
 
 
-
-
-
-// var s2 = tools.rect(25, 25).fill('none').move(50,12).stroke({ width: 5, color: '#fff' })
-// s2.data('toggle', 'tooltip');
-// s2.data('placement', 'right');
-// s2.data('title', 'Room');
-
-// s2.mouseover(function() {
-//   this.attr('cursor', 'pointer');
-// });
-// s2.click(function() {
-//   add_shape('crect');
-// });
-
-
-// var s3 = tools.polyline('100,10 100,37 120,37').fill('none').stroke({ width: 5, color: '#fff' })
-
-
-// var s4 = tools.line(130, 25, 160, 25).fill('none').stroke({ width: 5, color: '#fff' })
-
-// var s5 = tools.text("Text").move(180, 12)
 
 
 
 var draw = SVG('drawing').size($("#drawing").width(),$(window).height()- 10);
+
+
+$.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
+
+
+    draw.svg(response.svgContent);
+
+});
 
 
 
@@ -60,7 +25,6 @@ var shapes = [];
 function add_shape(type){
 
     var shape;
-    var copiedShape;
 
     unselectAll();
     switch (type) {
@@ -96,11 +60,7 @@ function add_shape(type){
     })
 
     shapes.push(shape);
-
     showPropertyPanel();
-
-    console.log("new shape added");
-
 }
 
 
@@ -116,21 +76,18 @@ draw.mouseup(function() {
 $( "#save_svg" ).click(function() {
     unselectAll();
 
-    var floorId = $("#floors").val();
+    var floorId = $("#floor-list").val();
 
-    $.post( "/api/design/save", {floorId: floorId, svg_data: draw.svg() })
+    $.post( "/api/design/save", {floorid: floorId, svg_content: draw.svg() })
         .done(function( data ) {
             console.log( "Data Loaded: " + data );
         });
-
-
-
 });
+
 
 $('body').keydown(function(e){
 
-
-    if(e.keyCode == 46){
+    if(e.keyCode == 8 || e.keyCode == 46){
         console.log('Delete Key Pressed');
         for (i = 0; i < shapes.length; i++) {
             var shape = shapes[i];
@@ -142,24 +99,6 @@ $('body').keydown(function(e){
             }
         }
     }
-
-    //copy
-    if (e.keyCode == 67 && (e.ctrlKey || e.metaKey)){
-        for (i = 0; i < shapes.length; i++) {
-            var shape = shapes[i];
-            if(shape.isSelected){
-                copiedShape = shape;
-            }
-        }
-    }
-
-    //paste
-    if (e.keyCode == 86 && (e.ctrlKey || e.metaKey)){
-        //copiedShape.clone();
-        console.log(copiedShape);
-    }
-
-    console.log(shapes.length)
 });
 
 
@@ -242,14 +181,18 @@ $( "#shape_color" ).change(function() {
 
 $( "#x_pos" ).change(function() {
     var new_val = $(this).val();
+    selectedShape().x(new_val);
+});
+
+
+function selectedShape() {
     for (i = 0; i < shapes.length; i++) {
         var obj = shapes[i];
-
         if(obj.isSelected){
-            obj.x(new_val);
+            return obj;
         }
     }
-});
+}
 
 
 $( "#y_pos" ).change(function() {
@@ -330,11 +273,3 @@ $( "#to_back" ).click(function() {
         }
     }
 });
-
-
-
-
-
-//polyline.plot([[0,0], [100,50], [50,100], [150,50], [200,50]])
-
-//var b = draw.viewbox({ x: 0, y: 0, width: 297, height: 210 })

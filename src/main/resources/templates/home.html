@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/designer">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/dashboard">
 <body>
 <div id="page" layout:fragment="content">
 
@@ -12,7 +12,7 @@
 
 
             <form action="#" th:action="@{/design}" th:object="${floor}" method="get">
-                <select name="id" id="floors">
+                <select name="id" id="floor-list">
                     <option
                             th:each="floor : ${floors}"
                             th:value="${floor.id}"
@@ -27,9 +27,7 @@
         <!-- /#sidebar-wrapper -->
 
         <!-- Page Content -->
-        <div id="drawing1">
-
-        </div>
+        <div id="seating-plan"></div>
         <!-- /#page-content-wrapper -->
 
     </div><!-- /#wrapper -->
