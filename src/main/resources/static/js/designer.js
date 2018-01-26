@@ -12,12 +12,9 @@ var floorId = $("#floor-list").val();
 var draw = SVG('drawing').size($("#drawing").width(),$(window).height()- 10);
 
 
-$.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
-
-
-    draw.svg(response.svgContent);
-
-});
+// $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
+//     draw.svg(response.svgContent);
+// });
 
 
 
@@ -46,6 +43,8 @@ function add_shape(type){
     }
 
     shape.draggable().selectize().resize();
+
+    shape.type = type;
     shape.isSelected = true;
 
     //on click
@@ -53,6 +52,7 @@ function add_shape(type){
         unselectAll();
         this.selectize().resize();
         this.isSelected = true;
+        showPropertyPanel();
     });
 
     shape.mouseover(function() {
@@ -64,10 +64,14 @@ function add_shape(type){
 }
 
 
+draw.mousedown(function(){
+    unselectAll();
+    hidePropertyPanel();
+});
 
 
 draw.mouseup(function() {
-    showPropertyPanel();
+    //showPropertyPanel();
 });
 
 
@@ -78,7 +82,7 @@ $( "#save_svg" ).click(function() {
 
     var floorId = $("#floor-list").val();
 
-    $.post( "/api/design/save", {floorid: floorId, svg_content: draw.svg() })
+    $.post( "/api/design/get", {floorid: floorId, svg_content: draw.svg() })
         .done(function( response ) {
             alert(response);
         });
@@ -108,18 +112,35 @@ function unselectAll(){
         shape.selectize(false).resize(false);
         shape.isSelected = false;
     }
+
+    //also hide property panel
+
+
+
+
 }
 
+function hidePropertyPanel(){
+    $("#prop_panel").css('display' , 'none');
+}
 
 function showPropertyPanel(){
-    console.log("show showPropertyPanel");
 
     for (i = 0; i < shapes.length; i++) {
         var obj = shapes[i];
 
-        //console.log(obj.isSelected)
-
         if(obj.isSelected){
+
+            //get color of selected item
+            var color;
+            if(obj.type == 'crect' || obj.type == 'text'){
+                color = obj.attr('fill');
+            } else{
+                color = obj.attr('stroke');
+            }
+            $('#shape_color').css({ 'background': color });
+            $('#shape_color').val(color);
+
 
 
             $('#x_pos').val(obj.x());
@@ -127,39 +148,13 @@ function showPropertyPanel(){
             $('#w_pos').val(obj.width());
             $('#h_pos').val(obj.height());
             $('#stroke_width').val(obj.attr('stroke-width'));
-
             $('#rotation').val(obj.transform().rotation);
 
-
-
-
-            // console.log(obj.transform().rotation)
-
-
-
-
-
-
-            $( "#rect_prop" ).css('display' , 'block');
-
-
-
-
-
+            //display block
+            $( "#prop_panel" ).css('display' , 'block');
         }
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }
 
@@ -167,21 +162,21 @@ function showPropertyPanel(){
 $( "#shape_color" ).change(function() {
 
     var new_color = '#'+$( "#shape_color" ).val();
-
-    for (i = 0; i < shapes.length; i++) {
-        var obj = shapes[i];
-
-        if(obj.isSelected){
-            obj.stroke({ color: new_color})
-        }
+    var shape = selectedShape();
+    if(shape == null){
+        return;
+    } else if(shape.type == 'crect' || shape.type == 'text'){
+        shape.fill({ color: new_color})
+    } else {
+        shape.stroke({ color: new_color})
     }
-
 });
 
 
 $( "#x_pos" ).change(function() {
     var new_val = $(this).val();
-    selectedShape().x(new_val);
+    var shape = selectedShape();
+    shape.x(new_val);
 });
 
 
@@ -192,6 +187,7 @@ function selectedShape() {
             return obj;
         }
     }
+    return null;
 }
 
 

@@ -25,6 +25,7 @@ public class APIController {
     }
 
 
+    @CrossOrigin(origins = "http://localhost")
     @ResponseBody
     @RequestMapping(value = "api/design/get", method = RequestMethod.GET)
     public Floor getSeatingPlan(@RequestParam("floorid") String floorid){
