@@ -61,10 +61,10 @@ body {
 }
 
 
-#rect_prop{
+#prop_panel{
     padding: 10px;
     font-size: 12px;
-     display: none;
+    display: none;
 }
 
 

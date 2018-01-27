@@ -12,9 +12,11 @@ var floorId = $("#floor-list").val();
 var draw = SVG('drawing').size($("#drawing").width(),$(window).height()- 10);
 
 
-// $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
-//     draw.svg(response.svgContent);
-// });
+$.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
+    draw.svg(response.svgContent);
+
+    console.log(draw.rect());
+});
 
 
 
@@ -82,7 +84,7 @@ $( "#save_svg" ).click(function() {
 
     var floorId = $("#floor-list").val();
 
-    $.post( "/api/design/get", {floorid: floorId, svg_content: draw.svg() })
+    $.post( "/api/design/save", {floorid: floorId, svg_content: draw.svg() })
         .done(function( response ) {
             alert(response);
         });
