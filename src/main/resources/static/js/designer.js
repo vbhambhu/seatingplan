@@ -3,24 +3,43 @@ $(function () {
 })
 
 
+
+
 var floorId = $("#floor-list").val();
+var shapes = [];
+
+
+var draw;
+
+    $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
+
+     draw = SVG('drawing').size($("#drawing").width(),$(window).height()- 10);
+
+
+    // draw.each(function(i, children) {
+    //     this.fill({ color: '#f06' })
+    //     this.draggable().selectize().resize();
+    //     //this.type = type;
+    // })
+    //
+    //     unselectAll();
+
+
+    draw.mousedown(function(){
+        unselectAll();
+        hidePropertyPanel();
+    });
+
+
+    draw.mouseup(function() {
+        //showPropertyPanel();
+    });
 
 
 
-
-
-var draw = SVG('drawing').size($("#drawing").width(),$(window).height()- 10);
-
-
-$.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
-    draw.svg(response.svgContent);
-
-    console.log(draw.rect());
 });
 
 
-
-var shapes = [];
 function add_shape(type){
 
     var shape;
@@ -66,28 +85,13 @@ function add_shape(type){
 }
 
 
-draw.mousedown(function(){
-    unselectAll();
-    hidePropertyPanel();
-});
-
-
-draw.mouseup(function() {
-    //showPropertyPanel();
-});
-
-
 
 
 $( "#save_svg" ).click(function() {
     unselectAll();
-
-    var floorId = $("#floor-list").val();
-
-    $.post( "/api/design/save", {floorid: floorId, svg_content: draw.svg() })
-        .done(function( response ) {
-            alert(response);
-        });
+    $.post( "/api/design/save", {floorid: floorId, svg_content: draw.svg() }).done(function( response ) {
+        alert(response);
+    });
 });
 
 
