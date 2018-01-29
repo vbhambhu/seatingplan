@@ -9,132 +9,143 @@
 
         <!-- Sidebar -->
         <div id="sidebar">
-            <div class="design-logo"><i class="fa fa-paw" aria-hidden="true"></i> Designer</div>
+            <div class="design-logo"><i class="fa fa-paw" aria-hidden="true"></i> Seating Plan</div>
+            <div class="row">
+                <div class="col-sm-12">
 
 
-            <a th:href=@{/(id=${param.id[0]})}>Preview</a>
-
-
-
-            <form action="#" th:action="@{/design}" th:object="${floor}" method="get">
-                <select name="id" id="floor-list">
-                    <option
-                            th:each="floor : ${floors}"
-                            th:value="${floor.id}"
-                            th:text="${floor.name}"
-                            th:selected="(${floor.id} == ${param.id[0]})" >{name}</option>
-                </select>
-                <input type="submit" value="Edit">
-            </form>
+                    <div id="top-panel">
+                        <div class="form-group">
+                            <select name="id" id="floor-list" class="form-control form-control-sm">
+                                <option
+                                        th:each="floor : ${floors}"
+                                        th:value="${floor.id}"
+                                        th:text="${floor.name}"
+                                        th:selected="(${floor.id} == ${param.id[0]})" >{name}</option>
+                            </select>
+                        </div>
 
 
 
-            <div class="btn-group shape-btn" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-dark" onclick="add_shape('orect')" >
-                    <span class="icon-rectangle" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
-                </button>
-                <button type="button" class="btn btn-dark" onclick="add_shape('hrect')">
-                    <span class="icon-right" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
-                </button>
-                <button type="button" class="btn btn-dark" onclick="add_shape('crect')">
-                    <span class="icon-square" data-toggle="tooltip" data-placement="top" title="Tooltip on right"></span>
-                </button>
-                <button type="button" class="btn btn-dark"onclick="add_shape('line')">
-                    <span class="icon-substract" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
-                </button>
-                <button type="button" class="btn btn-dark" onclick="add_shape('text')">
-                    <span class="icon-text" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
-                </button>
+                        <div class="form-group">
+                            <div class="btn-group btn-group-sm shape-btn" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-success" id="save_svg">Save</button>
+                                <a class="btn btn-primary" th:href=@{/(id=${param.id[0]})}>Preview</a>
+                            </div>
+                        </div>
+
+
+
+
+                    <div class="btn-group shape-btn" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-dark" onclick="add_shape('orect')" >
+                            <span class="icon-rectangle" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
+                        </button>
+                        <button type="button" class="btn btn-dark" onclick="add_shape('hrect')">
+                            <span class="icon-right" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
+                        </button>
+                        <button type="button" class="btn btn-dark" onclick="add_shape('crect')">
+                            <span class="icon-square" data-toggle="tooltip" data-placement="top" title="Tooltip on right"></span>
+                        </button>
+                        <button type="button" class="btn btn-dark"onclick="add_shape('line')">
+                            <span class="icon-substract" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
+                        </button>
+                        <button type="button" class="btn btn-dark" onclick="add_shape('text')">
+                            <span class="icon-text" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
+                        </button>
+                    </div>
+
+                    </div>
+
+                </div>
             </div>
-
-
-            <br>
-
-            <button class="btn btn-success btn-sm btn-block" id="save_svg">Save</button>
 
 
 
             <div id="prop_panel">
-
                 <h5>Shape properties</h5>
 
-
-                <label>Color</label>
-                <input class="form-control form-control-sm jscolor" id="shape_color">
-                <br>
-
-
-                <div class="btn-group btn-group-sm shape-btn" role="group" aria-label="Basic example">
-                    <button type="button" id="to_front" class="btn btn-primary">To Front</button>
-                    <button type="button" id="to_back" class="btn btn-primary">To Back</button>
+                <div class="form-group">
+                    <label>Color</label>
+                    <input class="form-control form-control-sm jscolor" id="shape_color">
                 </div>
 
-                <br>
-
-
-
-                <div class="row">
-                    <div class="col-sm-2">Left</div>
-                    <div class="col-sm-4"><input type="number" id="x_pos" class="form-control form-control-sm"></div>
-                    <div class="col-sm-2">Right</div>
-                    <div class="col-sm-4"><input type="number" id="y_pos" class="form-control form-control-sm"></div>
-                </div>
-
-                <br>
-
-                <div class="row">
-                    <div class="col-sm-2">Width</div>
-                    <div class="col-sm-4"><input type="number" id="w_pos" class="form-control form-control-sm"></div>
-                    <div class="col-sm-2">Height</div>
-                    <div class="col-sm-4"><input type="number" id="h_pos" class="form-control form-control-sm"></div>
-                </div>
-
-                <br>
-
-                <div class="row">
-                    <div class="col-sm-2">Thick</div>
-                    <div class="col-sm-4"><input type="number" id="stroke_width" class="form-control form-control-sm"></div>
-                    <div class="col-sm-2">Angle</div>
-                    <div class="col-sm-4"><input type="number" id="rotation" class="form-control form-control-sm"></div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-sm-2">ID</div>
-                    <div class="col-sm-4"><input type="number" class="form-control form-control-sm"></div>
-                    <div class="col-sm-2">Class</div>
-                    <div class="col-sm-4"><input type="number" class="form-control form-control-sm"></div>
+                <div class="form-group">
+                    <label>Attach User</label>
+                    <select class="form-control form-control-sm" id="userid">
+                        <option value="0">None</option>
+                        <option
+                                th:each="user : ${users}"
+                                th:value="${user.id}"
+                                th:text="${user.username}">{name}</option>
+                    </select>
                 </div>
 
 
+                <div class="form-group">
+                    <label>Position</label>
+                    <div class="btn-group btn-group-sm shape-btn" role="group" aria-label="Basic example">
+                        <button type="button" id="to_front" class="btn btn-primary">To Front</button>
+                        <button type="button" id="to_back" class="btn btn-primary">To Back</button>
+                    </div>
+                </div>
 
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Left</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control form-control-sm" id="x_pos">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Right</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control form-control-sm" id="y_pos">
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Width</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control form-control-sm" id="w_pos">
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Height</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control form-control-sm" id="h_pos">
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Thick</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control form-control-sm" id="stroke_width">
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Angle</label>
+                    <div class="col-sm-10">
+                        <input type="number" class="form-control form-control-sm" id="rotation">
+                    </div>
+                </div>
             </div>
-
-
-
-
 
         </div>
         <!-- /#sidebar-wrapper -->
 
         <!-- Page Content -->
-        <div id="drawing">
-
-        </div>
+        <div id="drawing"></div>
         <!-- /#page-content-wrapper -->
 
     </div><!-- /#wrapper -->
-
-
-
-
-
-
-
-
-
-
-
-
 
 </div>
 </body>

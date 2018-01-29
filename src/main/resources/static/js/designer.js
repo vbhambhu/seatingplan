@@ -11,18 +11,23 @@ var shapes = [];
 
 var draw;
 
-    $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
+$.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
 
      draw = SVG('drawing').size($("#drawing").width(),$(window).height()- 10);
+     draw.svg(response.svgContent);
 
+     draw.each(function(i, children) {
+         shapes.push(this);
+         this.draggable();
 
-    // draw.each(function(i, children) {
-    //     this.fill({ color: '#f06' })
-    //     this.draggable().selectize().resize();
-    //     //this.type = type;
-    // })
-    //
-    //     unselectAll();
+         //on click
+         this.click(function() {
+             unselectAll();
+             this.selectize().resize();
+             this.isSelected = true;
+             showPropertyPanel();
+         });
+     })
 
 
     draw.mousedown(function(){
@@ -30,20 +35,11 @@ var draw;
         hidePropertyPanel();
     });
 
-
-    draw.mouseup(function() {
-        //showPropertyPanel();
-    });
-
-
-
 });
 
 
 function add_shape(type){
-
     var shape;
-
     unselectAll();
     switch (type) {
         case 'orect':
@@ -64,7 +60,6 @@ function add_shape(type){
     }
 
     shape.draggable().selectize().resize();
-
     shape.type = type;
     shape.isSelected = true;
 
@@ -89,7 +84,14 @@ function add_shape(type){
 
 $( "#save_svg" ).click(function() {
     unselectAll();
-    $.post( "/api/design/save", {floorid: floorId, svg_content: draw.svg() }).done(function( response ) {
+    var svg_content = "";
+    draw.each(function() {
+        if(this.type !== 'defs'){
+            svg_content += this.svg();
+        }
+    })
+
+    $.post( "/api/design/save", {floorid: floorId, svg_content: svg_content }).done(function( response ) {
         alert(response);
     });
 });
@@ -97,7 +99,11 @@ $( "#save_svg" ).click(function() {
 
 $('body').keydown(function(e){
 
-    if(e.keyCode == 8 || e.keyCode == 46){
+
+    console.log(!editingProp())
+
+
+    if((e.keyCode == 8 || e.keyCode == 46) && !editingProp()){
         console.log('Delete Key Pressed');
         for (i = 0; i < shapes.length; i++) {
             var shape = shapes[i];
@@ -112,18 +118,19 @@ $('body').keydown(function(e){
 });
 
 
+function editingProp() {
+
+    return $("#x_pos").is(":focus") || $("#y_pos").is(":focus") || $("#w_pos").is(":focus")
+        || $("#h_pos").is(":focus") || $("#stroke_width").is(":focus") || $("#rotation").is(":focus");
+
+}
+
 function unselectAll(){
     for (i = 0; i < shapes.length; i++) {
         var shape = shapes[i];
         shape.selectize(false).resize(false);
         shape.isSelected = false;
     }
-
-    //also hide property panel
-
-
-
-
 }
 
 function hidePropertyPanel(){
@@ -148,6 +155,9 @@ function showPropertyPanel(){
             $('#shape_color').val(color);
 
 
+            var userId = (typeof obj.data('user-id') === "undefined") ? 0 : obj.data('user-id');
+            $('#userid').val(userId);
+
 
             $('#x_pos').val(obj.x());
             $('#y_pos').val(obj.y());
@@ -164,6 +174,17 @@ function showPropertyPanel(){
 
 }
 
+$( "#userid" ).change(function() {
+
+    var userId = $(this).val();
+    var shape = selectedShape();
+
+    if(shape !== null) shape.data('user-id', userId);
+
+});
+
+
+
 
 $( "#shape_color" ).change(function() {
 
@@ -179,22 +200,16 @@ $( "#shape_color" ).change(function() {
 });
 
 
+
+
 $( "#x_pos" ).change(function() {
     var new_val = $(this).val();
     var shape = selectedShape();
-    shape.x(new_val);
+    if(shape !== null) shape.x(new_val);
 });
 
 
-function selectedShape() {
-    for (i = 0; i < shapes.length; i++) {
-        var obj = shapes[i];
-        if(obj.isSelected){
-            return obj;
-        }
-    }
-    return null;
-}
+
 
 
 $( "#y_pos" ).change(function() {
@@ -275,3 +290,13 @@ $( "#to_back" ).click(function() {
         }
     }
 });
+
+function selectedShape() {
+    for (i = 0; i < shapes.length; i++) {
+        var obj = shapes[i];
+        if(obj.isSelected){
+            return obj;
+        }
+    }
+    return null;
+}

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import uk.ac.ox.kir.seatingplan.entities.Floor;
 import uk.ac.ox.kir.seatingplan.services.FloorService;
+import uk.ac.ox.kir.seatingplan.services.UserService;
 
 import javax.validation.Valid;
 
@@ -18,12 +19,17 @@ public class DesignController {
     @Autowired
     FloorService floorService;
 
+    @Autowired
+    UserService userService;
+
 
     @RequestMapping(value = "/design", method = RequestMethod.GET)
     public String designerPage(@RequestParam int id, Model model) {
 
-
         model.addAttribute("floors", floorService.findAll());
+
+        model.addAttribute("users", userService.findAll());
+
         return "design";
     }
 

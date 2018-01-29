@@ -34,7 +34,12 @@ body {
     height: 100%;
     left: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     color: #fff;
+}
+
+#top-panel{
+    padding: 10px;
 }
 
 #drawing {
