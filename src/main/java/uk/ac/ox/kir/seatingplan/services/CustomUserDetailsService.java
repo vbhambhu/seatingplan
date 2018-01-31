@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import uk.ac.ox.kir.seatingplan.entities.Role;
 import uk.ac.ox.kir.seatingplan.entities.User;
 import uk.ac.ox.kir.seatingplan.repositories.UserRepository;
 
@@ -46,8 +47,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private List<GrantedAuthority> getAuthorities(User user) {
+
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-       // authorities.add(new SimpleGrantedAuthority(user.getRole()));
+
+        for (Role role : user.getRoles()){
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+
         return authorities;
     }
 }

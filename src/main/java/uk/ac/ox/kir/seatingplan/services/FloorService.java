@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import uk.ac.ox.kir.seatingplan.entities.Floor;
 import uk.ac.ox.kir.seatingplan.repositories.FloorRepository;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -14,6 +15,10 @@ public class FloorService {
     FloorRepository floorRepository;
 
     public void save(Floor floor) {
+
+        //floorRepository.get
+
+        floor.setCreatedAt(new Date());
         floorRepository.save(floor);
     }
 

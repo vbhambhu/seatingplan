@@ -179,7 +179,11 @@ $( "#userid" ).change(function() {
     var userId = $(this).val();
     var shape = selectedShape();
 
-    if(shape !== null) shape.data('user-id', userId);
+    if(shape !== null) {
+
+        shape.data('user-id', userId);
+
+    }
 
 });
 

@@ -2,10 +2,13 @@ package uk.ac.ox.kir.seatingplan.entities;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class User {
@@ -31,23 +34,42 @@ public class User {
     @Email
     private String email;
 
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date startDate;
 
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date endDate;
 
-    private String pcDetails;
+    private String computerAddress;
 
     private String comment;
+
+    private boolean isPI;
 
     private String password;
 
     private String tempPassword;
+
+    private boolean enabled;
 
     private int status;
 
     private Date createdAt;
 
     private Date updatedAt;
+
+    @ManyToMany
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles;
+
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private Group group;
 
     public Long getId() {
         return id;
@@ -105,12 +127,12 @@ public class User {
         this.endDate = endDate;
     }
 
-    public String getPcDetails() {
-        return pcDetails;
+    public String getComputerAddress() {
+        return computerAddress;
     }
 
-    public void setPcDetails(String pcDetails) {
-        this.pcDetails = pcDetails;
+    public void setComputerAddress(String computerAddress) {
+        this.computerAddress = computerAddress;
     }
 
     public String getComment() {
@@ -161,4 +183,47 @@ public class User {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isPI() {
+        return isPI;
+    }
+
+    public void setPI(boolean PI) {
+        isPI = PI;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public String getFullName(){
+        return this.firstName + " " + this.lastName;
+    }
+
+    public String getsortName(){
+        return this.firstName + " " + this.lastName.substring(0, 1);
+    }
+
 }

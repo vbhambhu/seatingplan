@@ -14,7 +14,7 @@ import uk.ac.ox.kir.seatingplan.services.UserService;
 import javax.validation.Valid;
 
 @Controller
-public class DesignController {
+public class FloorController {
 
     @Autowired
     FloorService floorService;
@@ -23,32 +23,48 @@ public class DesignController {
     UserService userService;
 
 
-    @RequestMapping(value = "/design", method = RequestMethod.GET)
+    @RequestMapping(value = "/floor/edit", method = RequestMethod.GET)
     public String designerPage(@RequestParam int id, Model model) {
 
         model.addAttribute("floors", floorService.findAll());
 
         model.addAttribute("users", userService.findAll());
 
-        return "design";
+        return "admin/floors/design";
     }
 
 
-    @RequestMapping(value = "/designer", method = RequestMethod.GET)
-    public String designerPage(Floor floor) {
-        return "designer";
+    @RequestMapping(value = "/floors", method = RequestMethod.GET)
+    public String floorlists(Model model) {
+
+        model.addAttribute("floors", floorService.findAll());
+
+        String jsFiles[] = {"datatables.min.js"};
+        model.addAttribute("jsFiles", jsFiles);
+
+
+        return "admin/floors/list";
     }
 
 
-    @RequestMapping(value = "/designer", method = RequestMethod.POST)
+    @RequestMapping(value = "/floor/add", method = RequestMethod.GET)
+    public String addFloor(Floor floor) {
+        return "admin/floors/add";
+    }
+
+
+    @RequestMapping(value = "/floor/add", method = RequestMethod.POST)
     public String createFloor(@Valid Floor floor, BindingResult bindingResult) {
+
+
+
         if (bindingResult.hasErrors()) {
-            return "designer";
+            return "admin/floors/add";
         }
 
         floorService.save(floor);
 
-        return "redirect:/design?id="+floor.getId();
+        return "redirect:/floors";
     }
 
 

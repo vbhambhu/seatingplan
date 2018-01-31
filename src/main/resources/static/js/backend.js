@@ -10,3 +10,19 @@ $.fn.exists = function(callback) {
 $('.datatable').exists(function() {
     $(".datatable").DataTable();
 });
+
+$('.datepicker').exists(function() {
+    $(".datepicker").datepicker({
+        format: 'dd-mm-yyyy'
+    });
+});
+
+
+$('.color').exists(function() {
+
+    $( ".color" ).each(function( index ) {
+        $(this).css("color", "#"+$( this ).data('color'));
+    });
+
+});
+
