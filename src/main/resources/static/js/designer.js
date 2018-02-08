@@ -5,9 +5,10 @@ $(function () {
 
 
 
-var floorId = $("#floor-list").val();
+var floorId = $("#floorid").val();
 var shapes = [];
 
+var copiedShape = null;
 
 var draw;
 
@@ -25,6 +26,7 @@ $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
              unselectAll();
              this.selectize().resize();
              this.isSelected = true;
+             console.log(this)
              showPropertyPanel();
          });
      })
@@ -60,7 +62,7 @@ function add_shape(type){
     }
 
     shape.draggable().selectize().resize();
-    shape.type = type;
+    shape.data('type', type);
     shape.isSelected = true;
 
     //on click
@@ -68,6 +70,7 @@ function add_shape(type){
         unselectAll();
         this.selectize().resize();
         this.isSelected = true;
+        console.log(this)
         showPropertyPanel();
     });
 
@@ -99,10 +102,7 @@ $( "#save_svg" ).click(function() {
 
 $('body').keydown(function(e){
 
-
-    console.log(!editingProp())
-
-
+    //delete
     if((e.keyCode == 8 || e.keyCode == 46) && !editingProp()){
         console.log('Delete Key Pressed');
         for (i = 0; i < shapes.length; i++) {
@@ -115,6 +115,51 @@ $('body').keydown(function(e){
             }
         }
     }
+
+
+    //copy
+    if (e.keyCode == 67 && (e.ctrlKey || e.metaKey)){
+        var shape = selectedShape();
+        if(shape !== null) copiedShape = shape;
+        console.log(shape)
+    }
+
+    //paste
+    if (e.keyCode == 86 && (e.ctrlKey || e.metaKey)){
+
+        add_shape(copiedShape.data('type'));
+
+        var shape = selectedShape();
+        if(shape == null) return;
+
+        shape.attr({
+            fill: copiedShape.attr('fill')
+            , stroke: copiedShape.attr('stroke')
+            , 'stroke-width': copiedShape.attr('stroke-width')
+        })
+
+        shape.width(copiedShape.width())
+        shape.height(copiedShape.height())
+        shape.x(copiedShape.cx())
+        shape.y(copiedShape.cy())
+
+
+        // $(copiedShape).val(obj.x());
+        // $('#y_pos').val(obj.y());
+        // $('#w_pos').val(obj.width());
+        // $('#h_pos').val(obj.height());
+        // $('#stroke_width').val(obj.attr('stroke-width'));
+        // $('#rotation').val(obj.transform().rotation);
+
+
+
+
+        //copiedShape.clone();
+       // console.log(copiedShape);
+    }
+
+
+
 });
 
 
@@ -146,7 +191,7 @@ function showPropertyPanel(){
 
             //get color of selected item
             var color;
-            if(obj.type == 'crect' || obj.type == 'text'){
+            if(obj.data('type') == 'crect' || obj.data('type') == 'text'){
                 color = obj.attr('fill');
             } else{
                 color = obj.attr('stroke');
@@ -196,11 +241,14 @@ $( "#shape_color" ).change(function() {
     var shape = selectedShape();
     if(shape == null){
         return;
-    } else if(shape.type == 'crect' || shape.type == 'text'){
+    } else if(shape.data('type') == 'crect' || shape.data('type') == 'text'){
         shape.fill({ color: new_color})
     } else {
         shape.stroke({ color: new_color})
     }
+
+
+    ;
 });
 
 

@@ -15,9 +15,6 @@ var floorId = $("#floor-list").val();
 // });
 
 
-$(".user-datails").on("mouseenter", function() {
-    console.log(this)
-});
 
 $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
 
@@ -28,12 +25,16 @@ $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
     draw.each(function(i, children) {
         //console.log(this);
 
+
         var elem = this;
         elem.attr('cursor', 'auto');
 
         var userId = (typeof elem.data('user-id') === "undefined") ? 0 : elem.data('user-id');
 
         if(userId !== 0){
+
+            //animate on load
+            elem.animate().flip('x');
 
             var cx = elem.cx()
 
@@ -42,27 +43,37 @@ $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
             $.get("/api/user/get", { userid: userId } ).done(function( userdata ) {
 
 
-                var text = draw.text(userdata.firstName + " " + userdata.lastName.substring(0,1));
-                text.move(elem.cx() - (text.length()/2),elem.cy() - 10).font({ fill: '#000' , weight: 700 });
+                var tooltip;
+
+
+               // var text = draw.text(userdata.firstName + " " + userdata.lastName.substring(0,1));
+                var text = draw.text(userdata.firstName);
+                text.move(elem.cx() - (text.length()/2),elem.cy() - 10).font({ fill: '#000' , weight: 300, size:12 });
 
                 elem.fill('#'+userdata.group.color)
+                elem.addClass('user-datails');
 
 
-                elem.addClass('user-datails')
 
-                text.mouseover(function() {
+                //add top layer
+                var toplayer = draw.rect(60,60).move(elem.x(), elem.y()).attr('fill-opacity',0);
+
+
+
+                //
+                // text.mouseover(function() {
+                //     this.attr('cursor', 'pointer');
+                //    console.log(this)
+                // })
+
+
+                toplayer.mouseover(function() {
                     this.attr('cursor', 'pointer');
-
-
-                   console.log(this)
-
-
-
+                    tooltip = draw.rect(250,350).radius(5).fill({ color: '#f06' }).move(toplayer.width() + 15, elem.cy());
                 })
 
-
-                elem.mouseover(function() {
-                    this.attr('cursor', 'pointer');
+                toplayer.mouseout(function() {
+                    tooltip.remove()
                 })
 
 
@@ -85,3 +96,12 @@ $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
 
 
 });
+
+//
+// $(document).ready(function () {
+//
+//     $(".user-datails").bind("click", function() {
+//         console.log("clicked")
+//     });
+//
+// });

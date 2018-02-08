@@ -93,4 +93,12 @@ public class UserService {
     }
 
 
+    public List<Group> getGroupsByFloorId(Long floorid) {
+
+
+        //return groupRepository.find(floorid);
+
+        return null;
+
+    }
 }

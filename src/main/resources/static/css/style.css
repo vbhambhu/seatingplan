@@ -12,12 +12,17 @@
 }
 
 
-
 body {
     overflow-x: hidden;
     font-family: 'Open Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     line-height: 1.42857143;
+}
+
+
+
+.account-box{
+    margin-top: 150px;
 }
 
 #wrapper {
@@ -34,7 +39,7 @@ body {
     height: 100%;
     left: 0;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
     color: #fff;
 }
 
@@ -42,7 +47,9 @@ body {
     padding: 10px;
 }
 
+
 #drawing {
+    font-size: 10px;
     background-size: 10px 10px;
     background-image: linear-gradient(to right, #f2f2f2 1px, transparent 1px), linear-gradient(to bottom, #f2f2f2 1px, transparent 1px);
 }

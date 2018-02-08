@@ -3,9 +3,15 @@ package uk.ac.ox.kir.seatingplan.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import uk.ac.ox.kir.seatingplan.entities.Floor;
+import uk.ac.ox.kir.seatingplan.entities.FloorVersion;
+import uk.ac.ox.kir.seatingplan.entities.Group;
 import uk.ac.ox.kir.seatingplan.entities.User;
 import uk.ac.ox.kir.seatingplan.services.FloorService;
 import uk.ac.ox.kir.seatingplan.services.UserService;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @RestController
 public class APIController {
@@ -23,10 +29,14 @@ public class APIController {
 
         Floor floor = floorService.getFloorById(Long.valueOf(floorid));
         floor.setSvgContent(svg_content);
+
         floorService.save(floor);
+
         return "Saved successfully!";
 
     }
+
+
 
 
     @ResponseBody
@@ -44,6 +54,28 @@ public class APIController {
 
         User user = userService.getUserById(Long.valueOf(userid));
         return user;
+
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "api/groups-by-floor", method = RequestMethod.GET)
+    public User getGroupsByFloorId(@RequestParam("floorid") Long floorid){
+
+
+       // List<Group> groupList = userService.getGroupsByFloorId(floorid);
+
+
+        //new ArrayList<>();
+
+        //SELECT DISTINCT user_groups.name, user_groups.color
+        //FROM user
+        //LEFT JOIN user_groups ON (user.group_id = user_groups.id)
+        //WHERE floor_id =1
+
+
+
+        //User user = userService.getUserById(Long.valueOf(userid));
+        return null;
 
     }
 

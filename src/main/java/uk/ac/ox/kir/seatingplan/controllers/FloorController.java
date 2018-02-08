@@ -68,4 +68,30 @@ public class FloorController {
     }
 
 
+
+    @RequestMapping(value = "/floor/edit-name", method = RequestMethod.GET)
+    public String editName(@RequestParam int id, Model model) {
+
+        model.addAttribute("floor", floorService.getFloorById(Long.valueOf(id)) );
+        return "admin/floors/edit_name";
     }
+
+
+    @RequestMapping(value = "/floor/edit-name", method = RequestMethod.POST)
+    public String saveeditName(@Valid Floor floor, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "admin/floors/edit_name";
+        }
+
+
+
+        floorService.save(floor);
+
+        return "redirect:/floors";
+    }
+
+
+
+
+}

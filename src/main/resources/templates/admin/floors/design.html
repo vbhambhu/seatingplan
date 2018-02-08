@@ -14,11 +14,17 @@
                 <div class="col-sm-12">
 
 
+                    <div id="top-panel">
+
+
+                        <input type="hidden"  id="floorid" th:value="${param.id[0]}">
+
+
 
                         <div class="form-group">
                             <div class="btn-group btn-group-sm shape-btn" role="group" aria-label="Basic example">
                                 <button type="button" class="btn btn-success" id="save_svg">Save</button>
-                                <a class="btn btn-primary" th:href=@{/(id=${param.id[0]})}>Go back to admin</a>
+                                <a class="btn btn-primary" th:href=@{/floors}>Go back to admin</a>
                             </div>
                         </div>
 
