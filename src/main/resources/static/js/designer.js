@@ -26,7 +26,6 @@ $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
              unselectAll();
              this.selectize().resize();
              this.isSelected = true;
-             console.log(this)
              showPropertyPanel();
          });
      })
@@ -70,7 +69,6 @@ function add_shape(type){
         unselectAll();
         this.selectize().resize();
         this.isSelected = true;
-        console.log(this)
         showPropertyPanel();
     });
 
@@ -118,15 +116,15 @@ $('body').keydown(function(e){
 
 
     //copy
-    if (e.keyCode == 67 && (e.ctrlKey || e.metaKey)){
+    if (e.keyCode == 67 && (e.ctrlKey || e.metaKey && !editingProp())){
+        console.log('Copy Key Pressed');
         var shape = selectedShape();
         if(shape !== null) copiedShape = shape;
-        console.log(shape)
     }
 
     //paste
-    if (e.keyCode == 86 && (e.ctrlKey || e.metaKey)){
-
+    if (e.keyCode == 86 && (e.ctrlKey || e.metaKey && !editingProp())){
+        console.log('Paste Key Pressed');
         add_shape(copiedShape.data('type'));
 
         var shape = selectedShape();
@@ -142,20 +140,6 @@ $('body').keydown(function(e){
         shape.height(copiedShape.height())
         shape.x(copiedShape.cx())
         shape.y(copiedShape.cy())
-
-
-        // $(copiedShape).val(obj.x());
-        // $('#y_pos').val(obj.y());
-        // $('#w_pos').val(obj.width());
-        // $('#h_pos').val(obj.height());
-        // $('#stroke_width').val(obj.attr('stroke-width'));
-        // $('#rotation').val(obj.transform().rotation);
-
-
-
-
-        //copiedShape.clone();
-       // console.log(copiedShape);
     }
 
 
@@ -165,7 +149,7 @@ $('body').keydown(function(e){
 
 function editingProp() {
 
-    return $("#x_pos").is(":focus") || $("#y_pos").is(":focus") || $("#w_pos").is(":focus")
+    return  $("#shape_color").is(":focus") || $("#x_pos").is(":focus") || $("#y_pos").is(":focus") || $("#w_pos").is(":focus")
         || $("#h_pos").is(":focus") || $("#stroke_width").is(":focus") || $("#rotation").is(":focus");
 
 }

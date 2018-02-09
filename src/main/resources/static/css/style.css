@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Oswald');
+@import url('https://fonts.googleapis.com/css?family=Itim');
+
 
 @font-face {
     font-family: 'icomoon';
@@ -20,9 +22,35 @@ body {
 }
 
 
+.shadow {
+    fill: #94d31b;
+    box-shadow: 10px 10px 5px #888888;
+    -webkit-filter: drop-shadow( -5px -5px 5px #000 );
+    filter: drop-shadow( -5px -5px 5px #000 );
+    -webkit-svg-shadow: 0 0 7px #53BE12;
+}
+
 
 .account-box{
     margin-top: 150px;
+}
+
+
+.usernames{
+
+    fill: #FFF;
+    -webkit-font-smoothing: antialiased;
+    /*font-family: 'Itim', cursive;*/
+    font-size: 13px;
+    /*text-shadow: rgb(0, 0, 0) 2px 0px 0px, rgb(0, 0, 0) 1.75517px 0.958851px 0px, rgb(0, 0, 0) 1.0806px 1.68294px 0px, rgb(0, 0, 0) 0.141474px 1.99499px 0px, rgb(0, 0, 0) -0.832294px 1.81859px 0px, rgb(0, 0, 0) -1.60229px 1.19694px 0px, rgb(0, 0, 0) -1.97998px 0.28224px 0px, rgb(0, 0, 0) -1.87291px -0.701566px 0px, rgb(0, 0, 0) -1.30729px -1.5136px 0px, rgb(0, 0, 0) -0.421592px -1.95506px 0px, rgb(0, 0, 0) 0.567324px -1.91785px 0px, rgb(0, 0, 0) 1.41734px -1.41108px 0px, rgb(0, 0, 0) 1.92034px -0.558831px 0px;*/
+
+/*{ fill: '#000' , weight: 300, size:12 }*/
+}
+
+.userDetail{
+
+    font-weight: bold;
+
 }
 
 #wrapper {
