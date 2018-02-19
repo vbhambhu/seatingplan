@@ -11,8 +11,9 @@ public class Role {
     private Long id;
 
     private String name;
-    @ManyToMany(mappedBy = "roles")
-    private Collection<User> users;
+
+//    @ManyToMany(mappedBy = "roles")
+//    private Collection<User> users;
 
     public Long getId() {
         return id;
@@ -30,11 +31,11 @@ public class Role {
         this.name = name;
     }
 
-    public Collection<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Collection<User> users) {
-        this.users = users;
-    }
+//    public Collection<User> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(Collection<User> users) {
+//        this.users = users;
+//    }
 }

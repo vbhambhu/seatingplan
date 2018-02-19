@@ -36,7 +36,7 @@
                                 th:each="user : ${users}"
                                 th:value="${user.id}"
                                 th:text="${user.getFullName()}"
-                                th:attr="data-user-name=${user.getsortName()},data-group-color=${user.group.color},data-group-name=${user.group.name}">{name}</option>
+                                th:attr="data-user-name=${user.getsortName()},data-group-color=${user.groups[0].color},data-group-name=${user.groups[0].name}">{name}</option>
                     </select>
                 </div>
 

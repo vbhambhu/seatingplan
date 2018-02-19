@@ -115,5 +115,14 @@ function showPropertyPanel(){
 
 $( "#seat_user_id" ).change(function() {
     var userId = $(this).val();
-    if(selectedShape !== null) selectedShape.data('user-id', userId);
+    var groupName = $(this).find(':selected').data('group-name');
+    var userName = $(this).find(':selected').data('user-name');
+    var groupColor = $(this).find(':selected').data('group-color');
+
+    if(selectedShape !== null) {
+        selectedShape.data('user-id', userId);
+        selectedShape.data('group-name', groupName);
+        selectedShape.data('user-name', userName);
+        selectedShape.data('group-color', groupColor);
+    }
 });

@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
-@Entity(name = "user_groups")
+@Entity(name = "groups")
 public class Group {
 
     @Id
@@ -21,7 +21,7 @@ public class Group {
     @Size(min=2, max=30)
     private String name;
 
-    protected String color;
+    private String color;
 
     public Long getId() {
         return id;

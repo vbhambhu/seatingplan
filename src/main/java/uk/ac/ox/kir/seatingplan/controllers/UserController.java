@@ -45,6 +45,7 @@ public class UserController {
         String jsFiles[] = {"bootstrap-datepicker.min.js"};
         model.addAttribute("jsFiles", jsFiles);
         model.addAttribute("groups", userService.getAllGroups());
+        model.addAttribute("roles", userService.getAllRoles());
 
 
         return "admin/users/add";
@@ -56,6 +57,7 @@ public class UserController {
         String jsFiles[] = {"bootstrap-datepicker.min.js"};
         model.addAttribute("jsFiles", jsFiles);
         model.addAttribute("groups", userService.getAllGroups());
+        model.addAttribute("roles", userService.getAllRoles());
 
         if(!userService.usernameExists(user.getUsername())){
             bindingResult.rejectValue("username", "username", "Username already exists.");

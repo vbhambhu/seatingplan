@@ -5,8 +5,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uk.ac.ox.kir.seatingplan.entities.Group;
+import uk.ac.ox.kir.seatingplan.entities.Role;
 import uk.ac.ox.kir.seatingplan.entities.User;
 import uk.ac.ox.kir.seatingplan.repositories.GroupRepository;
+import uk.ac.ox.kir.seatingplan.repositories.RoleRepository;
 import uk.ac.ox.kir.seatingplan.repositories.UserRepository;
 
 import java.util.Date;
@@ -22,6 +24,9 @@ public class UserService {
     @Autowired
     GroupRepository groupRepository;
 
+    @Autowired
+    RoleRepository roleRepository;
+
 
 
     public List<User> findAll() {
@@ -29,9 +34,7 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-
         return userRepository.findOne(id);
-
     }
 
     public void create(User user) {
@@ -100,5 +103,9 @@ public class UserService {
 
         return null;
 
+    }
+
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
     }
 }

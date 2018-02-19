@@ -7,6 +7,8 @@ import uk.ac.ox.kir.seatingplan.entities.User;
 import uk.ac.ox.kir.seatingplan.services.FloorService;
 import uk.ac.ox.kir.seatingplan.services.UserService;
 
+import java.util.List;
+
 @RestController
 public class APIController {
 
@@ -92,6 +94,17 @@ public class APIController {
     public User getUserDetail(@RequestParam("id") String userid){
         User user = userService.getUserById(Long.valueOf(userid));
         return user;
+    }
+
+
+
+    @ResponseBody
+    @RequestMapping(value = "api/users", method = RequestMethod.GET)
+    public List<User> allusers(){
+
+        List<User> users = userService.findAll();
+
+        return users;
     }
 
 
