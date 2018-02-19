@@ -3,32 +3,27 @@ $(function () {
 })
 
 
-
-
 var floorId = $("#floorid").val();
-var shapes = [];
-
 var copiedShape = null;
-
+var selectedShape = null;
 var draw;
 
 $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
 
-     draw = SVG('drawing').size($("#drawing").width(),$(window).height()- 10);
-     draw.svg(response.svgContent);
+    draw = SVG('drawing').size($("#drawing").width(),$(window).height()- 10);
+    draw.svg(response.svgContent);
 
-     draw.each(function(i, children) {
-         shapes.push(this);
-         this.draggable();
-
-         //on click
-         this.click(function() {
-             unselectAll();
-             this.selectize().resize();
-             this.isSelected = true;
-             showPropertyPanel();
-         });
-     })
+    draw.each(function(i, children) {
+        this.draggable();
+        //on click
+        this.click(function() {
+            unselectAll();
+            this.selectize().resize();
+            this.isSelected = true;
+            selectedShape = this;
+            showPropertyPanel();
+        });
+    })
 
 
     draw.mousedown(function(){
@@ -37,6 +32,8 @@ $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
     });
 
 });
+
+
 
 
 function add_shape(type){
@@ -48,9 +45,6 @@ function add_shape(type){
             break;
         case 'crect':
             shape = draw.rect(100, 100).fill('#fff');
-            break;
-        case 'text':
-            shape = draw.plain("--Text--").move(20,20).font({ fill: '#000', family: 'Inconsolata' })
             break;
         case 'line':
             shape = draw.line(30, 30, 100, 30).stroke({ color: '#000', width: 10 })
@@ -69,18 +63,18 @@ function add_shape(type){
         unselectAll();
         this.selectize().resize();
         this.isSelected = true;
+        selectedShape = this;
         showPropertyPanel();
     });
 
     shape.mouseover(function() {
         this.attr('cursor', 'move');
-    })
+    });
 
-    shapes.push(shape);
+    selectedShape = shape;
+
     showPropertyPanel();
 }
-
-
 
 
 $( "#save_svg" ).click(function() {
@@ -100,49 +94,33 @@ $( "#save_svg" ).click(function() {
 
 $('body').keydown(function(e){
 
+
     //delete
     if((e.keyCode == 8 || e.keyCode == 46) && !editingProp()){
-        console.log('Delete Key Pressed');
-        for (i = 0; i < shapes.length; i++) {
-            var shape = shapes[i];
-            if(shape.isSelected){
-                shape.selectize(false).resize(false);
-                shape.isSelected = false;
-                shape.remove();
-                shapes.splice(i, 1);
-            }
-        }
+        selectedShape.selectize(false).resize(false).remove();
     }
 
 
     //copy
     if (e.keyCode == 67 && (e.ctrlKey || e.metaKey && !editingProp())){
-        console.log('Copy Key Pressed');
-        var shape = selectedShape();
-        if(shape !== null) copiedShape = shape;
+        if(selectedShape !== null) copiedShape = selectedShape;
     }
 
     //paste
     if (e.keyCode == 86 && (e.ctrlKey || e.metaKey && !editingProp())){
         console.log('Paste Key Pressed');
         add_shape(copiedShape.data('type'));
-
-        var shape = selectedShape();
-        if(shape == null) return;
-
-        shape.attr({
+        if(selectedShape == null) return;
+        selectedShape.attr({
             fill: copiedShape.attr('fill')
             , stroke: copiedShape.attr('stroke')
             , 'stroke-width': copiedShape.attr('stroke-width')
         })
-
-        shape.width(copiedShape.width())
-        shape.height(copiedShape.height())
-        shape.x(copiedShape.cx())
-        shape.y(copiedShape.cy())
+        selectedShape.width(copiedShape.width())
+        selectedShape.height(copiedShape.height())
+        selectedShape.x(copiedShape.cx())
+        selectedShape.y(copiedShape.cy())
     }
-
-
 
 });
 
@@ -155,11 +133,11 @@ function editingProp() {
 }
 
 function unselectAll(){
-    for (i = 0; i < shapes.length; i++) {
-        var shape = shapes[i];
-        shape.selectize(false).resize(false);
-        shape.isSelected = false;
-    }
+    draw.each(function() {
+        if(this.type !== 'defs' && this.type !== 'g' && this.isSelected){
+            this.selectize(false).resize(false);
+        }
+    });
 }
 
 function hidePropertyPanel(){
@@ -168,171 +146,76 @@ function hidePropertyPanel(){
 
 function showPropertyPanel(){
 
-    for (i = 0; i < shapes.length; i++) {
-        var obj = shapes[i];
-
-        if(obj.isSelected){
-
-            //get color of selected item
-            var color;
-            if(obj.data('type') == 'crect' || obj.data('type') == 'text'){
-                color = obj.attr('fill');
-            } else{
-                color = obj.attr('stroke');
-            }
-            $('#shape_color').css({ 'background': color });
-            $('#shape_color').val(color);
-
-
-            var userId = (typeof obj.data('user-id') === "undefined") ? 0 : obj.data('user-id');
-            $('#userid').val(userId);
-
-
-            $('#x_pos').val(obj.x());
-            $('#y_pos').val(obj.y());
-            $('#w_pos').val(obj.width());
-            $('#h_pos').val(obj.height());
-            $('#stroke_width').val(obj.attr('stroke-width'));
-            $('#rotation').val(obj.transform().rotation);
-
-            //display block
-            $( "#prop_panel" ).css('display' , 'block');
-        }
-
+    if(selectedShape.data('type') == 'crect'){
+        var color = selectedShape.attr('fill');
+    } else{
+        var color = selectedShape.attr('stroke');
     }
 
+    $('#shape_color').css({ 'background': color });
+    $('#shape_color').val(color);
+    $('#x_pos').val(selectedShape.x());
+    $('#y_pos').val(selectedShape.y());
+    $('#w_pos').val(selectedShape.width());
+    $('#h_pos').val(selectedShape.height());
+    $('#stroke_width').val(selectedShape.attr('stroke-width'));
+    $('#rotation').val(selectedShape.transform().rotation);
+    $( "#prop_panel" ).css('display' , 'block');
 }
 
-$( "#userid" ).change(function() {
-
-    var userId = $(this).val();
-    var shape = selectedShape();
-
-    if(shape !== null) {
-
-        shape.data('user-id', userId);
-
-    }
-
-});
-
-
-
-
 $( "#shape_color" ).change(function() {
-
     var new_color = '#'+$( "#shape_color" ).val();
-    var shape = selectedShape();
-    if(shape == null){
+    if(selectedShape == null){
         return;
-    } else if(shape.data('type') == 'crect' || shape.data('type') == 'text'){
-        shape.fill({ color: new_color})
+    } else if(selectedShape.data('type') == 'crect'){
+        selectedShape.fill({ color: new_color})
     } else {
-        shape.stroke({ color: new_color})
+        selectedShape.stroke({ color: new_color})
     }
-
-
-    ;
 });
-
 
 
 
 $( "#x_pos" ).change(function() {
     var new_val = $(this).val();
-    var shape = selectedShape();
-    if(shape !== null) shape.x(new_val);
+    if(selectedShape !== null) selectedShape.x(new_val);
 });
-
-
-
 
 
 $( "#y_pos" ).change(function() {
     var new_val = $(this).val();
-    for (i = 0; i < shapes.length; i++) {
-        var obj = shapes[i];
-
-        if(obj.isSelected){
-            obj.y(new_val);
-        }
-    }
+    if(selectedShape !== null) selectedShape.y(new_val);
 });
 
 
 $( "#w_pos" ).change(function() {
     var new_val = $(this).val();
-    for (i = 0; i < shapes.length; i++) {
-        var obj = shapes[i];
-
-        if(obj.isSelected){
-            obj.width(new_val);
-        }
-    }
+    if(selectedShape !== null) selectedShape.width(new_val);
 });
 
 $( "#h_pos" ).change(function() {
     var new_val = $(this).val();
-    for (i = 0; i < shapes.length; i++) {
-        var obj = shapes[i];
-
-        if(obj.isSelected){
-            obj.height(new_val);
-        }
-    }
+    if(selectedShape !== null) selectedShape.height(new_val);
 });
 
 
 $( "#stroke_width" ).change(function() {
     var new_val = $(this).val();
-    for (i = 0; i < shapes.length; i++) {
-        var obj = shapes[i];
-
-        if(obj.isSelected){
-            obj.stroke({width: new_val })
-        }
-    }
+    if(selectedShape !== null) selectedShape.stroke({width: new_val });
 });
 
 
 
 $( "#rotation" ).change(function() {
     var new_val = $(this).val();
-    for (i = 0; i < shapes.length; i++) {
-        var obj = shapes[i];
-
-        if(obj.isSelected){
-            obj.transform( { rotation: new_val } )
-        }
-    }
+    if(selectedShape !== null) selectedShape.transform( { rotation: new_val } );
 });
 
 $( "#to_front" ).click(function() {
-    for (i = 0; i < shapes.length; i++) {
-        var obj = shapes[i];
-
-        if(obj.isSelected){
-            obj.front()
-        }
-    }
+    if(selectedShape !== null) selectedShape.front();
 });
 
 $( "#to_back" ).click(function() {
-    for (i = 0; i < shapes.length; i++) {
-        var obj = shapes[i];
-
-        if(obj.isSelected){
-            obj.back()
-        }
-    }
+    if(selectedShape !== null) selectedShape.back();
 });
 
-function selectedShape() {
-    for (i = 0; i < shapes.length; i++) {
-        var obj = shapes[i];
-        if(obj.isSelected){
-            return obj;
-        }
-    }
-    return null;
-}

@@ -118,7 +118,7 @@ public class UserController {
         dbuser.setStartDate(user.getStartDate());
         dbuser.setEndDate(user.getEndDate());
         dbuser.setComputerAddress(user.getComputerAddress());
-        dbuser.setGroup(user.getGroup());
+       // dbuser.setGroup(user.getGroup());
         dbuser.setPI(user.isPI());
         dbuser.setComment(user.getComment());
 

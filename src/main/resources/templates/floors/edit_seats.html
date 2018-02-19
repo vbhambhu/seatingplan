@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/designer">
+<body>
+<div id="page" layout:fragment="content">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <div class="design-logo"><i class="fa fa-paw" aria-hidden="true"></i> Seating Plan</div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="top-panel">
+                        <input type="hidden"  id="floorid" th:value="${param.id[0]}">
+                        <div class="form-group">
+                            <div class="btn-group btn-group-sm shape-btn" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-success" id="save_svg">Save</button>
+                                <a class="btn btn-primary" th:href=@{/floors}>Go back to admin</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div id="prop_panel">
+
+
+                <div class="form-group">
+                    <label>Attach User</label><br>
+                    <select class="form-control form-control-sm user-select" id="seat_user_id" style="width:100%;">
+                        <option value="0">None</option>
+                        <option
+                                th:each="user : ${users}"
+                                th:value="${user.id}"
+                                th:text="${user.getFullName()}"
+                                th:attr="data-user-name=${user.getsortName()},data-group-color=${user.group.color},data-group-name=${user.group.name}">{name}</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="drawing"></div>
+        <!-- /#page-content-wrapper -->
+    </div><!-- /#wrapper -->
+</div>
+</body>
+</html>

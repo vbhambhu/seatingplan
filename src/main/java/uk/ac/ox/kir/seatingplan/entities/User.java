@@ -60,16 +60,21 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "users_roles",
+            name = "users_to_roles",
             joinColumns = @JoinColumn(
                     name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
 
-    @ManyToOne
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @ManyToMany
+    @JoinTable(
+            name = "users_to_groups",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "group_id", referencedColumnName = "id"))
+    private List<Group> groups;
 
     public Long getId() {
         return id;
@@ -185,7 +190,6 @@ public class User {
     }
 
 
-
     public boolean isEnabled() {
         return enabled;
     }
@@ -210,12 +214,12 @@ public class User {
         this.roles = roles;
     }
 
-    public Group getGroup() {
-        return group;
+    public List<Group> getGroups() {
+        return groups;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
     }
 
     public String getFullName(){

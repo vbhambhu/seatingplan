@@ -1,18 +1,7 @@
 
 var floorId = $("#floor-list").val();
-//
-// $('.user-datails').hover(function() {
-//
-//     console.log("dsadadada")
-//     var e=$(this);
-//     e.off('hover');
-//
-//     e.popover({content: "fdfssf dfsfsfs"}).popover('show');
-//
-//     // $.get(e.data('poload'),function(d) {
-//     //
-//     // });
-// });
+
+
 
 
 $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
@@ -24,117 +13,65 @@ $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
     draw.svg(response.svgContent);
 
 
-    //get size of floor
-    var floorElem, floor_orig_width, floor_orig_height;
-    draw.each(function(i, children) {
-        if(this.data('type') == 'orect'){
-            floor_orig_width = this.width();
-            floor_orig_height = this.height();
-            floorElem = this;
-        }
 
-    })
+    draw.each(function() {
+
+        if(typeof this.data('user-id') != "undefined" && this.data('user-id') != 0){
+            this.animate({ duration: 250 }).flip('x');
+            this.addClass("seat");
 
 
-
-
-    draw.each(function(i, children) {
-
-
-        //Scale it to fit on window
-
-
-        var elem = this;
-        elem.attr('cursor', 'auto');
-
-        var userId = (typeof elem.data('user-id') === "undefined") ? 0 : elem.data('user-id');
-
-        if(userId !== 0){
-
-            //animate on load
-            elem.animate({ duration: 250 }).flip('x');
-
-            var cx = elem.cx()
-
-
-            $.get("/api/user/get", { userid: userId } ).done(function( userdata ) {
-
-
-
-                var tooltip, tooltipHTML;
-
-
-                var text = draw.text(userdata.firstName + " \n" + userdata.lastName);
-                //var text = draw.text(userdata.firstName);
-                text.move(elem.x() + 5 ,elem.y()).addClass("usernames");
-
-
-
-                elem.fill('#'+userdata.group.color).radius(4)
-                elem.addClass('user-datails');
-
-
-
-                //add top layer
-                var toplayer = draw.rect(60,60).move(elem.x(), elem.y()).attr('fill-opacity',0);
-
-
-                toplayer.mouseover(function() {
-                    this.attr('cursor', 'pointer');
-
-                    //console.log();
-
-                        tooltip = draw.rect(350,300).radius(5).fill({ color: '#f06' });
-                        tooltip.addClass('shadow');
-
-
-
-
-                    var ttPos = getTooltipPosition(toplayer, floor_orig_width, floor_orig_height);
-
-
-
-                        tooltip.move(ttPos.x, ttPos.y);
-
-                        var fullName = "Name: " + userdata.firstName + " " + userdata.lastName;
-                        fullName += "\nemail: " + userdata.email;
-                        fullName += "\nStart date: " + userdata.start_date;
-                        fullName += "\nEnd date: " + userdata.end_date;
-                        fullName += "\nComputer: " + userdata.computer_address;
-                        fullName += "\nIs PI?: " + userdata.ispi;
-                        fullName += "\nComment: " + userdata.comment;
-
-
-                        tooltipHTML = draw.text(fullName)
-                            .font({ fill: '#fff'})
-                            .move(toplayer.x() + toplayer.width() + 10, elem.cy() + 10)
-                            .addClass('userDetail');
-
-
-                })
-
-                toplayer.mouseout(function() {
-                        tooltip.remove()
-                    tooltipHTML.remove()
-                })
-
-
-
+            this.mouseover(function() {
+                this.attr('cursor', 'pointer');
+               // this.animate({ duration: 250 }).rotate(90)
             });
 
+            this.mouseout(function() {
+                //this.attr('cursor', 'pointer');
+                //this.animate({ duration: 250 }).rotate(-90)
 
-
-
-
-
-            //console.log()
-
-           // text.move(this.x() + 10,this.y()).font({ fill: '#000', family: 'Inconsolata' }).lines(3)
-
+            });
         }
+
+
+        //var userId = (typeof elem.data('user-id') === "undefined") ? 0 : elem.data('user-id');
 
     })
 
+
+   var pop_template = '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>';
+
+
+
+        $('.seat').mouseenter(function() {
+        var e=$(this);
+        e.off('hover');
+        $.get('/api/user/details',{ id: e.data('user-id')}, function(userdata) {
+
+            var details = '<table class="table table-striped">';
+            details += '<tr><td>Name:</td><td>dddd</td></tr>';
+            details += '<tr><td>startDate</td><td>dddd</td></tr>';
+            details += '<tr><td>endDate</td><td>dddd</td></tr>';
+            details += '<tr><td>Phone</td><td>'+userdata.email+'</td></tr>';
+            details += '<tr><td>Email</td><td>'+userdata.email+'</td></tr>';
+            details += '<tr><td>computerAddress</td><td>dddd</td></tr>';
+            details += '<tr><td>Groups</td><td>dddd</td></tr>';
+            details += '</table>';
+
+            e.popover({
+                title: userdata.firstName + " " + userdata.lastName,
+                content: details,
+                template: pop_template,
+                html:true,
+                container: 'body'
+            }).popover('show');
+        });
+    });
+
+    $('.seat').mouseleave(function() {
+
+        $(this).popover('dispose')
+    });
 
 
 });

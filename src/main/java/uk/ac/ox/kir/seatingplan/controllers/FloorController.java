@@ -23,28 +23,34 @@ public class FloorController {
     UserService userService;
 
 
-    @RequestMapping(value = "/floor/edit", method = RequestMethod.GET)
-    public String designerPage(@RequestParam int id, Model model) {
-
-        model.addAttribute("floors", floorService.findAll());
-
-        model.addAttribute("users", userService.findAll());
-
-        return "admin/floors/design";
-    }
-
-
     @RequestMapping(value = "/floors", method = RequestMethod.GET)
     public String floorlists(Model model) {
-
         model.addAttribute("floors", floorService.findAll());
-
         String jsFiles[] = {"datatables.min.js"};
         model.addAttribute("jsFiles", jsFiles);
-
-
-        return "admin/floors/list";
+        return "floors/list";
     }
+
+    @RequestMapping(value = "/floor/edit/seats", method = RequestMethod.GET)
+    public String editSeats(@RequestParam int id, Model model) {
+        model.addAttribute("floors", floorService.findAll());
+        model.addAttribute("users", userService.findAll());
+        String jsFiles[] = {"select2.min.js", "seat_editor.js"};
+        model.addAttribute("jsFiles", jsFiles);
+        return "floors/edit_seats";
+    }
+
+
+    @RequestMapping(value = "/floor/edit/design", method = RequestMethod.GET)
+    public String designerPage(@RequestParam int id, Model model) {
+        model.addAttribute("floors", floorService.findAll());
+        model.addAttribute("users", userService.findAll());
+        String jsFiles[] = {"designer.js"};
+        model.addAttribute("jsFiles", jsFiles);
+        return "floors/design";
+    }
+
+
 
 
     @RequestMapping(value = "/floor/add", method = RequestMethod.GET)

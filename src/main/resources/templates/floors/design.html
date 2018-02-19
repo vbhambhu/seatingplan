@@ -33,23 +33,20 @@
 
 
 
-                    <div class="btn-group shape-btn" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-dark" onclick="add_shape('orect')" >
-                            <span class="icon-rectangle" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
-                        </button>
-                        <button type="button" class="btn btn-dark" onclick="add_shape('hrect')">
-                            <span class="icon-right" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
-                        </button>
-                        <button type="button" class="btn btn-dark" onclick="add_shape('crect')">
-                            <span class="icon-square" data-toggle="tooltip" data-placement="top" title="Tooltip on right"></span>
-                        </button>
-                        <button type="button" class="btn btn-dark"onclick="add_shape('line')">
-                            <span class="icon-substract" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
-                        </button>
-                        <button type="button" class="btn btn-dark" onclick="add_shape('text')">
-                            <span class="icon-text" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
-                        </button>
-                    </div>
+                        <div class="btn-group shape-btn" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-dark" onclick="add_shape('orect')" >
+                                <span class="icon-rectangle" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
+                            </button>
+                            <button type="button" class="btn btn-dark" onclick="add_shape('hrect')">
+                                <span class="icon-right" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
+                            </button>
+                            <button type="button" class="btn btn-dark" onclick="add_shape('crect')">
+                                <span class="icon-square" data-toggle="tooltip" data-placement="top" title="Tooltip on right"></span>
+                            </button>
+                            <button type="button" class="btn btn-dark"onclick="add_shape('line')">
+                                <span class="icon-substract" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></span>
+                            </button>
+                        </div>
 
                     </div>
 
@@ -65,19 +62,6 @@
                     <label>Color</label>
                     <input class="form-control form-control-sm jscolor" id="shape_color">
                 </div>
-
-                <div class="form-group">
-                    <label>Attach User</label>
-                    <select class="form-control form-control-sm" id="userid">
-                        <option value="0">None</option>
-                        <option
-                                th:each="user : ${users}"
-                                th:value="${user.id}"
-                                th:text="${user.getFullName()}"
-                                th:attr="data-user-name=${user.getsortName()},data-group-color=${user.group.color},data-group-name=${user.group.name}">{name}</option>
-                    </select>
-                </div>
-
 
                 <div class="form-group">
                     <label>Position</label>

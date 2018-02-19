@@ -3,9 +3,7 @@ package uk.ac.ox.kir.seatingplan.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.ac.ox.kir.seatingplan.entities.Floor;
-import uk.ac.ox.kir.seatingplan.entities.FloorVersion;
 import uk.ac.ox.kir.seatingplan.repositories.FloorRepository;
-import uk.ac.ox.kir.seatingplan.repositories.FloorVersionRepository;
 
 import java.util.Date;
 import java.util.List;
@@ -16,28 +14,16 @@ public class FloorService {
     @Autowired
     FloorRepository floorRepository;
 
-    @Autowired
-    FloorVersionRepository floorVersionRepository;
+
 
     public void save(Floor floor) {
 
-        if(floor.getId() == null){ // new floor
-            floor.setVersion((long) 1);
-        } else{
-            Long version = floorVersionRepository.countByFloorId(floor.getId());
-            floor.setVersion(version);
-        }
 
         floor.setCreatedAt(new Date());
         floorRepository.save(floor);
 
 
-        FloorVersion floorVersion = new FloorVersion();
-        floorVersion.setSvgContent(floor.getSvgContent());
-        floorVersion.setFloorId(floor.getId());
-        floorVersion.setCreatedAt(new Date());
 
-        floorVersionRepository.save(floorVersion);
 
 
         /*
@@ -100,15 +86,6 @@ public class FloorService {
 
     }
 
-    public void save_version(FloorVersion floorVersion) {
-
-        floorVersionRepository.save(floorVersion);
-    }
-
-    public Long countByFloorId(Long id) {
-
-        return floorVersionRepository.countByFloorId(id);
-    }
 
     public Long getDefaultFloorId() {
 
