@@ -6,7 +6,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import uk.ac.ox.kir.seatingplan.entities.Floor;
 import uk.ac.ox.kir.seatingplan.entities.Group;
 import uk.ac.ox.kir.seatingplan.entities.Role;
 import uk.ac.ox.kir.seatingplan.entities.User;
@@ -41,11 +40,11 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         Group group = createGroupIfNotFound("Default Group");
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-
         User user = userRepository.findByUsername("spadmin");
 
         if (user == null) {
+
+            user = new User();
             user.setUsername("spadmin");
             user.setFirstName("Super");
             user.setLastName("Admin");

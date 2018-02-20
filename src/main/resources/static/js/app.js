@@ -1,134 +1,30 @@
+var windowWidth = $("#seating-plan").width();
+var windowHeight = $(window).height() - 10;
 
+var draw = SVG('seating-plan').size(windowWidth,windowHeight);
+var loader;
 
+$.ajax({
+    type:"post",
+    url:"/api/design/get",
+    data:"id=1",
+    beforeSend: function(  ) {
+        // load your loading fiel here
 
-// var app = angular.module('seatingPlan', []);
-// app.controller('planCtrl', function($scope) {
-//     $scope.firstName = "John";
-//     $scope.lastName = "Doe";
-//
-//
-// });
+        loader = draw.rect(60,60);
 
-// app.directive("seatingPlanDirective", function() {
-//     return {
-//         templateUrl: '/floor/plan?id=1'
-//     };
-// });
+        loader.animate(3000).move(100, 100).once(0.5, function(pos, eased) {
+            // do something
+        }, false)
 
-/*
-var floorId = $("#floor-list").val();
+        console.log("loading data")
+    }
+})
+    .done(function( data ) {
+        //hide your loading file here
 
+        loader.remove();
 
-
-
-$.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
-
-    var windowWidth = $("#seating-plan").width();
-    var windowHeight = $(window).height() - 10;
-
-    var draw = SVG('seating-plan').size(windowWidth,windowHeight);
-    draw.svg(response.svgContent);
-
-    //console.log(draw.children())
-
-    draw.each(function(i,chi) {
-
-
-
-        if(typeof this.data('user-id') != "undefined" && this.data('user-id') != 0){
-
-            this.animate({ duration: 250 }).flip('x');
-            this.addClass("seat");
-
-            //fill group color
-            this.fill('#'+this.data('group-color'));
-
-            //add user name on seat
-            var username = (typeof this.data('user-name') === "undefined") ? '' : this.data('user-name');
-            var x =  this.x() + 5;
-            var y =  this.cy() - 15;
-
-            console.log(username)
-
-
-            var text = draw.text(username)
-            text.move(x,y).font({ fill: '#FFF', family: 'Inconsolata' }).addClass("nametext")
-
-            // text.mouseover(function() {
-            //
-            //     console.log("do nams")
-            //
-            // })
-
-
-
-
-            this.mouseover(function() {
-                this.attr('cursor', 'pointer');
-               // this.animate({ duration: 250 }).rotate(90)
-            });
-
-            this.mouseout(function() {
-                //this.attr('cursor', 'pointer');
-                //this.animate({ duration: 250 }).rotate(-90)
-
-            });
-        }
-
-
-        //var userId = (typeof elem.data('user-id') === "undefined") ? 0 : elem.data('user-id');
-
-    })
-
-
-        var pop_template = '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>';
-
-
-
-        $('.seat').mouseenter(function() {
-        var e=$(this);
-        e.off('hover');
-        $.get('/api/user/details',{ id: e.data('user-id')}, function(userdata) {
-
-            var details = '<table class="table table-striped">';
-            details += '<tr><td>Name:</td><td>'+userdata.firstName + " " + userdata.lastName+'</td></tr>';
-            details += '<tr><td>Start Date: </td><td>'+userdata.startDate + '</td></tr>';
-            details += '<tr><td>endDate: </td><td>'+userdata.endDate + '</td></tr>';
-            details += '<tr><td>Phone: </td><td>423343</td></tr>';
-            details += '<tr><td>Email:</td><td>'+userdata.email+'</td></tr>';
-            details += '<tr><td>Computer:</td><td>'+userdata.computerAddress + '</td></tr>';
-            details += '<tr><td>Groups: </td><td>'+userdata.endDate + '</td></tr>';
-            details += '<tr><td>Notes:</td><td>'+userdata.comment + '</td></tr>';
-            details += '</table>';
-
-            e.popover({
-                title: userdata.firstName + " " + userdata.lastName,
-                content: details,
-                template: pop_template,
-                html:true,
-                container: 'body'
-            }).popover('show');
-        });
+        console.log("loaded")
+        console.log(data)
     });
-
-    $('.seat').mouseleave(function() {
-
-        $(this).popover('dispose')
-    });
-
-    console.log(draw.width())
-    draw.zoom(1.3,{x:0, y:0})
-    console.log(draw.width())
-
-//
-// draw.panZoom({zoomMin: 0.5, zoomMax: 20})
-//
-//     draw.zoom(1) // uses center of viewport by default
-//         .animate()
-//         .zoom(2, {x:100, y:100}) // zoom into specified point
-
-});
-
-
-
-*/
