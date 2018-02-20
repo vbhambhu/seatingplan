@@ -7,85 +7,88 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import uk.ac.ox.kir.seatingplan.entities.Role;
+import uk.ac.ox.kir.seatingplan.entities.Group;
 import uk.ac.ox.kir.seatingplan.services.UserService;
 
 import javax.validation.Valid;
 
 @Controller
-public class RoleController {
+public class GroupController {
 
     @Autowired
     UserService userService;
 
 
-    @RequestMapping(value = "/roles", method = RequestMethod.GET)
+    @RequestMapping(value = "/groups", method = RequestMethod.GET)
     public String groupList(Model model) {
 
-        model.addAttribute("roles", userService.getAllRoles());
+        model.addAttribute("groups", userService.getAllGroups());
 
         String jsFiles[] = {"datatables.min.js"};
         model.addAttribute("jsFiles", jsFiles);
 
-        return "roles/list";
+        return "groups/list";
     }
 
-    @RequestMapping(value = "/role/add", method = RequestMethod.GET)
-    public String addGroup(Role role, Model model) {
+    @RequestMapping(value = "/group/add", method = RequestMethod.GET)
+    public String addGroup(Group group, Model model) {
 
         String jsFiles[] = {"jscolor.min.js"};
         model.addAttribute("jsFiles", jsFiles);
 
-        return "roles/add";
+        return "groups/add";
     }
 
-    @RequestMapping(value = "/role/add", method = RequestMethod.POST)
-    public String createGroup(@Valid Role role, BindingResult bindingResult, Model model) {
+    @RequestMapping(value = "/group/add", method = RequestMethod.POST)
+    public String createGroup(@Valid Group group, BindingResult bindingResult, Model model) {
 
         String jsFiles[] = {"jscolor.min.js"};
         model.addAttribute("jsFiles", jsFiles);
+
 
         if(bindingResult.hasErrors()){
-            return "roles/add";
+            return "groups/add";
         }
 
-        userService.saveRole(role);
+        userService.saveGroup(group);
 
-        return "redirect:/roles";
+        return "redirect:/groups";
 
     }
 
 
-    @RequestMapping(value = "/role/edit", method = RequestMethod.GET)
+    @RequestMapping(value = "/group/edit", method = RequestMethod.GET)
     public String editGroup(@RequestParam(required = false) String id, Model model) {
 
         if(id == null){
-            return "redirect:/roles";
+            return "redirect:/groups";
         }
 
         String jsFiles[] = {"jscolor.min.js"};
         model.addAttribute("jsFiles", jsFiles);
 
 
-        model.addAttribute("role", userService.getRoleById(Long.valueOf(id)));
-        return "roles/edit";
+        model.addAttribute("group", userService.getGroupById(Long.valueOf(id)));
+        return "groups/edit";
     }
 
 
-    @RequestMapping(value = "/role/edit", method = RequestMethod.POST)
-    public String editGroup(@Valid Role role, BindingResult bindingResult , Model model) {
+    @RequestMapping(value = "/group/edit", method = RequestMethod.POST)
+    public String editGroup(@Valid Group group, BindingResult bindingResult , Model model) {
 
         String jsFiles[] = {"jscolor.min.js"};
         model.addAttribute("jsFiles", jsFiles);
 
 
         if(bindingResult.hasErrors()){
-            return "roles/edit";
+            return "groups/edit";
         }
 
 
-        userService.saveRole(role);
-        return "redirect:/roles";
+        userService.saveGroup(group);
+        return "redirect:/groups";
 
     }
+
+
 }

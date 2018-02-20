@@ -16,10 +16,11 @@ public class FloorService {
 
 
 
-    public void save(Floor floor) {
+    public void create(Floor floor) {
 
 
         floor.setCreatedAt(new Date());
+        floor.setDefault(false);
         floorRepository.save(floor);
 
 
@@ -97,6 +98,10 @@ public class FloorService {
             return null;
         }
 
+    }
+
+    public void update(Floor floor) {
+        floorRepository.save(floor);
     }
 
 //    public int getCountById(Long aLong) {

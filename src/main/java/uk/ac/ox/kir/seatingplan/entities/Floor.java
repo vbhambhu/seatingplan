@@ -21,8 +21,6 @@ public class Floor {
 
     private String svgContent;
 
-    private Long version;
-
     private Boolean isDefault;
 
     private Date createdAt;
@@ -50,14 +48,6 @@ public class Floor {
 
     public void setSvgContent(String svgContent) {
         this.svgContent = svgContent;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
     public Date getCreatedAt() {

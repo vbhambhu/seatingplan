@@ -108,4 +108,13 @@ public class UserService {
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
     }
+
+    public void saveRole(Role role) {
+        roleRepository.save(role);
+    }
+
+    public Role getRoleById(Long id) {
+
+        return roleRepository.findOne(id);
+    }
 }

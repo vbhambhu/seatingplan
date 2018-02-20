@@ -35,7 +35,7 @@ public class UserController {
         model.addAttribute("users", userService.findAll());
         String jsFiles[] = {"datatables.min.js"};
         model.addAttribute("jsFiles", jsFiles);
-        return "admin/users/list";
+        return "users/list";
     }
 
     @RequestMapping(value = "/user/add", method = RequestMethod.GET)
@@ -48,13 +48,13 @@ public class UserController {
         model.addAttribute("roles", userService.getAllRoles());
 
 
-        return "admin/users/add";
+        return "users/add";
     }
 
     @RequestMapping(value = "/user/add", method = RequestMethod.POST)
     public String createUser(Model model, @Valid User user, BindingResult bindingResult) {
 
-        String jsFiles[] = {"bootstrap-datepicker.min.js"};
+        String jsFiles[] = {"bootstrap-datepicker.min.js", "select2.min.js"};
         model.addAttribute("jsFiles", jsFiles);
         model.addAttribute("groups", userService.getAllGroups());
         model.addAttribute("roles", userService.getAllRoles());
@@ -66,7 +66,7 @@ public class UserController {
         }
 
         if(bindingResult.hasErrors()){
-            return "admin/users/add";
+            return "users/add";
         }
 
         userService.create(user);
@@ -87,7 +87,7 @@ public class UserController {
         model.addAttribute("groups", userService.getAllGroups());
 
         model.addAttribute("user", userService.getUserById(Long.valueOf(id)));
-        return "admin/users/edit";
+        return "users/edit";
     }
 
     @RequestMapping(value = "/user/edit", method = RequestMethod.POST)
@@ -107,7 +107,7 @@ public class UserController {
         }
 
         if(bindingResult.hasErrors()){
-            return "admin/users/edit";
+            return "users/edit";
         }
 
         User dbuser = userService.getUserById(user.getId());
@@ -127,81 +127,6 @@ public class UserController {
         userService.update(dbuser);
 
         return "redirect:/users";
-
-    }
-
-
-
-    @RequestMapping(value = "/groups", method = RequestMethod.GET)
-    public String groupList(Model model) {
-
-        model.addAttribute("groups", userService.getAllGroups());
-
-        String jsFiles[] = {"datatables.min.js"};
-        model.addAttribute("jsFiles", jsFiles);
-
-        return "admin/groups/list";
-    }
-
-    @RequestMapping(value = "/group/add", method = RequestMethod.GET)
-    public String addGroup(Group group, Model model) {
-
-        String jsFiles[] = {"jscolor.min.js"};
-        model.addAttribute("jsFiles", jsFiles);
-
-        return "admin/groups/add";
-    }
-
-    @RequestMapping(value = "/group/add", method = RequestMethod.POST)
-    public String createGroup(@Valid Group group, BindingResult bindingResult, Model model) {
-
-        String jsFiles[] = {"jscolor.min.js"};
-        model.addAttribute("jsFiles", jsFiles);
-
-
-        if(bindingResult.hasErrors()){
-            return "admin/groups/add";
-        }
-
-        userService.saveGroup(group);
-
-        return "redirect:/groups";
-
-    }
-
-
-    @RequestMapping(value = "/group/edit", method = RequestMethod.GET)
-    public String editGroup(@RequestParam(required = false) String id, Model model) {
-
-        if(id == null){
-            return "redirect:/groups";
-        }
-
-        String jsFiles[] = {"jscolor.min.js"};
-        model.addAttribute("jsFiles", jsFiles);
-
-
-        model.addAttribute("group", userService.getGroupById(Long.valueOf(id)));
-        return "admin/groups/edit";
-    }
-
-
-    @RequestMapping(value = "/group/edit", method = RequestMethod.POST)
-    public String editGroup(@Valid Group group, BindingResult bindingResult , Model model) {
-
-        String jsFiles[] = {"jscolor.min.js"};
-        model.addAttribute("jsFiles", jsFiles);
-
-
-        if(bindingResult.hasErrors()){
-            return "admin/groups/edit";
-        }
-
-
-
-        userService.saveGroup(group);
-
-        return "redirect:/groups";
 
     }
 
