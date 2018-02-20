@@ -7,4 +7,5 @@ import uk.ac.ox.kir.seatingplan.entities.Role;
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
 
+    Role findByName(String roleName);
 }

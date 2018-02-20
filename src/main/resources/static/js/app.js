@@ -1,4 +1,21 @@
 
+
+
+// var app = angular.module('seatingPlan', []);
+// app.controller('planCtrl', function($scope) {
+//     $scope.firstName = "John";
+//     $scope.lastName = "Doe";
+//
+//
+// });
+
+// app.directive("seatingPlanDirective", function() {
+//     return {
+//         templateUrl: '/floor/plan?id=1'
+//     };
+// });
+
+/*
 var floorId = $("#floor-list").val();
 
 
@@ -99,9 +116,19 @@ $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
         $(this).popover('dispose')
     });
 
+    console.log(draw.width())
+    draw.zoom(1.3,{x:0, y:0})
+    console.log(draw.width())
 
-
+//
+// draw.panZoom({zoomMin: 0.5, zoomMax: 20})
+//
+//     draw.zoom(1) // uses center of viewport by default
+//         .animate()
+//         .zoom(2, {x:100, y:100}) // zoom into specified point
 
 });
 
 
+
+*/

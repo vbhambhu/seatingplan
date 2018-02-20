@@ -9,8 +9,9 @@ import uk.ac.ox.kir.seatingplan.entities.Group;
 import java.util.List;
 
 public interface GroupRepository extends JpaRepository<Group, Long> {
+    Group findByName(String group_name);
 
-   // @Query("SELECT p FROM Person p WHERE LOWER(p.lastName) = LOWER(:lastName)")
+    // @Query("SELECT p FROM Person p WHERE LOWER(p.lastName) = LOWER(:lastName)")
 
 //    @Query("SELECT g FROM user_groups")
 //    public List<Group> find(@Param("lastName") Long floorId);

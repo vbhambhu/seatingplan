@@ -27,21 +27,7 @@ public class HomeController {
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String homePage(@RequestParam(required = false) Long id, Model model) {
-
-        if(id == null){
-            Long defaultFloorId = floorService.getDefaultFloorId();
-            if(defaultFloorId != null){
-                return "redirect:/?id="+defaultFloorId;
-            } else{
-                return "noid";
-            }
-        }
-
-
-        //get floor content
-
-        model.addAttribute("floors", floorService.findAll());
+    public String homePage() {
         return "home";
     }
 

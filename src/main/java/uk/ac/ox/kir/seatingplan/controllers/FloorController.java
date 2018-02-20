@@ -22,6 +22,12 @@ public class FloorController {
     @Autowired
     UserService userService;
 
+    @RequestMapping(value = "/floor/plan", method = RequestMethod.GET)
+    public String getplan(Model model) {
+        return "floors/plan";
+    }
+
+
 
     @RequestMapping(value = "/floors", method = RequestMethod.GET)
     public String floorlists(Model model) {

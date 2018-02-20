@@ -6,50 +6,24 @@
     <div id="wrapper">
 
 
-
-        <!--<br>-->
-        <!--<br><br>-->
-
-        <!--<a id="popoverOption" href="#" data-content="Popup with option trigger" rel="popover" data-placement="bottom" data-original-title="Title">Popup with option trigger</a>-->
-
-
-        <!--<br><br><br>-->
-
-
-        <!--<div id="mytt">-->
-            <!--Hell world-->
-        <!--</div>-->
-
-
-        <!-- Sidebar -->
         <div id="sidebar">
 
             <div class="design-logo"><i class="fa fa-paw" aria-hidden="true"></i> Seating Plan</div>
             <br><br>
-            <form action="#" th:action="@{/}" th:object="${floor}" method="get">
-                <select name="id" id="floor-list">
-                    <option
-                            th:each="floor : ${floors}"
-                            th:value="${floor.id}"
-                            th:text="${floor.name}"
-                            th:selected="(${floor.id} == ${param.id[0]})" >{name}</option>
-                </select>
-                <input type="submit" value="Go">
-            </form>
 
-
+            {{$scope}}
         </div>
         <!-- /#sidebar-wrapper -->
 
         <!-- Page Content -->
-        <div id="seating-plan"></div>
+        <!--<div id="seating-plan"></div>-->
         <!-- /#page-content-wrapper -->
 
+
+        <seating-plan-directive></seating-plan-directive>
+
+
     </div><!-- /#wrapper -->
-
-
-
-
 
 </div>
 </body>
