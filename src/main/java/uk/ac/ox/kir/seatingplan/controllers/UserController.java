@@ -42,7 +42,7 @@ public class UserController {
     public String addUser(Model model, User user) {
 
 
-        String jsFiles[] = {"bootstrap-datepicker.min.js"};
+        String jsFiles[] = {"bootstrap-datepicker.min.js" , "select2.min.js"};
         model.addAttribute("jsFiles", jsFiles);
         model.addAttribute("groups", userService.getAllGroups());
         model.addAttribute("roles", userService.getAllRoles());
@@ -53,6 +53,11 @@ public class UserController {
 
     @RequestMapping(value = "/user/add", method = RequestMethod.POST)
     public String createUser(Model model, @Valid User user, BindingResult bindingResult) {
+
+
+        System.out.println(user.getRoles());
+
+        System.out.println(user.getUsername());
 
         String jsFiles[] = {"bootstrap-datepicker.min.js", "select2.min.js"};
         model.addAttribute("jsFiles", jsFiles);

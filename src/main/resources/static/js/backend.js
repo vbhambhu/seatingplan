@@ -7,6 +7,11 @@ $.fn.exists = function(callback) {
     return this;
 };
 
+$('.select2-multiple').exists(function() {
+$('.select2-multiple').select2();
+});
+
+
 $('.datatable').exists(function() {
     $(".datatable").DataTable();
 });

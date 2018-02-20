@@ -48,9 +48,7 @@ body {
 }
 
 .userDetail{
-
     font-weight: bold;
-
 }
 
 #wrapper {
@@ -61,7 +59,7 @@ body {
 
 #sidebar {
     z-index: 1000;
-    background: #f3f6f8;
+    background: #f2f2f2;
     position: fixed;
     width: 250px;
     height: 100%;
