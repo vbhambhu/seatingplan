@@ -20,6 +20,15 @@ $.get("/api/design/get", { floorid: floorId } ).done(function( response ) {
             selectedShape = this;
             showPropertyPanel();
         });
+
+
+        if(typeof this.data('user-id') != "undefined" && this.data('user-id') != 0){
+            this.fill('#'+this.data('group-color'));
+        }
+
+
+
+
     })
 
     draw.mousedown(function(){

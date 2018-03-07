@@ -51,7 +51,7 @@ public class FloorController {
     public String designerPage(@RequestParam int id, Model model) {
         model.addAttribute("floors", floorService.findAll());
         model.addAttribute("users", userService.findAll());
-        String jsFiles[] = {"designer.js"};
+        String jsFiles[] = {"notify.min.js", "designer.js"};
         model.addAttribute("jsFiles", jsFiles);
         return "floors/design";
     }

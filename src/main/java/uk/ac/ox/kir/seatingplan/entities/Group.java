@@ -3,13 +3,11 @@ package uk.ac.ox.kir.seatingplan.entities;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
-@Entity(name = "groups")
+@Entity
+@Table(name = "groups")
 public class Group {
 
     @Id

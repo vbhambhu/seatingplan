@@ -9,53 +9,38 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
-@Entity
+@Entity(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotEmpty
+    @NotEmpty(message = "Username field is required.")
     @Size(min=2, max=30)
     @Column(unique=true)
     private String username;
 
-    @NotEmpty
+    @NotEmpty(message = "Last name field is required.")
     @Size(min=2, max=30)
     private String lastName;
 
-    @NotEmpty
+    @NotEmpty(message = "First name field is required.")
     @Size(min=2, max=30)
     private String firstName;
 
-    @NotEmpty
-    @Email
+    @NotEmpty(message = "Email field is required.")
+    @Email(message = "Email field is not an valid email address.")
     private String email;
 
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date startDate;
-
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private Date endDate;
-
-    private String computerAddress;
-
-    private String comment;
-
-    private boolean isPI;
-
+    @NotEmpty(message = "Password field is required.")
     private String password;
 
-    private String tempPassword;
+    private String loginToken;
 
     private boolean enabled;
 
     private int status;
-
-    private Date createdAt;
-
-    private Date updatedAt;
 
     @ManyToMany
     @JoinTable(
@@ -68,12 +53,15 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "users_to_groups",
+            name = "user_groups",
             joinColumns = @JoinColumn(
                     name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "group_id", referencedColumnName = "id"))
     private List<Group> groups;
+
+    private Date updatedAt;
+    private Date createdAt;
 
     public Long getId() {
         return id;
@@ -107,6 +95,17 @@ public class User {
         this.firstName = firstName;
     }
 
+
+    public String getsortName() {
+        return firstName;
+    }
+
+    public String getFullName() {
+        return firstName + " "+ lastName;
+    }
+
+
+
     public String getEmail() {
         return email;
     }
@@ -114,39 +113,6 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public String getComputerAddress() {
-        return computerAddress;
-    }
-
-    public void setComputerAddress(String computerAddress) {
-        this.computerAddress = computerAddress;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
 
     public String getPassword() {
         return password;
@@ -156,38 +122,13 @@ public class User {
         this.password = password;
     }
 
-    public String getTempPassword() {
-        return tempPassword;
+    public String getLoginToken() {
+        return loginToken;
     }
 
-    public void setTempPassword(String tempPassword) {
-        this.tempPassword = tempPassword;
+    public void setLoginToken(String loginToken) {
+        this.loginToken = loginToken;
     }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
 
     public boolean isEnabled() {
         return enabled;
@@ -197,12 +138,12 @@ public class User {
         this.enabled = enabled;
     }
 
-    public boolean isPI() {
-        return isPI;
+    public int getStatus() {
+        return status;
     }
 
-    public void setPI(boolean PI) {
-        isPI = PI;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public List<Role> getRoles() {
@@ -221,12 +162,19 @@ public class User {
         this.groups = groups;
     }
 
-    public String getFullName(){
-        return this.firstName + " " + this.lastName;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public String getsortName(){
-        return this.firstName + " " + this.lastName.substring(0, 1);
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
 }

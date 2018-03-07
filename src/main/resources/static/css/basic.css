@@ -1,0 +1,12 @@
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #fff;
+    color: #677897;
+}
+
+.account-box{
+ margin-top: 100px;
+}

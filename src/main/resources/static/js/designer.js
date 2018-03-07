@@ -87,7 +87,7 @@ $( "#save_svg" ).click(function() {
     })
 
     $.post( "/api/design/save", {floorid: floorId, svg_content: svg_content }).done(function( response ) {
-        alert(response);
+        $.notify(response,"success");
     });
 });
 

@@ -1,19 +1,23 @@
 package uk.ac.ox.kir.seatingplan.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import uk.ac.ox.kir.seatingplan.entities.ActionStatus;
 import uk.ac.ox.kir.seatingplan.entities.Group;
 import uk.ac.ox.kir.seatingplan.entities.Role;
 import uk.ac.ox.kir.seatingplan.entities.User;
 import uk.ac.ox.kir.seatingplan.repositories.GroupRepository;
-import uk.ac.ox.kir.seatingplan.repositories.RoleRepository;
 import uk.ac.ox.kir.seatingplan.repositories.UserRepository;
+import uk.ac.ox.kir.seatingplan.utils.SiteHelper;
 
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
 
 @Service
 public class UserService {
@@ -25,8 +29,13 @@ public class UserService {
     GroupRepository groupRepository;
 
     @Autowired
-    RoleRepository roleRepository;
+    EmailService emailService;
 
+    @Value("${app.baseUrl}")
+    private String baseUrl;
+
+    @Value("${app.name}")
+    private String appName;
 
 
     public List<User> findAll() {
@@ -34,28 +43,32 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
+
         return userRepository.findOne(id);
+
     }
 
     public void create(User user) {
 
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String uuid = UUID.randomUUID().toString().replace("-", "");
-
         user.setCreatedAt(new Date());
-
-        if(user.getPassword() == null){
-            user.setPassword(passwordEncoder.encode(uuid));
-        }
-
+        user.setLoginToken(UUID.randomUUID().toString());
+        user.setUsername(user.getUsername().toLowerCase());
+        user.setFirstName(SiteHelper.ucword(user.getFirstName()));
+        user.setLastName(SiteHelper.ucword(user.getLastName()));
         userRepository.save(user);
+
+        //send email to activate account.
+        //String link = baseUrl+"password/update?token="+user.getLoginToken();
+        //Context context = new Context();
+        //context.setVariable("link", link);
+
+        //emailService.sendHtml(user.getEmail(),siteName+" - Your temporary login link","login",context);
+
     }
 
     public void update(User user) {
-
         user.setUpdatedAt(new Date());
         userRepository.save(user);
-
     }
 
     public void saveGroup(Group group) {
@@ -105,16 +118,51 @@ public class UserService {
 
     }
 
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
+    public boolean checkLoginToken(String token) {
+        return (userRepository.findByLoginToken(token) == null) ? false : true;
     }
 
-    public void saveRole(Role role) {
-        roleRepository.save(role);
+    public User getUserByLoginToken(String token) {
+        return userRepository.findByLoginToken(token);
     }
 
-    public Role getRoleById(Long id) {
+    public void activateAccountByToke(String token, String password) {
 
-        return roleRepository.findOne(id);
+        User user = getUserByLoginToken(token);
+
+        if(user != null){
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            user.setPassword(passwordEncoder.encode(password));
+            user.setEnabled(true);
+            user.setLoginToken(null);
+            update(user);
+        }
     }
+
+    public boolean isValidEmailAddress(String email) {
+        return (userRepository.findByEmail(email) == null) ? false : true;
+    }
+
+    public ActionStatus sendPasswordRestLink(String email) {
+
+        User user = userRepository.findByEmail(email);
+
+        if(user != null){
+
+            //Update login token
+            user.setLoginToken(UUID.randomUUID().toString());
+            userRepository.save(user);
+
+            //send reset email
+            String link = baseUrl+"password/update?token="+user.getLoginToken();
+            Context context = new Context();
+            context.setVariable("link", link);
+            emailService.sendHtml(user.getEmail(),appName+" - Password Reset","password_reset",context);
+        }
+        return null;
+    }
+
+//   // public List<Role> getAllRoles() {
+//        return userRepository.getAllRoles();
+//    }
 }

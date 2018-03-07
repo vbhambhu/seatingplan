@@ -25,9 +25,7 @@ public class APIController {
 
         Floor floor = floorService.getFloorById(Long.valueOf(floorid));
         floor.setSvgContent(svg_content);
-
         floorService.update(floor);
-
         return "Saved successfully!";
 
     }
@@ -36,9 +34,9 @@ public class APIController {
 
 
     @ResponseBody
-    @RequestMapping(value = "api/design/get", method = RequestMethod.GET)
-    public Floor getSeatingPlan(@RequestParam("floorid") String floorid){
-        Floor floor = floorService.getFloorById(Long.valueOf(floorid));
+    @RequestMapping(value = "/api/design/get", method = RequestMethod.GET)
+    public Floor getSeatingPlan(@RequestParam("floorid") String floorId){
+        Floor floor = floorService.getFloorById(Long.valueOf(floorId));
         return floor;
 
     }
