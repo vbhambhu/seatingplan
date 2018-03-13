@@ -19,6 +19,7 @@ public class Floor {
     @Size(min=2, max=30)
     private String name;
 
+    @Column(columnDefinition = "TEXT")
     private String svgContent;
 
     private Boolean isDefault;

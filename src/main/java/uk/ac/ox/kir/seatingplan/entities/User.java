@@ -2,6 +2,8 @@ package uk.ac.ox.kir.seatingplan.entities;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -17,40 +19,39 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotEmpty(message = "Username field is required.")
-    @Size(min=2, max=30)
+
+    @Size(min=4, max=30, message = "Username field must be between 4 and 30 characters.")
     @Column(unique=true)
     private String username;
 
-    private String title;
-
-    @NotEmpty(message = "First name field is required.")
-    @Size(min=2, max=30)
+    @Size(min=2, max=30, message = "First name field must be between 2 and 30 characters.")
     private String firstName;
 
-    @NotEmpty(message = "Last name field is required.")
-    @Size(min=2, max=30)
+    @Size(min=2, max=30, message = "Last name field must be between 2 and 30 characters.")
     private String lastName;
 
     @NotEmpty(message = "Email field is required.")
     @Email(message = "Email field is not an valid email address.")
     private String email;
 
-    @NotEmpty(message = "Password field is required.")
+    @Size(min=4, max=255, message = "Password field must be between 4 and 50 characters.")
     private String password;
 
-    @NotNull
+    //@DateTimeFormat(pattern = "dd/MM/yyyy")
+   // @NotEmpty(message = "Start Date field is required.")
+
+    @Column(columnDefinition = "DATE")
     private Date startDate;
 
-    @NotNull
+    //@DateTimeFormat(pattern = "dd/MM/yyyy")
+    //@NotEmpty(message = "End Date field is required.")
+    @Column(columnDefinition = "DATE")
     private Date endDate;
 
     private String loginToken;
 
     private boolean enabled;
 
-
-    private int status;
 
     @ManyToMany
     @JoinTable(
@@ -70,7 +71,15 @@ public class User {
                     name = "group_id", referencedColumnName = "id"))
     private List<Group> groups;
 
+
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
     private Date updatedAt;
+
+    @Column(nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
     private Date createdAt;
 
     public Long getId() {
@@ -148,14 +157,6 @@ public class User {
         this.enabled = enabled;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public List<Role> getRoles() {
         return roles;
     }
@@ -186,14 +187,6 @@ public class User {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public Date getStartDate() {
