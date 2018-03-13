@@ -14,22 +14,24 @@
         <tr>
             <th>Username</th>
             <th>Name</th>
-            <th>Group(s)</th>
+            <th>Email</th>
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Edit</th>
+            <th>Group(s)</th>
         </tr>
         </thead>
         <tbody>
             <tr th:each="user : ${users}">
-                <td th:text="${user.username}">...</td>
+                <td>
+                    <a th:href="@{/user/details(id=${user.id})}" th:text="${user.username}">..</a>
+                </td>
                 <td><span th:text="${user.firstName}"></span> <span th:text="${user.lastName}"></span> </td>
+                <td th:text="${user.email}">...</td>
+                <td th:text="${user.startDate}">...</td>
+                <td th:text="${user.endDate}">...</td>
                 <td>
                     <span th:each="group : ${user.groups}" th:text="${group.name}">{name}</span>
                 </td>
-                <td th:text="${user.startDate}">...</td>
-                <td th:text="${user.endDate}">...</td>
-                <td><a th:href="@{/user/edit(id=${user.id})}" th:text="Edit">...</a></td>
             </tr>
         </tbody>
     </table>

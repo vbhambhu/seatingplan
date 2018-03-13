@@ -9,24 +9,18 @@ $.ajax({
     type:"get",
     url:"/api/design/get?floorid=1",
     beforeSend: function(  ) {
-        // load your loading fiel here
-
+        // load loading bar while floor plan load
         loader = draw.rect(60,60);
-
         loader.animate(3000).move(100, 100).once(0.5, function(pos, eased) {
-            // do something
         }, false)
-
         console.log("loading data")
     }
 })
     .done(function( response ) {
         //hide your loading file here
-
         loader.remove();
-
         draw.svg(response.svgContent);
-
+        //draw.size(100,100);
         modifyElements();
     });
 
@@ -78,9 +72,10 @@ function modifyElements(){
 
 
     //make full size
+     //draw.viewbox(0,0,floorBoundaryEle.width() + 20,floorBoundaryEle.height())
 
-   // draw.viewbox(0,0,floorBoundaryEle.width() + 20,floorBoundaryEle.height())
-
+    console.log(floorBoundaryEle.height())
+    draw.viewbox(0,0,floorBoundaryEle.width() + 15 ,floorBoundaryEle.height() + 20)
 
 
 

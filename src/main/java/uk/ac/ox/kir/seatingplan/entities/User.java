@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
@@ -21,13 +22,15 @@ public class User {
     @Column(unique=true)
     private String username;
 
-    @NotEmpty(message = "Last name field is required.")
-    @Size(min=2, max=30)
-    private String lastName;
+    private String title;
 
     @NotEmpty(message = "First name field is required.")
     @Size(min=2, max=30)
     private String firstName;
+
+    @NotEmpty(message = "Last name field is required.")
+    @Size(min=2, max=30)
+    private String lastName;
 
     @NotEmpty(message = "Email field is required.")
     @Email(message = "Email field is not an valid email address.")
@@ -36,9 +39,16 @@ public class User {
     @NotEmpty(message = "Password field is required.")
     private String password;
 
+    @NotNull
+    private Date startDate;
+
+    @NotNull
+    private Date endDate;
+
     private String loginToken;
 
     private boolean enabled;
+
 
     private int status;
 
@@ -176,5 +186,29 @@ public class User {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

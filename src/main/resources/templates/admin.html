@@ -8,7 +8,8 @@
     Logged user: <span sec:authentication="name">Bob</span>
     Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
 
-
+    <h3>Users leaving this month</h3>
+    <h3>Users Joined this month</h3>
 
     <div sec:authorize="isAuthenticated()">
         This content is only shown to authenticated users.
