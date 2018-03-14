@@ -1,6 +1,7 @@
 package uk.ac.ox.kir.seatingplan.entities;
 
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -11,6 +12,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
+
+import static javax.persistence.TemporalType.DATE;
 
 @Entity(name = "users")
 public class User {
@@ -39,12 +42,14 @@ public class User {
 
     @Column(columnDefinition = "DATE")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotEmpty(message = "Start Date field is required.")
+    @NotNull(message = "Start Date field is required.")
     private Date startDate;
+
+
 
     @Column(columnDefinition = "DATE")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotEmpty(message = "End Date field is required.")
+    @NotNull(message = "End Date field is required.")
     private Date endDate;
 
     private String loginToken;

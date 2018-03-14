@@ -1,35 +1,44 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/admin">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
 <body>
 <div layout:fragment="content">
 
-    <div class='clearfix'>
-        <a href="/floor/add" class="btn btn-dark pull-right">Add new</a>
+    <div class="action-block">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>All Floors</h3>
+            </div>
+            <div class="col-md-6">
+                <a href="/floor/add" class="btn btn-primary float-right">Add new</a>
+            </div>
+        </div>
     </div>
 
-    <hr>
 
-    <table class="table datatable table-striped table-bordered">
+    <div class="view-block">
+
+    <table class="table datatable table-striped">
         <thead>
         <tr>
             <th>Floor</th>
             <th>Created at</th>
-            <th>Edit</th>
-            <th>View</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="floor : ${floors}">
-            <td th:text="${floor.name}"></td>
+            <td><a th:href="@{/(id=${floor.id})}" th:text="${floor.name}">...</a></td>
             <td th:text="${floor.createdAt}">...</td>
             <td><a th:href="@{/floor/edit/design/(id=${floor.id})}">Edit Design</a> |
-                <a th:href="@{/floor/edit/name/(id=${floor.id})}">Edit name</a> |
+                <a th:href="@{/floor/edit/name/(id=${floor.id})}">Rename</a> |
                 <a th:href="@{/floor/edit/seats/(id=${floor.id})}">Edit Seats</a>
             </td>
-            <td><a th:href="@{/(id=${floor.id})}" th:text="View">...</a></td>
+
         </tr>
         </tbody>
     </table>
+
+    </div>
 
 </div>
 </body>

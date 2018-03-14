@@ -85,18 +85,20 @@ public class AccountController {
 
     @RequestMapping(value = "/password/update", method = RequestMethod.GET)
     public String templogin(@RequestParam(name = "token", required = false) String token,
-                            Model model, PasswordUpdateForm passwordUpdateForm){
+                            Model model, PasswordUpdateForm passwordUpdateForm,
+                            RedirectAttributes redirectAttributes){
 
         if(token == null){
-            return "account/invalid_token";
+            redirectAttributes.addFlashAttribute("errorMsg", "Invalid or expired token.");
+            return "redirect:/login";
         }
 
         if(!userService.checkLoginToken(token)){
-            return "account/invalid_token";
+            redirectAttributes.addFlashAttribute("errorMsg", "Invalid or expired token.");
+            return "redirect:/login";
         }
 
         model.addAttribute("token", token);
-
         return "account/password_update";
     }
 

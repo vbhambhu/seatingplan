@@ -166,6 +166,42 @@ public class UserService {
         return groupRepository.findAll();
     }
 
+    public void createUser(User user) {
+
+
+        if(user.isEnabled()){
+            //send email to get a new password.
+        }
+
+        user.setUpdatedAt(new Date());
+        user.setCreatedAt(new Date());
+        userRepository.save(user);
+    }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public Group findGroupByName(String name) {
+        return groupRepository.findByName(name);
+    }
+
+    public void createGroup(Group group) {
+        groupRepository.save(group);
+    }
+
+    public void updateGroup(Group group) {
+        groupRepository.save(group);
+    }
+
+    public Group findGroupByNameExceptId(String name, Long id) {
+        return groupRepository.findByNameAndIdNot(name, id);
+    }
+
 //   // public List<Role> getAllRoles() {
 //        return userRepository.getAllRoles();
 //    }

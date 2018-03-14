@@ -7,6 +7,14 @@
         <a href="/user/add" class="btn btn-dark pull-right">Add new</a>
     </div>
 
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successMsg}">
+        <span th:text="${successMsg}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
     <hr>
 
     <table class="table datatable table-striped table-bordered">

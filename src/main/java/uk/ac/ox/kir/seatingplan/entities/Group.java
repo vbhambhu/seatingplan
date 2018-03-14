@@ -15,10 +15,11 @@ public class Group {
     private Long id;
 
 
-    @NotEmpty
-    @Size(min=2, max=30)
+    @Size(min=4, max=30, message = "Group name field must be between 4 and 30 characters.")
+    @Column(unique=true)
     private String name;
 
+    @NotEmpty(message = "Group colour field is required.")
     private String color;
 
     public Long getId() {

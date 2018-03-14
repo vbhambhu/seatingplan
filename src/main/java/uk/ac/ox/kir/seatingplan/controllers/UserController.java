@@ -42,30 +42,32 @@ public class UserController {
     @RequestMapping(value = "/user/add", method = RequestMethod.GET)
     public String addUser(User user, Model model) {
 
-
-
         String[] jsFiles = {"bootstrap-datepicker.min.js", "select2.min.js"};
         model.addAttribute("jsFiles", jsFiles);
-
         model.addAttribute("groups", userService.findAllGroups());
         return "users/add";
+
     }
 
     @RequestMapping(value = "/user/add", method = RequestMethod.POST)
     public String validateAndSaveUser(Model model, @Valid User user, BindingResult bindingResult) {
 
+        if(userService.getUserByUsername(user.getUsername()) != null){
+            bindingResult.rejectValue("username", "username", "Users with this username is already exists.");
+        }
+
+        if(userService.getUserByEmail(user.getEmail()) != null){
+            bindingResult.rejectValue("email", "email", "Users with this email is already exists.");
+        }
 
         if(bindingResult.hasErrors()){
-
             String[] jsFiles = {"bootstrap-datepicker.min.js", "select2.min.js"};
             model.addAttribute("jsFiles", jsFiles);
-
             model.addAttribute("groups", userService.findAllGroups());
-
             return "users/add";
         }
 
-        // model.addAttribute("users", userService.findAll());
+        userService.createUser(user);
         return "redirect:/user/list";
     }
 }

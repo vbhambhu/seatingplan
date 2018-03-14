@@ -22,6 +22,15 @@ public class FloorController {
     @Autowired
     UserService userService;
 
+    @RequestMapping(value = "/floor/list", method = RequestMethod.GET)
+    public String floorlists(Model model) {
+        model.addAttribute("floors", floorService.findAll());
+        String jsFiles[] = {"plugins/datatables.min.js"};
+        model.addAttribute("jsFiles", jsFiles);
+        return "floors/list";
+    }
+
+
     @RequestMapping(value = "/floor/plan", method = RequestMethod.GET)
     public String getplan(Model model) {
         return "floors/plan";
@@ -29,13 +38,6 @@ public class FloorController {
 
 
 
-    @RequestMapping(value = "/floors", method = RequestMethod.GET)
-    public String floorlists(Model model) {
-        model.addAttribute("floors", floorService.findAll());
-        String jsFiles[] = {"datatables.min.js"};
-        model.addAttribute("jsFiles", jsFiles);
-        return "floors/list";
-    }
 
     @RequestMapping(value = "/floor/edit/seats", method = RequestMethod.GET)
     public String editSeats(@RequestParam int id, Model model) {
@@ -71,12 +73,12 @@ public class FloorController {
 
 
         if (bindingResult.hasErrors()) {
-            return "admin/floors/add";
+            return "floors/add";
         }
 
         floorService.create(floor);
 
-        return "redirect:/floors";
+        return "redirect:/floor/list";
     }
 
 

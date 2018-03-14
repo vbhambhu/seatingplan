@@ -2,46 +2,42 @@
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/basic">
 <body>
 <div layout:fragment="content">
+    <div class="row justify-content-md-center">
+        <div class="col-md-5 col-md-auto animated " th:classappend="${param.error} ? shake: zoomIn ">
+            <div class="account-box">
 
-
-    <div class="row justify-content-md-center account-box">
-        <div class="col-md-4 col-md-auto">
-
-
-            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successMsg}">
-                <span th:text="${successMsg}"></span>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-
-
-            <div th:if="${param.error}" class="alert alert-danger">
-                Invalid username or password.
-            </div>
-
-            <div th:if="${param.logout}" class="alert alert-success">
-                You have been logged out.
-            </div>
-
-            <h3>Login</h3>
-            <hr>
-
-            <form th:action="@{/login}" name="loginForm"  method="POST">
-                <div class="form-group">
-                    <label for="userNameInput">Username</label>
-                    <input type="text" class="form-control" id="userNameInput" name="username"/>
-                </div>
-                <div class="form-group">
-                    <label for="passwordInput">Password</label>
-                    <input type="password" class="form-control" id="passwordInput"  name="password"/>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${param.error}">
+                    Invalid username or password.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
 
-                <button type="submit" class="btn btn-success">Login</button>
-            </form>
-            <hr>
-            <p> <a href="/password/reset">Forgot password?</a></p>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorMsg}">
+                    <span th:text="${errorMsg}"></span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+
+                <h3 class="page-header">Sign in to continue</h3>
+
+                <form th:action="@{/login}" name="loginForm"  method="POST">
+                    <div class="form-group">
+                        <label for="userNameInput">Username</label>
+                        <input type="text" class="form-control" id="userNameInput" name="username"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordInput">Password</label>
+                        <input type="password" class="form-control" id="passwordInput"  name="password"/>
+                    </div>
+                    <button type="submit" class="btn btn-success">Login</button>
+                </form>
+
+                <hr>
+                <p> <a href="/password/reset">Forgot password?</a></p>
+            </div>
         </div>
     </div>
 </div>
