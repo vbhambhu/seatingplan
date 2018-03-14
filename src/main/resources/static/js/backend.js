@@ -11,6 +11,11 @@ $('.select2-multiple').exists(function() {
 $('.select2-multiple').select2();
 });
 
+$('.select2_tags').exists(function() {
+    $('.select2_tags').select2();
+});
+
+
 
 $('.datatable').exists(function() {
     $(".datatable").DataTable();
@@ -18,7 +23,7 @@ $('.datatable').exists(function() {
 
 $('.datepicker').exists(function() {
     $(".datepicker").datepicker({
-        format: 'dd-mm-yyyy'
+        format: 'yyyy-mm-dd'
     });
 });
 

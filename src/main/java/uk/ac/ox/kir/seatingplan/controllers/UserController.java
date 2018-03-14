@@ -40,17 +40,28 @@ public class UserController {
 
 
     @RequestMapping(value = "/user/add", method = RequestMethod.GET)
-    public String addUser(User user) {
+    public String addUser(User user, Model model) {
 
-        // model.addAttribute("users", userService.findAll());
+
+
+        String[] jsFiles = {"bootstrap-datepicker.min.js", "select2.min.js"};
+        model.addAttribute("jsFiles", jsFiles);
+
+        model.addAttribute("groups", userService.findAllGroups());
         return "users/add";
     }
 
     @RequestMapping(value = "/user/add", method = RequestMethod.POST)
-    public String validateAndSaveUser(@Valid User user, BindingResult bindingResult) {
+    public String validateAndSaveUser(Model model, @Valid User user, BindingResult bindingResult) {
 
 
         if(bindingResult.hasErrors()){
+
+            String[] jsFiles = {"bootstrap-datepicker.min.js", "select2.min.js"};
+            model.addAttribute("jsFiles", jsFiles);
+
+            model.addAttribute("groups", userService.findAllGroups());
+
             return "users/add";
         }
 

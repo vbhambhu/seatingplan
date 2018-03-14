@@ -59,19 +59,29 @@
 
 
                     <div class="form-group col-md-6">
-                        <label>Group</label>
-                        <select class="form-control">
-                            <option>No</option>
-                            <option>Yes</option>
+                        <label>Groups</label>
+                        <select multiple class="form-control select2_tags" th:field="${user.groups}">
+                            <option th:each="group : ${groups}"
+                                    th:text="${group.name}"
+                                    th:value="${group.id}"
+                            >1</option>
+                        </select>
+                        <small id="emailHelp" class="form-text text-muted"><a href="/group/create" target="_blank">Create new group in not exists</a></small>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label>Can login to this app?</label>
+                        <select class="form-control" th:field="${user.enabled}">
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
                         </select>
                     </div>
 
+
                 </div>
 
-                <!--<div class="form-group">-->
-                    <!--<label>Comment/Notes</label>-->
-                    <!--<textarea class="form-control"  th:field="${user.comment}"></textarea>-->
-                <!--</div>-->
+
+
 
                 <button type="submit" class="btn btn-success">Create</button>
             </form>
@@ -81,7 +91,7 @@
         <div class="col-md-6">
 
 
-            <input type="checkbox">
+            <!--<input type="checkbox">-->
 
             <!--<div class="form-group">-->
                 <!--<label>Roles</label>-->

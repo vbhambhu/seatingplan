@@ -162,6 +162,10 @@ public class UserService {
         return null;
     }
 
+    public List<Group> findAllGroups() {
+        return groupRepository.findAll();
+    }
+
 //   // public List<Role> getAllRoles() {
 //        return userRepository.getAllRoles();
 //    }

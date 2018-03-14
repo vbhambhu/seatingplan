@@ -37,15 +37,14 @@ public class User {
     @Size(min=4, max=255, message = "Password field must be between 4 and 50 characters.")
     private String password;
 
-    //@DateTimeFormat(pattern = "dd/MM/yyyy")
-   // @NotEmpty(message = "Start Date field is required.")
-
     @Column(columnDefinition = "DATE")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotEmpty(message = "Start Date field is required.")
     private Date startDate;
 
-    //@DateTimeFormat(pattern = "dd/MM/yyyy")
-    //@NotEmpty(message = "End Date field is required.")
     @Column(columnDefinition = "DATE")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotEmpty(message = "End Date field is required.")
     private Date endDate;
 
     private String loginToken;
