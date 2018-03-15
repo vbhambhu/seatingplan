@@ -42,6 +42,8 @@ public class FloorController {
                 "svglib/svg.resize.js","svglib/svg.select.js",};
         model.addAttribute("jsFiles", jsFiles);
 
+        model.addAttribute("designSidebar", true);
+
 
         return "floors/design";
     }

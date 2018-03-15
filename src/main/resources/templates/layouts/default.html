@@ -13,6 +13,9 @@
 
         <div class="sidebar-body">
 
+            <div th:if="${designSidebar}" th:replace="fragments/sidebar :: designer"></div>
+
+
         <h4>Search user</h4>
         <input class="form-control">
 

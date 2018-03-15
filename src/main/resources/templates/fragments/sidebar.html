@@ -1,0 +1,28 @@
+<div th:fragment="designer">
+
+    <div class="form-group">
+        <div class="btn-group btn-group-sm shape-btn" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-success" id="save_svg">Save</button>
+            <a class="btn btn-primary" th:href=@{/floors}>Go back to admin</a>
+        </div>
+    </div>
+
+
+
+
+    <div class="btn-group shape-btn" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-dark" onclick="add_shape('orect')" data-toggle="tooltip" data-placement="right" title="Closed shape">
+            <span class="icon-rectangle" ></span>
+        </button>
+        <button type="button" class="btn btn-dark" onclick="add_shape('hrect')" data-toggle="tooltip" data-placement="right" title="Corner shape">
+            <span class="icon-right"></span>
+        </button>
+        <button type="button" class="btn btn-dark" onclick="add_shape('crect')" data-toggle="tooltip" data-placement="top" title="Seat">
+            <span class="icon-square"></span>
+        </button>
+        <button type="button" class="btn btn-dark"onclick="add_shape('line')" data-toggle="tooltip" data-placement="right" title="Wall">
+            <span class="icon-substract"></span>
+        </button>
+    </div>
+    
+</div>
