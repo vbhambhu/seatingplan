@@ -7,6 +7,9 @@ import uk.ac.ox.kir.seatingplan.entities.User;
 import uk.ac.ox.kir.seatingplan.services.FloorService;
 import uk.ac.ox.kir.seatingplan.services.UserService;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -17,6 +20,17 @@ public class APIController {
 
     @Autowired
     UserService userService;
+
+
+    @ResponseBody
+    @RequestMapping(value = "/api/design/get", method = RequestMethod.GET)
+    public Floor getSeatingPlan(@RequestParam("floorid") String floorId){
+        return floorService.getFloorById(Long.valueOf(floorId));
+    }
+
+
+
+    /*
 
     @ResponseBody
     @RequestMapping(value = "api/design/save", method = RequestMethod.POST)
@@ -33,13 +47,7 @@ public class APIController {
 
 
 
-    @ResponseBody
-    @RequestMapping(value = "/api/design/get", method = RequestMethod.GET)
-    public Floor getSeatingPlan(@RequestParam("floorid") String floorId){
-        Floor floor = floorService.getFloorById(Long.valueOf(floorId));
-        return floor;
 
-    }
 
 
 //    @ResponseBody
@@ -107,5 +115,5 @@ public class APIController {
 
 
 
-
+*/
 }

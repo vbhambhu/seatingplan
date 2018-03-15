@@ -4,9 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.ac.ox.kir.seatingplan.entities.Floor;
 import uk.ac.ox.kir.seatingplan.services.FloorService;
 import uk.ac.ox.kir.seatingplan.services.UserService;
@@ -25,17 +24,34 @@ public class FloorController {
     @RequestMapping(value = "/floor/list", method = RequestMethod.GET)
     public String floorlists(Model model) {
         model.addAttribute("floors", floorService.findAll());
-        String jsFiles[] = {"plugins/datatables.min.js"};
+        String jsFiles[] = {"datatables.min.js"};
         model.addAttribute("jsFiles", jsFiles);
         return "floors/list";
     }
 
 
-    @RequestMapping(value = "/floor/plan", method = RequestMethod.GET)
-    public String getplan(Model model) {
-        return "floors/plan";
+
+
+    @RequestMapping(value = "/floor/edit/design", method = RequestMethod.GET)
+    public String designerPage(@RequestParam int id, Model model) {
+        model.addAttribute("floors", floorService.findAll());
+        model.addAttribute("users", userService.findAll());
+
+        String jsFiles[] = {"notify.min.js", "designer.js",
+                "svglib/svg.min.js","svglib/svg.draggable.js",
+                "svglib/svg.resize.js","svglib/svg.select.js",};
+        model.addAttribute("jsFiles", jsFiles);
+
+
+        return "floors/design";
     }
 
+
+//    @RequestMapping(value = "/floor/plan", method = RequestMethod.GET)
+//    public String getplan(Model model) {
+//        return "floors/plan";
+//    }
+//
 
 
 
@@ -49,14 +65,7 @@ public class FloorController {
     }
 
 
-    @RequestMapping(value = "/floor/edit/design", method = RequestMethod.GET)
-    public String designerPage(@RequestParam int id, Model model) {
-        model.addAttribute("floors", floorService.findAll());
-        model.addAttribute("users", userService.findAll());
-        String jsFiles[] = {"notify.min.js", "designer.js"};
-        model.addAttribute("jsFiles", jsFiles);
-        return "floors/design";
-    }
+
 
 
 
@@ -69,8 +78,6 @@ public class FloorController {
 
     @RequestMapping(value = "/floor/add", method = RequestMethod.POST)
     public String createFloor(@Valid Floor floor, BindingResult bindingResult) {
-
-
 
         if (bindingResult.hasErrors()) {
             return "floors/add";
@@ -85,30 +92,32 @@ public class FloorController {
 
     @RequestMapping(value = "/floor/edit/name", method = RequestMethod.GET)
     public String editName(@RequestParam int id, Model model) {
-
         model.addAttribute("floor", floorService.getFloorById(Long.valueOf(id)) );
         return "floors/edit_name";
     }
 
 
     @RequestMapping(value = "/floor/edit/name", method = RequestMethod.POST)
-    public String saveeditName(@Valid Floor floor, BindingResult bindingResult) {
+    public String saveEditName(@Valid Floor floor, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             return "floors/edit_name";
         }
 
-
         Floor floor1 =  floorService.getFloorById(floor.getId());
         floor1.setName(floor.getName());
-
-
         floorService.update(floor1);
-
-        return "redirect:/floors";
+        redirectAttributes.addFlashAttribute("successMsg", "Floor name has been updated successfully!");
+        return "redirect:/floor/list";
     }
 
 
+    @RequestMapping(value = "/floor/delete", method = RequestMethod.POST)
+    public String delete(@RequestParam(name = "floorId") Long id, RedirectAttributes redirectAttributes) {
 
+        floorService.delete(id);
+        redirectAttributes.addFlashAttribute("successMsg", "Floor has been deleted successfully!");
+        return "redirect:/floor/list";
 
+    }
 }

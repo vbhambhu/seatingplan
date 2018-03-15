@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.ac.ox.kir.seatingplan.entities.Group;
 import uk.ac.ox.kir.seatingplan.entities.User;
 import uk.ac.ox.kir.seatingplan.services.UserService;
@@ -31,7 +32,6 @@ public class GroupContorller {
 
     @RequestMapping(value = "/group/add", method = RequestMethod.GET)
     public String addGroup(Group group, Model model) {
-
         String[] jsFiles = {"jscolor.min.js"};
         model.addAttribute("jsFiles", jsFiles);
         return "groups/add";
@@ -39,7 +39,8 @@ public class GroupContorller {
 
 
     @RequestMapping(value = "/group/add", method = RequestMethod.POST)
-    public String validateAndCreateGroup(Model model, @Valid Group group, BindingResult bindingResult) {
+    public String validateAndCreateGroup(Model model, @Valid Group group, BindingResult bindingResult,
+                                         RedirectAttributes redirectAttributes) {
 
 
         if(userService.findGroupByName(group.getName()) != null){
@@ -53,6 +54,7 @@ public class GroupContorller {
         }
 
         userService.createGroup(group);
+        redirectAttributes.addFlashAttribute("successMsg", "New group been added successfully!");
         return "redirect:/group/list";
     }
 

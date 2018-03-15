@@ -104,6 +104,15 @@ public class FloorService {
         floorRepository.save(floor);
     }
 
+    public void delete(Long id) {
+
+        Floor floor = floorRepository.findOne(id);
+
+        if(floor == null) return;
+
+        floorRepository.delete(floor);
+    }
+
 //    public int getCountById(Long aLong) {
 //
 //        Long countByName(String name);

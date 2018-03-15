@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.ac.ox.kir.seatingplan.entities.User;
 import uk.ac.ox.kir.seatingplan.services.UserService;
 
@@ -23,18 +24,41 @@ public class UserController {
     public String usersList(Model model) {
 
         model.addAttribute("users", userService.findAll());
+
+        String jsFiles[] = {"datatables.min.js"};
+        model.addAttribute("jsFiles", jsFiles);
+
         return "users/list";
     }
 
-    @RequestMapping(value = "/user/details", method = RequestMethod.GET)
+    @RequestMapping(value = "/user/edit", method = RequestMethod.GET)
     public String editUser(Model model, @RequestParam(value = "id", required = true) Long id) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
         String[] jsFiles = {"bootstrap-datepicker.min.js"};
         model.addAttribute("jsFiles", jsFiles);
         model.addAttribute("metaTitle", "User Details");
+        model.addAttribute("groups", userService.findAllGroups());
+        return "users/edit";
+    }
 
-        return "users/details";
+    @RequestMapping(value = "/user/edit", method = RequestMethod.POST)
+    public String editAndSaveUser(Model model, @RequestParam(value = "id", required = true) Long id,
+                                  @Valid User user, BindingResult bindingResult,
+                                  RedirectAttributes redirectAttributes) {
+
+        String[] jsFiles = {"bootstrap-datepicker.min.js"};
+        model.addAttribute("jsFiles", jsFiles);
+
+        if(bindingResult.hasErrors()){
+
+            model.addAttribute("groups", userService.findAllGroups());
+            return "users/edit";
+        }
+
+        userService.update(user);
+        redirectAttributes.addFlashAttribute("successMsg", "User details been updated successfully!");
+        return "redirect:/user/list";
     }
 
 

@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/admin">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
 <body>
 <div layout:fragment="content">
 
-    <div class='clearfix'>
-        <a href="/floors" class="btn btn-dark pull-right">Cancel</a>
+    <!--<div class='clearfix'>-->
+        <!--<a href="/floor/list" class="btn btn-dark pull-right">Cancel</a>-->
+    <!--</div>-->
+
+
+    <div class="action-block">
+        <h4>Rename floor</h4>
     </div>
 
-    <hr>
 
+    <div class="view-block">
     <div class="row">
         <div class="col-md-6">
 
@@ -25,6 +30,7 @@
             </form>
 
         </div>
+    </div>
     </div>
 
 

@@ -27,14 +27,24 @@
     <!-- Page Content Holder -->
     <div id="content">
 
+
+
         <nav class="navbar navbar-expand-md navbar-light bg-light app-nav">
-            <button class="btn btn-primary" id="sidebarCollapse"><i class="fas fa-align-left"></i></button>
+            <div id="sidebarCollapse"><i class="fas fa-align-left toggle-icon"></i></div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-                <ul class="navbar-nav mr-auto">
+
+                <div class="ml-left gsearch-wrapper">
+                    <select class="form-control select2-global-search"></select>
+                </div>
+
+
+                <!--<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">-->
+
+                <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="/floor/list">Floors</a>
                     </li>

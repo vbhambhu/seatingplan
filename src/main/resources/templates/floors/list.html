@@ -15,6 +15,16 @@
     </div>
 
 
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successMsg}">
+        <span th:text="${successMsg}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
+
     <div class="view-block">
 
     <table class="table datatable table-striped">
@@ -29,20 +39,16 @@
         <tr th:each="floor : ${floors}">
             <td><a th:href="@{/(id=${floor.id})}" th:text="${floor.name}">...</a></td>
             <td th:text="${floor.createdAt}">...</td>
-            <td><a th:href="@{/floor/edit/design/(id=${floor.id})}">Edit Design</a> |
-                <a th:href="@{/floor/edit/name/(id=${floor.id})}">Rename</a> |
-                <a th:href="@{/floor/edit/seats/(id=${floor.id})}">Edit Seats</a> |
-
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Launch demo modal
-                </button>
-
-                <a th:href="@{/floor/edit/seats/(id=${floor.id})}"
-                   data-toggle="modal"
-                   data-target="#confirm-delete">Delete</a>
-
+            <td>
+                <form th:action="@{/floor/delete}" method="post">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <a th:href="@{/floor/edit/name/(id=${floor.id})}" class="btn btn-primary">Rename</a>
+                    <a th:href="@{/floor/edit/seats/(id=${floor.id})}" class="btn btn-primary">Edit Seats</a>
+                    <a th:href="@{/floor/edit/design/(id=${floor.id})}" class="btn btn-primary">Edit Design</a>
+                    <button type="submit" class="btn btn-danger" th:value="${floor.id}" name="floorId">Delete</button>
+                </div>
+                </form>
             </td>
-
         </tr>
         </tbody>
     </table>
@@ -52,26 +58,6 @@
 </div>
 
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 </body>
 </html>
