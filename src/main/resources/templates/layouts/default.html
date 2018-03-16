@@ -8,12 +8,18 @@
     <!-- Sidebar Holder -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3>Seating Plan</h3>
+            <h3><i class="fab fa-periscope"></i> Seating Plan</h3>
         </div>
+
+
+        <div th:text="${designSidebar}"></div>
 
         <div class="sidebar-body">
 
-            <div th:if="${designSidebar}" th:replace="fragments/sidebar :: designer"></div>
+            <div th:if="${designSidebar}">
+
+            <div th:replace="fragments/sidebar :: designer"></div>
+            </div>
 
 
         <h4>Search user</h4>

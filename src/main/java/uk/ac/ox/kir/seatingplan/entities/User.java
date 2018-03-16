@@ -45,12 +45,16 @@ public class User {
     @NotNull(message = "Start Date field is required.")
     private Date startDate;
 
-
-
     @Column(columnDefinition = "DATE")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "End Date field is required.")
     private Date endDate;
+
+    private String imageUrl;
+
+    private String computerDetails;
+
+    private String notes;
 
     private String loginToken;
 
@@ -207,5 +211,29 @@ public class User {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getComputerDetails() {
+        return computerDetails;
+    }
+
+    public void setComputerDetails(String computerDetails) {
+        this.computerDetails = computerDetails;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

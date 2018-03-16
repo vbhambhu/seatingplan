@@ -28,27 +28,19 @@ public class APIController {
         return floorService.getFloorById(Long.valueOf(floorId));
     }
 
-
-
-    /*
-
     @ResponseBody
     @RequestMapping(value = "api/design/save", method = RequestMethod.POST)
     public String saveFloor(@RequestParam("floorid") String floorid,
                             @RequestParam("svg_content") String svg_content){
-
         Floor floor = floorService.getFloorById(Long.valueOf(floorid));
         floor.setSvgContent(svg_content);
         floorService.update(floor);
         return "Saved successfully!";
-
     }
 
 
 
-
-
-
+    /*
 
 //    @ResponseBody
 //    @RequestMapping(value = "api/user/get", method = RequestMethod.GET)

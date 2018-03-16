@@ -24,7 +24,7 @@ $('.datatable').exists(function() {
 
 
 
-if(getCookie('sidebarActive') == 'true'){
+if(localStorage.getItem("toggle") == "no"){
 
     $('#sidebar, #content').css("transition" , 'none');
     $('#sidebar, #content').toggleClass('active');
@@ -37,10 +37,20 @@ $('#sidebarCollapse').on('click', function () {
     $('#sidebar, #content').toggleClass('active');
     $('.toggle-icon').toggleClass("fa-align-right");
 
-    if(getCookie('sidebarActive') == "" || getCookie('sidebarActive') == "true"){
-        document.cookie = "sidebarActive=false";
+    if (localStorage.getItem("toggle") === null) {
+        //hide or show menu by default
+        //do not forget to set a htlm5 cookie
+        localStorage.setItem("toggle", "yes");
+
     } else{
-        document.cookie = "sidebarActive=true";
+
+        if(localStorage.getItem("toggle") == "yes"){
+            //code when menu is visible
+            localStorage.setItem("toggle", "no");
+        } else{
+            //code when menu is hidden
+            localStorage.setItem("toggle", "yes");
+        }
     }
 
 });
