@@ -37,7 +37,7 @@
         </thead>
         <tbody>
         <tr th:each="floor : ${floors}">
-            <td><a th:href="@{/(id=${floor.id})}" th:text="${floor.name}">...</a></td>
+            <td><a th:href="@{/(floorid=${floor.id})}" th:text="${floor.name}">...</a></td>
             <td th:text="${floor.createdAt}">...</td>
             <td>
                 <form th:action="@{/floor/delete}" method="post">

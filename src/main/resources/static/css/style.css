@@ -15,6 +15,10 @@ body {
     background-color: #fff !important;
 }
 
+.logo-icon{
+    color: #f06;
+}
+
 .action-block{
     margin-top: 20px;
     margin-bottom: 20px;
@@ -30,6 +34,27 @@ body {
     border-radius: 6px;
 }
 
+.user-details-block{
+    background-color: #fff;
+    min-width: 250px;
+    border-radius: 6px;
+    box-shadow: 0 21px 50px rgba(0,0,0,0.1);
+    border: 1px solid #eaeff5;
+    padding: 2px;
+    font-size: 12px;
+}
+
+.udrow{
+    font-weight: bold;
+
+
+}
+
+.cdcol{
+    border-left: 2px solid #f06;
+    margin-left: 1px;
+    margin-top: 5px;
+}
 
 
 #sidebar {
@@ -68,6 +93,16 @@ body {
     top: 0;
     right: 0;
 }
+
+
+.btn-group.shape-btn {
+    display: flex;
+}
+
+.shape-btn .btn {
+    flex: 1
+}
+
 
 #content.active {
     width: 100%;
@@ -119,6 +154,14 @@ body {
     background-size: 10px 10px;
     background-image: linear-gradient(to right, #EAEAEC 1px, transparent 1px), linear-gradient(to bottom, #EAEAEC 1px, transparent 1px);
 }
+
+
+
+
+
+
+
+
 
 
 .svg_select_points_lt{

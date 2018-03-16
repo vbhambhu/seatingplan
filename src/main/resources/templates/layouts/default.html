@@ -8,27 +8,23 @@
     <!-- Sidebar Holder -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3><i class="fab fa-periscope"></i> Seating Plan</h3>
+            <h3><i class="fab fa-periscope logo-icon"></i> Seating Plan</h3>
         </div>
 
-
-        <div th:text="${designSidebar}"></div>
 
         <div class="sidebar-body">
 
             <div th:if="${designSidebar}">
-
-            <div th:replace="fragments/sidebar :: designer"></div>
+                <div th:replace="fragments/sidebar :: designer"></div>
             </div>
 
+            <div th:if="${editorSidebar}">
+                <div th:replace="fragments/sidebar :: editor"></div>
+            </div>
 
-        <h4>Search user</h4>
-        <input class="form-control">
-
-<hr>
-
-        <h4>Go to floor</h4>
-        <input class="form-control">
+            <div th:if="${designSidebar == null and  editorSidebar == null}">
+                <div th:replace="fragments/sidebar :: global"></div>
+            </div>
 
         </div>
     </nav>

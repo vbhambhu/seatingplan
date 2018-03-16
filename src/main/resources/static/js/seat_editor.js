@@ -93,12 +93,12 @@ $( "#save_svg" ).click(function() {
         }
     })
     $.post( "/api/design/save", {floorid: floorId, svg_content: svg_content }).done(function( response ) {
-        alert(response);
+        $.notify(response,"success");
     });
 
-    $.post( "/api/user/floor/update", {floorid: floorId, userids: userids }).done(function( response ) {
-        //alert(response);
-    });
+    // $.post( "/api/user/floor/update", {floorid: floorId, userids: userids }).done(function( response ) {
+    //     //alert(response);
+    // });
 
 });
 

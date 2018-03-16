@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/default">
+<body>
+<div layout:fragment="content">
+
+
+
+    <div class="action-block">
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Create Bulk Users</h3>
+            </div>
+            <div class="col-md-6">
+
+                <div class="float-right">
+                    <a href="/user/list" class="btn btn-dark float-right">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successMsg}">
+        <span th:text="${successMsg}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="view-block">
+
+        <p>This function will upload users data in csv file and will create users in bulk.</p>
+
+
+
+        <form th:action="@{/user/confirm/upload}" method="POST" id="needs-validation" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Upload users CSV</label>
+                <input type="file" class="form-control-file" name="file">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Next</button>
+        </form>
+
+
+        <p><strong>Upload CSV file same as below template.</strong></p>
+
+        <ul>
+            <li>1. First column should be header.</li>
+            <li>2. First row should username (Single-sing-on)</li>
+            <li>3. Second column should be Start date.</li>
+            <li>4. Third column should be End date.</li>
+            <li>5. Format of file should be .csv (name of file can be anything).</li>
+        </ul>
+        <table class="table">
+            <tr>
+                <th>Username</th>
+                <th>StartDate</th>
+                <th>EndDate</th>
+            </tr>
+            <tr>
+                <td>kenn0123</td>
+                <td>19-May-03</td>
+                <td>01-Dec-19</td>
+            </tr>
+            <tr>
+                <td>kenn0456</td>
+                <td>11-Aug-15</td>
+                <td>06-Mar-19</td>
+            </tr>
+        </table>
+
+    </div>
+
+</div>
+</body>
+</html>
+

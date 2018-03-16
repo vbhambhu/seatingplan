@@ -1,14 +1,14 @@
 var windowWidth = $("#seating-plan").width();
 var windowHeight = $(window).height() - 10;
 
-
+var floorId = $("#sfloor_id").val();
 var draw = SVG('seating-plan');
 var loader;
 var floorBoundaryEle;
 
 $.ajax({
     type:"get",
-    url:"/api/design/get?floorid=1",
+    url:"/api/design/get?floorid="+floorId,
     beforeSend: function(  ) {
         // load loading bar while floor plan load
         loader = draw.rect(60,60);
@@ -80,21 +80,19 @@ function modifyElements(){
 
 
 
-    var pop_template = '<div class="popover" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>';
+    var pop_template = '<div class="popover user-details-block" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>';
     $('.seat').mouseenter(function() {
         var e=$(this);
         e.off('hover');
         $.get('/api/user/details',{ id: e.data('user-id')}, function(userdata) {
-            var details = '<table class="table table-striped">';
-            details += '<tr><td>Name:</td><td>'+userdata.firstName + " " + userdata.lastName+'</td></tr>';
-            details += '<tr><td>Start Date: </td><td>'+userdata.startDate + '</td></tr>';
-            details += '<tr><td>endDate: </td><td>'+userdata.endDate + '</td></tr>';
-            details += '<tr><td>Phone: </td><td>423343</td></tr>';
-            details += '<tr><td>Email:</td><td>'+userdata.email+'</td></tr>';
-            details += '<tr><td>Computer:</td><td>'+userdata.computerAddress + '</td></tr>';
-            details += '<tr><td>Groups: </td><td>'+userdata.endDate + '</td></tr>';
-            details += '<tr><td>Notes:</td><td>'+userdata.comment + '</td></tr>';
-            details += '</table>';
+            var details = '<div class="row cdcol"><div class="col-sm-5 udrow">Name:</div><div class="col-sm-7">'+userdata.firstName + " " + userdata.lastName+'</div></div>';
+            details += '<div class="row cdcol"><div class="col-sm-5 udrow">Start Date: </div><div class="col-sm-7">'+userdata.startDate +'</div></div>';
+            details += '<div class="row cdcol"><div class="col-sm-5 udrow">End Date: </div><div class="col-sm-7">'+userdata.endDate +'</div></div>';
+            details += '<div class="row cdcol"><div class="col-sm-5 udrow">Phone: </div><div class="col-sm-7">'+userdata.phone +'</div></div>';
+            details += '<div class="row cdcol"><div class="col-sm-5 udrow">Email: </div><div class="col-sm-7">'+userdata.email +'</div></div>';
+            details += '<div class="row cdcol"><div class="col-sm-5 udrow">Computer: </div><div class="col-sm-7">'+userdata.computer +'</div></div>';
+            details += '<div class="row cdcol"><div class="col-sm-5 udrow">Groups: </div><div class="col-sm-7">'+userdata.groups +'</div></div>';
+            details += '<div class="row cdcol"><div class="col-sm-5 udrow">Notes: </div><div class="col-sm-7">'+userdata.notes +'</div></div>';
             e.popover({
                 title: userdata.firstName + " " + userdata.lastName,
                 content: details,

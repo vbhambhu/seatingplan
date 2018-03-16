@@ -51,6 +51,7 @@ public class UserService {
     public void create(User user) {
 
         user.setCreatedAt(new Date());
+        user.setUpdatedAt(new Date());
         user.setLoginToken(UUID.randomUUID().toString());
         user.setUsername(user.getUsername().toLowerCase());
         user.setFirstName(SiteHelper.ucword(user.getFirstName()));

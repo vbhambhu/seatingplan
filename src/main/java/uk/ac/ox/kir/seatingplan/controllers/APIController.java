@@ -38,6 +38,13 @@ public class APIController {
         return "Saved successfully!";
     }
 
+    @ResponseBody
+    @RequestMapping(value = "api/user/details", method = RequestMethod.GET)
+    public User getUserDetail(@RequestParam("id") String userid){
+        User user = userService.getUserById(Long.valueOf(userid));
+        return user;
+    }
+
 
 
     /*
@@ -87,12 +94,7 @@ public class APIController {
 
 
     //user
-    @ResponseBody
-    @RequestMapping(value = "api/user/details", method = RequestMethod.GET)
-    public User getUserDetail(@RequestParam("id") String userid){
-        User user = userService.getUserById(Long.valueOf(userid));
-        return user;
-    }
+
 
 
 

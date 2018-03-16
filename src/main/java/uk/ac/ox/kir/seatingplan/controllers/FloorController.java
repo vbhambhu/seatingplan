@@ -37,7 +37,7 @@ public class FloorController {
         model.addAttribute("floors", floorService.findAll());
         model.addAttribute("users", userService.findAll());
 
-        String jsFiles[] = {"notify.min.js", "designer.js",
+        String jsFiles[] = {"jscolor.min.js", "notify.min.js", "designer.js",
                 "svglib/svg.min.js","svglib/svg.draggable.js",
                 "svglib/svg.resize.js","svglib/svg.select.js",};
         model.addAttribute("jsFiles", jsFiles);
@@ -45,31 +45,25 @@ public class FloorController {
         model.addAttribute("designSidebar", true);
 
 
+
+
+
         return "floors/design";
     }
 
 
-//    @RequestMapping(value = "/floor/plan", method = RequestMethod.GET)
-//    public String getplan(Model model) {
-//        return "floors/plan";
-//    }
-//
-
-
-
     @RequestMapping(value = "/floor/edit/seats", method = RequestMethod.GET)
     public String editSeats(@RequestParam int id, Model model) {
-        model.addAttribute("floors", floorService.findAll());
+
         model.addAttribute("users", userService.findAll());
-        String jsFiles[] = {"select2.min.js", "seat_editor.js"};
+        String jsFiles[] = {  "notify.min.js",
+                "svglib/svg.min.js","svglib/svg.resize.js",
+                "svglib/svg.select.js", "seat_editor.js"};
         model.addAttribute("jsFiles", jsFiles);
+
+        model.addAttribute("editorSidebar", true);
         return "floors/edit_seats";
     }
-
-
-
-
-
 
 
     @RequestMapping(value = "/floor/add", method = RequestMethod.GET)

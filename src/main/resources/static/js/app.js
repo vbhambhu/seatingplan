@@ -63,11 +63,24 @@ $('.select2_tags').exists(function() {
     $('.select2_tags').select2();
 });
 
+$('.s2-option').exists(function() {
+    $('.s2-option').select2();
+});
+
+
+
 $('.color').exists(function() {
     $( ".color" ).each(function( index ) {
         $(this).css("color", "#"+$( this ).data('color'));
     });
 });
+
+
+
+$('#sfloor_id').change(function(){
+    $('#sfloor_form').submit();
+});
+
 
 
 $('.select2-global-search').select2({

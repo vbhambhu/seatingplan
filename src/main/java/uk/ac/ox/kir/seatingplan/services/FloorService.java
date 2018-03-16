@@ -113,6 +113,10 @@ public class FloorService {
         floorRepository.delete(floor);
     }
 
+    public Floor findFirstCreateFloor() {
+        return floorRepository.findTopByOrderByIdAsc();
+    }
+
 //    public int getCountById(Long aLong) {
 //
 //        Long countByName(String name);

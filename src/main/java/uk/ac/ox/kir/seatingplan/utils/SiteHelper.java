@@ -1,8 +1,39 @@
 package uk.ac.ox.kir.seatingplan.utils;
 
+import com.fasterxml.jackson.databind.MappingIterator;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.SecureRandom;
+import java.util.Collections;
+import java.util.List;
 
 public class SiteHelper {
+
+
+    public static <T> List<T> csvToOLbjects(Class<T> type, MultipartFile multipartFile,
+                                            RedirectAttributes redirectAttributes) {
+        try {
+
+            InputStream inputFS = multipartFile.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputFS));
+
+            CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader();
+            CsvMapper mapper = new CsvMapper();
+            MappingIterator<T> readValues = mapper.reader(type).with(bootstrapSchema).readValues(inputFS);
+            return readValues.readAll();
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMsg", e.getMessage());
+            return Collections.emptyList();
+        }
+    }
+
 
     public static String ucword(String input) {
         if (input == null || input.length() <= 0) {

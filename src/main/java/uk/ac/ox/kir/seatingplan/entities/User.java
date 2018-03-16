@@ -1,5 +1,7 @@
 package uk.ac.ox.kir.seatingplan.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -37,6 +39,7 @@ public class User {
     @Email(message = "Email field is not an valid email address.")
     private String email;
 
+    @JsonIgnore
     @Size(min=4, max=255, message = "Password field must be between 4 and 50 characters.")
     private String password;
 
@@ -58,6 +61,7 @@ public class User {
 
     private String loginToken;
 
+    @JsonIgnore
     private boolean enabled;
 
 
