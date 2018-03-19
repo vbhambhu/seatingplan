@@ -79,6 +79,11 @@ function add_shape(type){
 
 $( "#save_svg" ).click(function() {
     unselectAll();
+
+    var box = draw.viewbox();
+
+
+
     var svg_content = "";
     draw.each(function() {
         if(this.type !== 'defs'){
@@ -86,7 +91,12 @@ $( "#save_svg" ).click(function() {
         }
     })
 
-    $.post( "/api/design/save", {floorid: floorId, svg_content: svg_content }).done(function( response ) {
+    $.post( "/api/design/save", {
+        floorid: floorId,
+        svg_content: svg_content,
+        width: box.width,
+        height: box.height,
+    }).done(function( response ) {
         $.notify(response,"success");
     });
 });

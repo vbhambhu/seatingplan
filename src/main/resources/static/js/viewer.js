@@ -1,10 +1,10 @@
-var windowWidth = $("#seating-plan").width();
-var windowHeight = $(window).height() - 10;
+var windowWidth,windowHeight;
+
+//var seatsData = [];
 
 var floorId = $("#sfloor_id").val();
 var draw = SVG('seating-plan');
 var loader;
-var floorBoundaryEle;
 
 $.ajax({
     type:"get",
@@ -20,53 +20,77 @@ $.ajax({
     .done(function( response ) {
         //hide your loading file here
         loader.remove();
+        windowWidth = response.width;
+        windowHeight = response.height;
         draw.svg(response.svgContent);
         //draw.size(100,100);
         modifyElements();
-    });
+
+});
 
 
 function modifyElements(){
-    console.log("draw elements");
+
 
     // var floorBoundary = draw.select('.floor').fill('#f06');
     // console.log(floorBoundary)
 
     draw.each(function(i,chi) {
 
-        if(this.hasClass('floor')){
-            if(floorBoundaryEle == null){
-                floorBoundaryEle = this;
-            }
-        }
-
-
 
         if(typeof this.data('user-id') != "undefined" && this.data('user-id') != 0){
+
+
+
             this.animate({ duration: 250 }).flip('x');
-            this.addClass("seat");
+
             //fill group color
             this.fill('#'+this.data('group-color'));
             //add user name on seat
             var username = (typeof this.data('user-name') === "undefined") ? '' : this.data('user-name');
             var x =  this.x() + 5;
             var y =  this.cy() - 15;
-            console.log(username)
+
             var text = draw.text(username)
-            text.move(x,y).font({ fill: '#FFF', family: 'Inconsolata' }).addClass("nametext")
+            text.move(x,y).font({ fill: '#FFF', family: 'Inconsolata' }).addClass("nametext").data('user-id', this.data('user-id'));
+
+            var wrap = draw.rect(this.width(), this.height()).move(this.x() , this.y()).opacity(0);
+            wrap.addClass("seat");
+            wrap.data('user-id', this.data('user-id'))
+
+
+            // var group = draw.group();
+            // group.add(selectedShape)
+            //
+            // var text = group.text("Hello World").font({ fill: '#FFF', family: 'Inconsolata', size:20 });
+            // //var txt_y = (selectedShape.height() / 2) - (text.bbox().h /2);
+            // var txt_x = selectedShape.x();
+            // var txt_y = selectedShape.y() + (selectedShape.height() / 2) - (text.bbox().h /2);
+            //
+            //
+            //
+            //
+            // console.log(txt_x)
+            // console.log(txt_y)
+            //
+            //
+            // text.move(txt_x,txt_y)
+
+
+            //seatsData.push({name:username, group: "dsd", data: this});
+
             // text.mouseover(function() {
             //
             //     console.log("do nams")
             //
             // })
-            this.mouseover(function() {
+            wrap.mouseover(function() {
                 this.attr('cursor', 'pointer');
-                // this.animate({ duration: 250 }).rotate(90)
             });
-            this.mouseout(function() {
-                //this.attr('cursor', 'pointer');
-                //this.animate({ duration: 250 }).rotate(-90)
-            });
+            // wrap.mouseout(function() {
+            //     //this.attr('cursor', 'pointer');
+            //     //this.animate({ duration: 250 }).rotate(-90)
+            // });
         }
         //var userId = (typeof elem.data('user-id') === "undefined") ? 0 : elem.data('user-id');
     });
@@ -75,12 +99,16 @@ function modifyElements(){
     //make full size
      //draw.viewbox(0,0,floorBoundaryEle.width() + 20,floorBoundaryEle.height())
 
-   // console.log(floorBoundaryEle.height())
+
+    console.log("Screen  Width=" + windowWidth + " and height =" + windowHeight)
+
     draw.viewbox(0,0,windowWidth ,windowHeight)
+   // draw.viewbox(0,0,windowWidth ,windowHeight)
 
 
 
     var pop_template = '<div class="popover user-details-block" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>';
+
     $('.seat').mouseenter(function() {
         var e=$(this);
         e.off('hover');
@@ -114,3 +142,63 @@ function modifyElements(){
 //         .zoom(2, {x:100, y:100}) // zoom into specified point
 
 }
+
+
+
+
+$('#search-by-group-on-floor').keyup(function() {
+
+    $(".loading-page").css("display", "block");
+
+    delay(function(){
+        var query =  $('#search-by-group-on-floor').val().toLowerCase();
+        draw.each(function(i,chi) {
+            if(typeof this.data('group-name') != "undefined" || this.data('type') == "crect"){
+                var group = (typeof this.data('group-name') === "undefined") ? '' : this.data('group-name');
+                if(!group.toLowerCase().includes(query)){
+                    this.hide();
+                } else{
+                    this.show();
+                }
+            }
+        });
+        $(".loading-page").css("display", "none");
+    }, 500 );
+});
+
+
+
+$('#search-by-name-on-floor').keyup(function() {
+
+    $(".loading-page").css("display", "block");
+
+    delay(function(){
+        var query =  $('#search-by-name-on-floor').val().toLowerCase();
+        draw.each(function(i,chi) {
+
+            if(typeof this.data('user-id') != "undefined" || this.data('type') == "crect"){
+
+                var username = (typeof this.data('user-name') === "undefined") ? '' : this.data('user-name');
+                if(!username.toLowerCase().includes(query)){
+                    this.hide();
+                } else{
+                    this.show();
+                }
+            }
+        });
+        $(".loading-page").css("display", "none");
+    }, 500 );
+});
+
+
+
+
+
+
+var delay = (function(){
+    var timer = 0;
+    return function(callback, ms){
+        clearTimeout (timer);
+        timer = setTimeout(callback, ms);
+    };
+})();

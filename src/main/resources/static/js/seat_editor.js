@@ -92,7 +92,8 @@ $( "#save_svg" ).click(function() {
             }
         }
     })
-    $.post( "/api/design/save", {floorid: floorId, svg_content: svg_content }).done(function( response ) {
+    $.post( "/api/seat/save", {
+        floorid: floorId, svg_content: svg_content }).done(function( response ) {
         $.notify(response,"success");
     });
 
@@ -121,6 +122,8 @@ function showPropertyPanel(){
     $('#seat_user_id').val(userId).trigger('change');
     $( "#prop_panel" ).css('display' , 'block');
 }
+
+
 
 $( "#seat_user_id" ).change(function() {
     var userId = $(this).val();

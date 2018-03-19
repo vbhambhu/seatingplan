@@ -26,7 +26,7 @@
 
     <div th:if="${floorid}">
 
-    <h5>Go to floor</h5>
+    <h5>Floor</h5>
 
     <form id="sfloor_form">
         <select class="form-control form-control-sm s2-option" style="width:100%;" id="sfloor_id" name="floorid">
@@ -43,35 +43,23 @@
 
 
 
-    <h5>Filters</h5>
+    <h5>Search</h5>
 
     <small id="emailHelp" class="form-text text-muted">Apply filters on current floor.</small>
     <hr>
 
     <div class="form-group">
         <label>By name</label>
-        <input type="text" class="form-control" >
+        <input type="text" class="form-control" id="search-by-name-on-floor" >
     </div>
 
-    <div class="form-group">
-        <label for="exampleFormControlSelect1">End Date From now</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-            <option>1 month</option>
-            <option>2 months</option>
-            <option>3 months</option>
-            <option>4 months</option>
-            <option>5 months</option>
-            <option>6 months</option>
-            <option>1 year</option>
-        </select>
-    </div>
 
     <div class="form-group">
         <label>By group</label>
-        <input type="text" class="form-control" >
+        <input type="text" class="form-control" id="search-by-group-on-floor" >
     </div>
 
-    <button class="btn btn-success btn-sm">Apply</button>
+
 
 </div>
 

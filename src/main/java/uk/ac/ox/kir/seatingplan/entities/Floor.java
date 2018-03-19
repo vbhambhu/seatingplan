@@ -22,7 +22,9 @@ public class Floor {
     @Column(columnDefinition = "TEXT")
     private String svgContent;
 
-    private Boolean isDefault;
+    private int width;
+
+    private int height;
 
     private Date createdAt;
 
@@ -59,11 +61,19 @@ public class Floor {
         this.createdAt = createdAt;
     }
 
-    public Boolean getDefault() {
-        return isDefault;
+    public int getWidth() {
+        return width;
     }
 
-    public void setDefault(Boolean aDefault) {
-        isDefault = aDefault;
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }

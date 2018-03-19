@@ -8,7 +8,5 @@ import java.util.List;
 public interface FloorRepository extends JpaRepository<Floor, Long> {
 
 
-    List<Floor> findByIsDefault(boolean isDefault);
-
     Floor findTopByOrderByIdAsc();
 }

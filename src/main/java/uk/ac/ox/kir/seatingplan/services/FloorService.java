@@ -20,7 +20,6 @@ public class FloorService {
 
 
         floor.setCreatedAt(new Date());
-        floor.setDefault(false);
         floorRepository.save(floor);
 
 
@@ -82,23 +81,10 @@ public class FloorService {
     }
 
     public Floor getFloorById(Long id) {
-
         return floorRepository.findOne(id);
-
     }
 
 
-    public Long getDefaultFloorId() {
-
-        List<Floor> floors = floorRepository.findByIsDefault(true);
-
-        if(floors.size() == 1){
-           return  floors.get(0).getId();
-        } else{
-            return null;
-        }
-
-    }
 
     public void update(Floor floor) {
         floorRepository.save(floor);
