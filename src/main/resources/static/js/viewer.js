@@ -10,21 +10,17 @@ $.ajax({
     type:"get",
     url:"/api/design/get?floorid="+floorId,
     beforeSend: function(  ) {
-        // load loading bar while floor plan load
-        loader = draw.rect(60,60);
-        loader.animate(3000).move(100, 100).once(0.5, function(pos, eased) {
-        }, false)
-        console.log("loading data")
+        $(".loading-page").css("display", "block");
     }
 })
     .done(function( response ) {
         //hide your loading file here
-        loader.remove();
         windowWidth = response.width;
         windowHeight = response.height;
         draw.svg(response.svgContent);
         //draw.size(100,100);
         modifyElements();
+        $(".loading-page").css("display", "none");
 
 });
 
@@ -40,23 +36,32 @@ function modifyElements(){
 
         if(typeof this.data('user-id') != "undefined" && this.data('user-id') != 0){
 
-
-
             this.animate({ duration: 250 }).flip('x');
 
             //fill group color
             this.fill('#'+this.data('group-color'));
             //add user name on seat
             var username = (typeof this.data('user-name') === "undefined") ? '' : this.data('user-name');
-            var x =  this.x() + 5;
-            var y =  this.cy() - 15;
 
-            var text = draw.text(username)
-            text.move(x,y).font({ fill: '#FFF', family: 'Inconsolata' }).addClass("nametext").data('user-id', this.data('user-id'));
+            var group = draw.group();
+            group.add(this);
+            group.addClass("seat");
+            group.data('user-id', this.data('user-id'));
+            group.data('user-name', this.data('user-name'));
+            group.data('group-name', this.data('group-name'));
 
-            var wrap = draw.rect(this.width(), this.height()).move(this.x() , this.y()).opacity(0);
-            wrap.addClass("seat");
-            wrap.data('user-id', this.data('user-id'))
+            var text = group.text(username + "\nS").font({ fill: '#000', family: 'Poppins', size:16 });
+            text.move(this.x() + 5,this.y() + (this.height() / 2) - (text.bbox().h /2));
+
+
+
+            // var x =  this.x() + 5;
+            // var y =  this.cy() - 15;
+            // var text = draw.text(username)
+            // text.move(x,y).font({ fill: '#FFF', family: 'Inconsolata' }).addClass("nametext").data('user-id', this.data('user-id'));
+            // var wrap = draw.rect(this.width(), this.height()).move(this.x() , this.y()).opacity(0);
+            // wrap.addClass("seat");
+            // wrap.data('user-id', this.data('user-id'))
 
 
             // var group = draw.group();
@@ -64,17 +69,7 @@ function modifyElements(){
             //
             // var text = group.text("Hello World").font({ fill: '#FFF', family: 'Inconsolata', size:20 });
             // //var txt_y = (selectedShape.height() / 2) - (text.bbox().h /2);
-            // var txt_x = selectedShape.x();
-            // var txt_y = selectedShape.y() + (selectedShape.height() / 2) - (text.bbox().h /2);
-            //
-            //
-            //
-            //
-            // console.log(txt_x)
-            // console.log(txt_y)
-            //
-            //
-            // text.move(txt_x,txt_y)
+
 
 
             //seatsData.push({name:username, group: "dsd", data: this});
@@ -84,7 +79,7 @@ function modifyElements(){
             //     console.log("do nams")
             //
             // })
-            wrap.mouseover(function() {
+            group.mouseover(function() {
                 this.attr('cursor', 'pointer');
             });
             // wrap.mouseout(function() {
@@ -152,8 +147,9 @@ $('#search-by-group-on-floor').keyup(function() {
 
     delay(function(){
         var query =  $('#search-by-group-on-floor').val().toLowerCase();
-        draw.each(function(i,chi) {
-            if(typeof this.data('group-name') != "undefined" || this.data('type') == "crect"){
+        draw.each(function() {
+
+            if(typeof this.data('user-id') != "undefined" && this.type == "g" || this.data('type') == "crect"){
                 var group = (typeof this.data('group-name') === "undefined") ? '' : this.data('group-name');
                 if(!group.toLowerCase().includes(query)){
                     this.hide();
@@ -163,7 +159,7 @@ $('#search-by-group-on-floor').keyup(function() {
             }
         });
         $(".loading-page").css("display", "none");
-    }, 500 );
+    }, 100 );
 });
 
 
@@ -174,10 +170,9 @@ $('#search-by-name-on-floor').keyup(function() {
 
     delay(function(){
         var query =  $('#search-by-name-on-floor').val().toLowerCase();
-        draw.each(function(i,chi) {
 
-            if(typeof this.data('user-id') != "undefined" || this.data('type') == "crect"){
-
+        draw.each(function() {
+            if(typeof this.data('user-id') != "undefined" && this.type == "g" || this.data('type') == "crect"){
                 var username = (typeof this.data('user-name') === "undefined") ? '' : this.data('user-name');
                 if(!username.toLowerCase().includes(query)){
                     this.hide();
@@ -187,7 +182,7 @@ $('#search-by-name-on-floor').keyup(function() {
             }
         });
         $(".loading-page").css("display", "none");
-    }, 500 );
+    }, 100 );
 });
 
 
