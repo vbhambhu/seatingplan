@@ -1,8 +1,8 @@
 package uk.ac.ox.kir.seatingplan.repositories;
 
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
-import uk.ac.ox.kir.seatingplan.entities.Role;
 import uk.ac.ox.kir.seatingplan.entities.User;
 
 import java.util.List;
@@ -19,5 +19,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByUsernameAndIdNot(String username, Long id);
 
-    //List<Role> getAllRoles();
+    List<User> findByUsernameContainingOrFirstNameContainingOrLastNameContainingOrEmailContaining(String s1,
+                                                                                                  String s2,
+                                                                                                  String s3,
+                                                                                                  String s4);
+
 }

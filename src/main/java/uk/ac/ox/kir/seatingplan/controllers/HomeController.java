@@ -23,7 +23,7 @@ public class HomeController {
             //floorService  created_at
            Floor floor = floorService.findFirstCreateFloor();
 
-            floorid = floor.getId();
+           floorid = floor.getId();
          }
 
          model.addAttribute("floorid", floorid);

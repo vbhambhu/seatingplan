@@ -22,6 +22,14 @@ public class APIController {
     UserService userService;
 
 
+
+    @ResponseBody
+    @RequestMapping(value = "/api/user/search", method = RequestMethod.GET)
+    public List<User>searchUser(@RequestParam("q") String q){
+        return userService.search(q);
+    }
+
+
     @ResponseBody
     @RequestMapping(value = "/api/design/get", method = RequestMethod.GET)
     public Floor getSeatingPlan(@RequestParam("floorid") String floorId){

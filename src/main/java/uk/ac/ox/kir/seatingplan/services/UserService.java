@@ -6,10 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
-import uk.ac.ox.kir.seatingplan.entities.ActionStatus;
-import uk.ac.ox.kir.seatingplan.entities.Group;
-import uk.ac.ox.kir.seatingplan.entities.Role;
-import uk.ac.ox.kir.seatingplan.entities.User;
+import uk.ac.ox.kir.seatingplan.entities.*;
 import uk.ac.ox.kir.seatingplan.repositories.GroupRepository;
 import uk.ac.ox.kir.seatingplan.repositories.UserRepository;
 import uk.ac.ox.kir.seatingplan.utils.SiteHelper;
@@ -203,7 +200,7 @@ public class UserService {
         return groupRepository.findByNameAndIdNot(name, id);
     }
 
-//   // public List<Role> getAllRoles() {
-//        return userRepository.getAllRoles();
-//    }
+    public List<User> search(String q) {
+        return userRepository.findByUsernameContainingOrFirstNameContainingOrLastNameContainingOrEmailContaining(q,q,q,q);
+    }
 }

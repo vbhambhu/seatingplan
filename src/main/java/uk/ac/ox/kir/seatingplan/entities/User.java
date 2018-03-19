@@ -40,6 +40,7 @@ public class User {
     private String email;
 
     @JsonIgnore
+    @Column(nullable = false)
     @Size(min=4, max=255, message = "Password field must be between 4 and 50 characters.")
     private String password;
 
@@ -58,6 +59,8 @@ public class User {
     private String computerDetails;
 
     private String notes;
+
+    private String floorId;
 
     private String loginToken;
 
@@ -239,5 +242,13 @@ public class User {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public String getFloorId() {
+        return floorId;
+    }
+
+    public void setFloorId(String floorId) {
+        this.floorId = floorId;
     }
 }
