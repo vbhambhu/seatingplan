@@ -28,7 +28,7 @@ public class HomeController {
 
          model.addAttribute("floorid", floorid);
 
-        String[] jsFiles = {"svglib/svg.min.js", "viewer.js"};
+        String[] jsFiles = {"moment.js", "svglib/svg.min.js", "viewer.js"};
         model.addAttribute("jsFiles", jsFiles);
         return "home";
     }

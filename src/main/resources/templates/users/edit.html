@@ -17,99 +17,121 @@
 
     <div class="view-block">
 
-    <div class="row">
-        <div class="col-md-6">
 
-            <form th:object="${user}" method="post">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>First name</label>
-                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('firstName')} ? is-invalid" th:field="${user.firstName}" />
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Error</div>
+
+        <form th:object="${user}" method="post">
+            <div class="row">
+                <div class="col-md-6">
+
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>First name</label>
+                            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('firstName')} ? is-invalid" th:field="${user.firstName}" />
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Error</div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Last name</label>
+                            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('lastName')} ? is-invalid" th:field="${user.lastName}" />
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Error</div>
+                        </div>
+
+
+                        <div class="form-group col-md-6">
+                            <label>Username</label>
+                            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('username')} ? is-invalid" th:field="${user.username}" />
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label>Email</label>
+                            <input type="text" class="form-control" th:classappend="${#fields.hasErrors('email')} ? is-invalid" th:field="${user.email}" />
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</div>
+                        </div>
+
+
+                        <div class="form-group col-md-6">
+                            <label>Start Date</label>
+                            <input type="text" class="form-control datepicker" th:classappend="${#fields.hasErrors('startDate')} ? is-invalid" th:field="${user.startDate}" />
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}">Error</div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label>End Date</label>
+                            <input type="text" class="form-control datepicker" th:classappend="${#fields.hasErrors('endDate')} ? is-invalid" th:field="${user.endDate}" />
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">Error</div>
+                        </div>
+
+
+
+                        <div class="form-group col-md-6">
+                            <label>Groups</label>
+                            <select multiple class="form-control select2_tags" th:field="${user.groups}">
+                                <option th:each="group : ${groups}"
+                                        th:text="${group.name}"
+                                        th:value="${group.id}"
+                                >1</option>
+                            </select>
+                            <small id="emailHelp" class="form-text text-muted"><a href="/group/create" target="_blank">Create new group in not exists</a></small>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label>Can login to this app?</label>
+                            <select class="form-control" th:field="${user.enabled}">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+
+
                     </div>
-                    <div class="form-group col-md-6">
-                        <label>Last name</label>
-                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('lastName')} ? is-invalid" th:field="${user.lastName}" />
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Error</div>
-                    </div>
 
 
-                    <div class="form-group col-md-6">
-                        <label>Username</label>
-                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('username')} ? is-invalid" th:field="${user.username}" />
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</div>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label>Email</label>
-                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('email')} ? is-invalid" th:field="${user.email}" />
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</div>
-                    </div>
 
 
-                    <div class="form-group col-md-6">
-                        <label>Start Date</label>
-                        <input type="text" class="form-control datepicker" th:classappend="${#fields.hasErrors('startDate')} ? is-invalid" th:field="${user.startDate}" />
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}">Error</div>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label>End Date</label>
-                        <input type="text" class="form-control datepicker" th:classappend="${#fields.hasErrors('endDate')} ? is-invalid" th:field="${user.endDate}" />
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">Error</div>
-                    </div>
+                    <button type="submit" class="btn btn-success">Update</button>
 
 
-                    <div class="form-group col-md-6">
-                        <label>Groups</label>
-                        <select multiple class="form-control select2_tags" th:field="${user.groups}">
-                            <option th:each="group : ${groups}"
-                                    th:text="${group.name}"
-                                    th:value="${group.id}"
-                            >1</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label>Can login to this app?</label>
-                        <select class="form-control" th:field="${user.enabled}">
-                            <option value="0">No</option>
-                            <option value="1">Yes</option>
-                        </select>
-                    </div>
-
-                    <!--<div class="form-group col-md-6">-->
-                        <!--<label>IP Address</label>-->
-                        <!--<input type="text" class="form-control" th:classappend="${#fields.hasErrors('computerAddress')} ? is-invalid" th:field="${user.computerAddress}" />-->
-                        <!--<div class="invalid-feedback" th:if="${#fields.hasErrors('computerAddress')}" th:errors="*{computerAddress}">Error</div>-->
-                    <!--</div>-->
-
-                    <!--<div class="form-group col-md-6">-->
-                        <!--<label>Group</label>-->
-                        <!--<select class="form-control" th:field="${user.group}" >-->
-                            <!--<option th:each="group : ${groups}" th:text="${group.name}" th:value="${group.id}"></option>-->
-                        <!--</select>-->
-                    <!--</div>-->
                 </div>
 
-                <!--<div class="form-group">-->
-                    <!--<div class="form-check">-->
-                        <!--<input type="checkbox" class="form-check-input"  th:field="*{PI}">-->
-                        <!--<label class="form-check-label">Is PI?</label>-->
-                    <!--</div>-->
-                <!--</div>-->
+                <div class="col-md-6">
 
 
-                <!--<div class="form-group">-->
-                    <!--<label>Comment</label>-->
-                    <!--<textarea class="form-control"  th:field="${user.comment}"></textarea>-->
-                <!--</div>-->
 
-                <button type="submit" class="btn btn-success">Update</button>
-            </form>
 
-        </div>
-    </div>
+                    <div class="form-group">
+                        <label>Profile image URL</label>
+                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('imageUrl')} ? is-invalid" th:field="${user.imageUrl}" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}">Error</div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('phone')} ? is-invalid" th:field="${user.phone}" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Error</div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Computer Details</label>
+                        <textarea class="form-control" th:classappend="${#fields.hasErrors('computerDetails')} ? is-invalid" th:field="${user.computerDetails}" rows="3"></textarea>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('computerDetails')}" th:errors="*{computerDetails}">Error</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Extra Notes</label>
+                        <textarea class="form-control" th:classappend="${#fields.hasErrors('notes')} ? is-invalid" th:field="${user.notes}" rows="3"></textarea>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('notes')}" th:errors="*{notes}">Error</div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </form>
+
+
     </div>
 
 

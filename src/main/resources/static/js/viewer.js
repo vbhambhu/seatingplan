@@ -108,13 +108,19 @@ function modifyElements(){
         var e=$(this);
         e.off('hover');
         $.get('/api/user/details',{ id: e.data('user-id')}, function(userdata) {
+
+            var grps = [];
+            $.each( userdata.groups, function( key, value ) {
+                grps.push(value.name);
+            });
+
             var details = '<div class="row cdcol"><div class="col-sm-5 udrow">Name:</div><div class="col-sm-7">'+userdata.firstName + " " + userdata.lastName+'</div></div>';
-            details += '<div class="row cdcol"><div class="col-sm-5 udrow">Start Date: </div><div class="col-sm-7">'+userdata.startDate +'</div></div>';
-            details += '<div class="row cdcol"><div class="col-sm-5 udrow">End Date: </div><div class="col-sm-7">'+userdata.endDate +'</div></div>';
+            details += '<div class="row cdcol"><div class="col-sm-5 udrow">Start Date: </div><div class="col-sm-7">'+ moment(userdata.startDate).format('MMMM Do YYYY') +'</div></div>';
+            details += '<div class="row cdcol"><div class="col-sm-5 udrow">End Date: </div><div class="col-sm-7">'+ moment(userdata.endDate).format('MMMM Do YYYY') +'</div></div>';
             details += '<div class="row cdcol"><div class="col-sm-5 udrow">Phone: </div><div class="col-sm-7">'+userdata.phone +'</div></div>';
             details += '<div class="row cdcol"><div class="col-sm-5 udrow">Email: </div><div class="col-sm-7">'+userdata.email +'</div></div>';
-            details += '<div class="row cdcol"><div class="col-sm-5 udrow">Computer: </div><div class="col-sm-7">'+userdata.computer +'</div></div>';
-            details += '<div class="row cdcol"><div class="col-sm-5 udrow">Groups: </div><div class="col-sm-7">'+userdata.groups +'</div></div>';
+            details += '<div class="row cdcol"><div class="col-sm-5 udrow">Computer: </div><div class="col-sm-7">'+userdata.computerDetails +'</div></div>';
+            details += '<div class="row cdcol"><div class="col-sm-5 udrow">Groups: </div><div class="col-sm-7">'+ grps.join(", ")  +'</div></div>';
             details += '<div class="row cdcol"><div class="col-sm-5 udrow">Notes: </div><div class="col-sm-7">'+userdata.notes +'</div></div>';
             e.popover({
                 title: userdata.firstName + " " + userdata.lastName,

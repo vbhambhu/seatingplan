@@ -40,9 +40,7 @@ public class UserService {
     }
 
     public User getUserById(Long id) {
-
         return userRepository.findOne(id);
-
     }
 
     public void create(User user) {
@@ -55,27 +53,33 @@ public class UserService {
         user.setLastName(SiteHelper.ucword(user.getLastName()));
         userRepository.save(user);
 
-        //send email to activate account.
-        //String link = baseUrl+"password/update?token="+user.getLoginToken();
-        //Context context = new Context();
-        //context.setVariable("link", link);
-
-        //emailService.sendHtml(user.getEmail(),siteName+" - Your temporary login link","login",context);
+        //TODO: send activation email
 
     }
 
     public void update(User user) {
-        user.setUpdatedAt(new Date());
-        userRepository.save(user);
+
+        User user1 = userRepository.findOne(user.getId());
+
+        user1.setFirstName(user.getFirstName());
+        user1.setLastName(user.getLastName());
+        user1.setUsername(user.getUsername());
+        user1.setEmail(user.getEmail());
+
+        user1.setStartDate(user.getStartDate());
+        user1.setEndDate(user.getEndDate());
+        user1.setGroups(user.getGroups());
+        user1.setEnabled(user.isEnabled());
+        user1.setImageUrl(user.getImageUrl());
+
+        user1.setComputerDetails(user.getComputerDetails());
+        user1.setPhone(user.getPhone());
+        user1.setNotes(user.getNotes());
+        user1.setUpdatedAt(new Date());
+
+        userRepository.save(user1);
     }
 
-    public void saveGroup(Group group) {
-        groupRepository.save(group);
-    }
-
-    public List<Group> getAllGroups() {
-        return groupRepository.findAll();
-    }
 
     public Group getGroupById(Long gid) {
         return groupRepository.findOne(gid);
@@ -89,31 +93,6 @@ public class UserService {
     public boolean emailExists(String email) {
         User user = userRepository.findByEmail(email);
         return (user == null) ? true : false;
-    }
-
-
-    public boolean duplicateUsername(Long id, String username) {
-
-        User user = userRepository.findByUsernameAndIdNot(username, id);
-        return (user == null) ? true : false;
-
-    }
-
-    public boolean duplicateEmail(Long id, String email) {
-
-        User user = userRepository.findByEmailAndIdNot(email, id);
-        return (user == null) ? true : false;
-
-    }
-
-
-    public List<Group> getGroupsByFloorId(Long floorid) {
-
-
-        //return groupRepository.find(floorid);
-
-        return null;
-
     }
 
     public boolean checkLoginToken(String token) {
@@ -169,6 +148,14 @@ public class UserService {
 
         if(user.isEnabled()){
             //send email to get a new password.
+        }
+
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
+        if(user.getPassword() == null){
+            user.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
         }
 
         user.setUpdatedAt(new Date());

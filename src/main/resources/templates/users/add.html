@@ -16,10 +16,11 @@
 
     <div class="view-block">
 
+        <form th:object="${user}" method="post">
     <div class="row">
         <div class="col-md-6">
 
-            <form th:object="${user}" method="post">
+
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label>First name</label>
@@ -58,11 +59,6 @@
                         <div class="invalid-feedback" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}">Error</div>
                     </div>
 
-                    <!--<div class="form-group col-md-6">-->
-                        <!--<label>Computer Address</label>-->
-                        <!--<input type="text" class="form-control" th:classappend="${#fields.hasErrors('computerAddress')} ? is-invalid" th:field="${user.computerAddress}" />-->
-                        <!--<div class="invalid-feedback" th:if="${#fields.hasErrors('computerAddress')}" th:errors="*{computerAddress}">Error</div>-->
-                    <!--</div>-->
 
 
                     <div class="form-group col-md-6">
@@ -91,49 +87,46 @@
 
 
                 <button type="submit" class="btn btn-success">Create</button>
-            </form>
+
 
         </div>
 
         <div class="col-md-6">
 
 
-            <!--<input type="checkbox">-->
-
-            <!--<div class="form-group">-->
-                <!--<label>Roles</label>-->
-                <!--<select class="form-control select2-multiple" th:field="*{user.roles}" multiple="multiple">-->
-                    <!--<option th:field="*{userRole[__${stat.index}__].role}"-->
-                            <!--th:object="*{role}"-->
-                            <!--th:each="role, stat : ${roles}"-->
-                            <!--th:text="${role.name}"-->
-                            <!--th:value="${role.id}"></option>-->
-                <!--</select>-->
-            <!--</div>-->
 
 
-
-            <!--<th:block th:each="role : ${roles}">-->
-
-                    <!--<th:block th:each="enviro : ${environmentList}">-->
-                        <!--<td><input type="checkbox" th:field="*{testList}" th:value="|${test.name}-${enviro}|" /></td>-->
-                    <!--</th:block>-->
-                <!---->
-            <!--</th:block>-->
+            <div class="form-group">
+                <label>Profile image URL</label>
+                <input type="text" class="form-control" th:classappend="${#fields.hasErrors('imageUrl')} ? is-invalid" th:field="${user.imageUrl}" />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}">Error</div>
+            </div>
 
 
-            <!--<div class="form-group">-->
-                <!--<label>Groups</label>-->
-                <!--<select class="form-control select2-multiple" name="states[]" multiple="multiple">-->
-                    <!--<option th:each="group : ${groups}" th:text="${group.name}" th:value="${group.id}"></option>-->
-                <!--</select>-->
-            <!--</div>-->
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="text" class="form-control" th:classappend="${#fields.hasErrors('phone')} ? is-invalid" th:field="${user.phone}" />
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Error</div>
+            </div>
 
+
+            <div class="form-group">
+                <label>Computer Details</label>
+                <textarea class="form-control" th:classappend="${#fields.hasErrors('computerDetails')} ? is-invalid" th:field="${user.computerDetails}" rows="3"></textarea>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('computerDetails')}" th:errors="*{computerDetails}">Error</div>
+            </div>
+
+            <div class="form-group">
+                <label>Extra Notes</label>
+                <textarea class="form-control" th:classappend="${#fields.hasErrors('notes')} ? is-invalid" th:field="${user.notes}" rows="3"></textarea>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('notes')}" th:errors="*{notes}">Error</div>
+            </div>
 
 
 
         </div>
     </div>
+        </form>
     </div>
 
 

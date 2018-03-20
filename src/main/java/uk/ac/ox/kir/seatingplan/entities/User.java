@@ -56,6 +56,8 @@ public class User {
 
     private String imageUrl;
 
+    private String phone;
+
     private String computerDetails;
 
     private String notes;
@@ -250,5 +252,13 @@ public class User {
 
     public void setFloorId(String floorId) {
         this.floorId = floorId;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
