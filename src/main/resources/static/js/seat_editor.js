@@ -97,9 +97,6 @@ $( "#save_svg" ).click(function() {
         $.notify(response,"success");
     });
 
-    // $.post( "/api/user/floor/update", {floorid: floorId, userids: userids }).done(function( response ) {
-    //     //alert(response);
-    // });
 
 });
 
@@ -137,4 +134,11 @@ $( "#seat_user_id" ).change(function() {
         selectedShape.data('user-name', userName);
         selectedShape.data('group-color', groupColor);
     }
+
+
+    $.post( "/api/user/floor/update", {floorid: floorId, userid: userId }).done(function( response ) {
+        console.log(response);
+    });
+
+
 });

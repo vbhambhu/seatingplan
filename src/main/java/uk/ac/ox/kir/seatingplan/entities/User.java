@@ -62,7 +62,7 @@ public class User {
 
     private String notes;
 
-    private String floorId;
+    private Long floorId;
 
     private String loginToken;
 
@@ -246,11 +246,12 @@ public class User {
         this.notes = notes;
     }
 
-    public String getFloorId() {
+
+    public Long getFloorId() {
         return floorId;
     }
 
-    public void setFloorId(String floorId) {
+    public void setFloorId(Long floorId) {
         this.floorId = floorId;
     }
 

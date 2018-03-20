@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.ac.ox.kir.seatingplan.entities.BulkUserUpload;
+import uk.ac.ox.kir.seatingplan.entities.Group;
 import uk.ac.ox.kir.seatingplan.entities.User;
+import uk.ac.ox.kir.seatingplan.repositories.GroupRepository;
 import uk.ac.ox.kir.seatingplan.services.UserService;
 import uk.ac.ox.kir.seatingplan.utils.SiteHelper;
 
@@ -20,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +31,10 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+
+    @Autowired
+    GroupRepository groupRepository;
 
     @RequestMapping(value = "/user/list", method = RequestMethod.GET)
     public String usersList(Model model) {
@@ -120,7 +127,10 @@ public class UserController {
 
         List<User> users = SiteHelper.csvToOLbjects(User.class, file,redirectAttributes);
 
+        Group default_group = groupRepository.findByName("Default Group");
+
         for (User user : users){
+            user.setGroups(Arrays.asList(default_group));
             userService.create(user);
         }
 

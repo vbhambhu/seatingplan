@@ -71,6 +71,17 @@ public class APIController {
         return user;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "api/user/floor/update", method = RequestMethod.POST)
+    public String updateUsersOnFloor(@RequestParam("floorid") Long floorid,
+                                     @RequestParam("userid") Long userId){
+        User user = userService.getUserById(userId);
+        user.setFloorId(floorid);
+        userService.update(user);
+        return "Saved successfully!";
+
+    }
+
 
 
     /*
@@ -103,19 +114,7 @@ public class APIController {
 
 
 
-    @ResponseBody
-    @RequestMapping(value = "api/user/floor/update", method = RequestMethod.POST)
-    public String updateUsersOnFloor(@RequestParam("floorid") String floorid,
-                            @RequestParam("userids") String userIds){
 
-        System.out.println(floorid);
-        System.out.println(userIds);
-        //Floor floor = floorService.getFloorById(Long.valueOf(floorid));
-        //floor.setSvgContent(svg_content);
-        //floorService.save(floor);
-        return "Saved successfully!";
-
-    }
 
 
 
