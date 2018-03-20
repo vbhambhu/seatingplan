@@ -2,6 +2,8 @@ package uk.ac.ox.kir.seatingplan.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,10 +23,7 @@ import javax.validation.Valid;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class UserController {
@@ -129,8 +128,11 @@ public class UserController {
 
         Group default_group = groupRepository.findByName("Default Group");
 
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        
         for (User user : users){
             user.setGroups(Arrays.asList(default_group));
+            user.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
             userService.create(user);
         }
 
