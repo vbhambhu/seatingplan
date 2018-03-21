@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 
 @Entity
 @Table(name = "groups")
@@ -21,6 +22,9 @@ public class Group {
 
     @NotEmpty(message = "Group colour field is required.")
     private String color;
+
+    @ManyToMany(mappedBy = "roles")
+    private Collection<User> users;
 
     public Long getId() {
         return id;
@@ -44,5 +48,13 @@ public class Group {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public Collection<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Collection<User> users) {
+        this.users = users;
     }
 }

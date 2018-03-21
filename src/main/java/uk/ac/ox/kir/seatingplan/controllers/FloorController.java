@@ -44,10 +44,6 @@ public class FloorController {
 
         model.addAttribute("designSidebar", true);
 
-
-
-
-
         return "floors/design";
     }
 
@@ -80,7 +76,6 @@ public class FloorController {
         }
 
         floorService.create(floor);
-
         return "redirect:/floor/list";
     }
 

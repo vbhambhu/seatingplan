@@ -26,6 +26,8 @@ public class Floor {
 
     private int height;
 
+    private String bgImage;
+
     private Date createdAt;
 
 
@@ -63,6 +65,14 @@ public class Floor {
 
     public int getWidth() {
         return width;
+    }
+
+    public String getBgImage() {
+        return bgImage;
+    }
+
+    public void setBgImage(String bgImage) {
+        this.bgImage = bgImage;
     }
 
     public void setWidth(int width) {

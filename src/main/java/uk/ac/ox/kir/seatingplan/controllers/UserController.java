@@ -112,7 +112,6 @@ public class UserController {
 
 
     //Upload and create bulk users
-
     @RequestMapping(value = "/user/bulk", method = RequestMethod.GET)
     public String updateUsers() {
         return "users/bulk_create";
@@ -129,7 +128,7 @@ public class UserController {
         Group default_group = groupRepository.findByName("Default Group");
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        
+
         for (User user : users){
             user.setGroups(Arrays.asList(default_group));
             user.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
@@ -143,5 +142,19 @@ public class UserController {
 
         return "redirect:/user/list";
     }
+
+
+
+    @RequestMapping(value = "/user/delete", method = RequestMethod.POST)
+    public String delete(@RequestParam(name = "user_id") Long id, RedirectAttributes redirectAttributes) {
+
+        userService.delete(id);
+        redirectAttributes.addFlashAttribute("successMsg", "User has been deleted successfully!");
+        return "redirect:/user/list";
+
+    }
+
+
+
 
 }

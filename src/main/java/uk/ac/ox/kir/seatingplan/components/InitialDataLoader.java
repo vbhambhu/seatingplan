@@ -16,8 +16,6 @@ import uk.ac.ox.kir.seatingplan.repositories.FloorRepository;
 import uk.ac.ox.kir.seatingplan.repositories.GroupRepository;
 import uk.ac.ox.kir.seatingplan.repositories.RoleRepository;
 import uk.ac.ox.kir.seatingplan.repositories.UserRepository;
-
-import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -41,14 +39,16 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     private String email;
 
 
+    /*
+    * This method will run of application start
+    * Will setup database and tables and create basic records in tables
+    * required by app
+    * */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 
 
         createRoleIfNotFound("ROLE_ADMIN");
-        createRoleIfNotFound("ROLE_USER");
-        createRoleIfNotFound("ROLE_NO_ACCESS");
-
         createGroupIfNotFound("Default Group");
 
 

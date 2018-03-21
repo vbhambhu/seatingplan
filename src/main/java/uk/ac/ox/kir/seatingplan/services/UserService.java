@@ -80,11 +80,6 @@ public class UserService {
         userRepository.save(user1);
     }
 
-
-    public Group getGroupById(Long gid) {
-        return groupRepository.findOne(gid);
-    }
-
     public boolean usernameExists(String username) {
         User user = userRepository.findByUsername(username);
         return (user == null) ? true : false;
@@ -171,23 +166,12 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Group findGroupByName(String name) {
-        return groupRepository.findByName(name);
-    }
-
-    public void createGroup(Group group) {
-        groupRepository.save(group);
-    }
-
-    public void updateGroup(Group group) {
-        groupRepository.save(group);
-    }
-
-    public Group findGroupByNameExceptId(String name, Long id) {
-        return groupRepository.findByNameAndIdNot(name, id);
-    }
 
     public List<User> search(String q) {
         return userRepository.findByUsernameContainingOrFirstNameContainingOrLastNameContainingOrEmailContaining(q,q,q,q);
+    }
+
+    public void delete(Long id) {
+        userRepository.delete(id);
     }
 }

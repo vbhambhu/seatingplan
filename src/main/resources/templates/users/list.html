@@ -52,13 +52,12 @@
             <th>Start Date</th>
             <th>End Date</th>
             <th>Group(s)</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
             <tr th:each="user : ${users}">
-                <td>
-                    <a th:href="@{/user/edit(id=${user.id})}" th:text="${user.username}">..</a>
-                </td>
+                <td th:text="${user.username}"></td>
                 <td><span th:text="${user.firstName}"></span> <span th:text="${user.lastName}"></span> </td>
                 <td th:text="${user.email}">...</td>
                 <td th:text="${#dates.format(user.startDate, 'dd-MMM-yyyy')}">...</td>
@@ -66,6 +65,17 @@
                 <td>
                     <span class="badge badge-dark" th:each="group : ${user.groups}" th:text="${group.name}">{name}</span>
                 </td>
+
+                <td>
+                    <form th:action="@{/user/delete}" method="post" class="delete_form">
+                        <input th:value="${user.id}" name="user_id" type="hidden">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                            <a th:href="@{/user/edit(id=${user.id})}" class="btn btn-primary">Edit</a>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </td>
+
             </tr>
         </tbody>
     </table>

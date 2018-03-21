@@ -81,7 +81,7 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-            name = "user_groups",
+            name = "user_to_groups",
             joinColumns = @JoinColumn(
                     name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(

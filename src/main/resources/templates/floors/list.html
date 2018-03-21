@@ -40,12 +40,13 @@
             <td><a th:href="@{/(floorid=${floor.id})}" th:text="${floor.name}">...</a></td>
             <td th:text="${floor.createdAt}">...</td>
             <td>
-                <form th:action="@{/floor/delete}" method="post">
+                <form th:action="@{/floor/delete}" method="post" class="delete_form">
+                    <input th:value="${floor.id}" name="floorId" type="hidden">
                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                     <a th:href="@{/floor/edit/name/(id=${floor.id})}" class="btn btn-primary">Rename</a>
                     <a th:href="@{/floor/edit/seats/(id=${floor.id})}" class="btn btn-primary">Edit Seats</a>
                     <a th:href="@{/floor/edit/design/(id=${floor.id})}" class="btn btn-primary">Edit Design</a>
-                    <button type="submit" class="btn btn-danger" th:value="${floor.id}" name="floorId">Delete</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
                 </div>
                 </form>
             </td>

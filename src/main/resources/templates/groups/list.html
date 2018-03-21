@@ -23,19 +23,39 @@
         </button>
     </div>
 
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorMsg}">
+        <span th:text="${errorMsg}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+
     <div class="view-block">
 
     <table class="table datatable table-striped table-bordered">
         <thead>
         <tr>
-            <th>Group</th>
+            <th>Name</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="group : ${groups}">
             <td> <i class="fa fa-square color" aria-hidden="true"  th:attr="data-color=${group.color}"></i>
-                <a th:href="@{/group/edit(id=${group.id})}"  th:text="${group.name}">...</a>
+                <span th:text="${group.name}">...</span>
             </td>
+
+            <td>
+                <form th:action="@{/group/delete}" method="post" class="delete_form">
+                    <input th:value="${group.id}" name="group_id" type="hidden">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                        <a th:href="@{/group/edit(id=${group.id})}" class="btn btn-primary">Edit</a>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </td>
+
         </tr>
         </tbody>
     </table>

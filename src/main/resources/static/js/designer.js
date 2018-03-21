@@ -229,3 +229,10 @@ $( "#to_back" ).click(function() {
     if(selectedShape !== null) selectedShape.back();
 });
 
+
+$( "#set_bg_img" ).click(function() {
+
+});
+
+
+

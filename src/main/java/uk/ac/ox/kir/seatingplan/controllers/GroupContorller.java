@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.ac.ox.kir.seatingplan.entities.Group;
+import uk.ac.ox.kir.seatingplan.entities.Role;
 import uk.ac.ox.kir.seatingplan.entities.User;
+import uk.ac.ox.kir.seatingplan.repositories.GroupRepository;
+import uk.ac.ox.kir.seatingplan.services.GroupService;
 import uk.ac.ox.kir.seatingplan.services.UserService;
 
 import javax.validation.Valid;
@@ -19,13 +22,13 @@ import javax.validation.Valid;
 public class GroupContorller {
 
     @Autowired
-    UserService userService;
+    GroupService groupService;
 
     @RequestMapping(value = "/group/list", method = RequestMethod.GET)
     public String groupList(Model model) {
         String[] jsFiles = {"datatables.min.js"};
         model.addAttribute("jsFiles", jsFiles);
-        model.addAttribute("groups", userService.findAllGroups());
+        model.addAttribute("groups", groupService.findAll());
         return "groups/list";
     }
 
@@ -43,7 +46,7 @@ public class GroupContorller {
                                          RedirectAttributes redirectAttributes) {
 
 
-        if(userService.findGroupByName(group.getName()) != null){
+        if(groupService.findByName(group.getName()) != null){
             bindingResult.rejectValue("name", "name", "This group is already exists.");
         }
 
@@ -53,7 +56,7 @@ public class GroupContorller {
             return "groups/add";
         }
 
-        userService.createGroup(group);
+        groupService.create(group);
         redirectAttributes.addFlashAttribute("successMsg", "New group been added successfully!");
         return "redirect:/group/list";
     }
@@ -64,7 +67,7 @@ public class GroupContorller {
     public String editGroup(Group group, Model model,
                             @RequestParam(value = "id", required = true) Long id) {
 
-        model.addAttribute("group",userService.getGroupById(id) );
+        model.addAttribute("group",groupService.getById(id) );
         String[] jsFiles = {"jscolor.min.js"};
         model.addAttribute("jsFiles", jsFiles);
         return "groups/edit";
@@ -77,7 +80,7 @@ public class GroupContorller {
                                            BindingResult bindingResult,
                                            @RequestParam(value = "id", required = true) Long id) {
 
-        if(userService.findGroupByNameExceptId(group.getName(), group.getId()) != null){
+        if(groupService.findByNameExceptId(group.getName(), group.getId()) != null){
             bindingResult.rejectValue("name", "name", "This group is already exists.");
         }
 
@@ -88,10 +91,24 @@ public class GroupContorller {
             return "groups/edit";
         }
 
+        groupService.update(group);
+        return "redirect:/group/list";
+    }
 
-        userService.updateGroup(group);
+    @RequestMapping(value = "/group/delete", method = RequestMethod.POST)
+    public String delete(@RequestParam(name = "group_id") Long id, RedirectAttributes redirectAttributes) {
+
+        Group group = groupService.getById(id);
+
+        if(group.getUsers().size() > 0){
+            redirectAttributes.addFlashAttribute("errorMsg", "Cant' delete group. Group is assigned to existing users.");
+        } else{
+            groupService.delete(id);
+            redirectAttributes.addFlashAttribute("successMsg", "Group has been deleted successfully!");
+        }
 
         return "redirect:/group/list";
+
     }
 
 

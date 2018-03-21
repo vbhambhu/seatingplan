@@ -18,7 +18,13 @@ $('.datepicker').exists(function() {
 
 
 $('.datatable').exists(function() {
-    $(".datatable").DataTable();
+    $(".datatable").DataTable(
+        {
+            columnDefs: [
+                { targets: [1], "orderable": false}
+            ]
+        }
+    );
 });
 
 
@@ -152,3 +158,27 @@ function getCookie(cname) {
     }
     return "";
 }
+
+$('.delete_form').submit(function(e) {
+    var currentForm = this;
+    e.preventDefault();
+    bootbox.confirm({
+        title: "Are you sure?",
+        message: "This item will be deleted immediately. You can't undo this action. Are you still sure you want to delete?",
+        buttons: {
+            confirm: {
+                label: 'Yes',
+                className: 'btn-danger'
+            },
+            cancel: {
+                label: 'No',
+                className: 'btn-dark'
+            }
+        },
+        callback: function (result) {
+                if (result) {
+                    currentForm.submit();
+                }
+        }
+    });
+});
