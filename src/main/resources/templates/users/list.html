@@ -63,7 +63,8 @@
                 <td th:text="${#dates.format(user.startDate, 'dd-MMM-yyyy')}">...</td>
                 <td th:text="${#dates.format(user.endDate, 'dd-MMM-yyyy')}">...</td>
                 <td>
-                    <span class="badge badge-dark" th:each="group : ${user.groups}" th:text="${group.name}">{name}</span>
+                    <span class="badge badge-dark" th:each="group : ${user.groups}" th:text="${group.name}"
+                          th:style="'background:#'+${group.color}">{name}</span>
                 </td>
 
                 <td>
