@@ -231,6 +231,25 @@ $( "#to_back" ).click(function() {
 
 
 $( "#set_bg_img" ).click(function() {
+    $('#imgupload').trigger('click');
+});
+
+$("#imgupload").on('change',function(){
+
+    var upload = document.getElementById('imgupload');
+    var image = upload.files[0];
+
+    $.ajax({
+        url:"/image/store",
+        type: "POST",
+        data: new FormData(image),
+        contentType:false,
+        cache: false,
+        processData:false,
+        success:function (msg) {
+            console.log(msg);
+        }
+    });
 
 });
 

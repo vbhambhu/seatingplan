@@ -64,10 +64,6 @@
 </div>
 
 
-
-
-
-
 <div th:fragment="designer">
 
     <button type="button" class="btn btn-success btn-block" id="save_svg">Save</button>
@@ -76,10 +72,9 @@
     <button type="button" class="btn btn-primary btn-block" id="set_bg_img">Background Image</button>
 
     <form method="post" enctype="multipart/form-data"  action="upload.php">
-        <input type="file" name="images" id="images" multiple />
+        <input type="file" name="images" id="imgupload" />
         <button type="submit" id="btn">Upload Files!</button>
     </form>
-
 
     <hr>
 
