@@ -42,7 +42,7 @@
         </thead>
         <tbody>
         <tr th:each="group : ${groups}">
-            <td> <i class="fa fa-square color" aria-hidden="true"  th:attr="data-color=${group.color}"></i>
+            <td> <i class="fa fa-square color" aria-hidden="true" th:style="'color:#'+${group.color}"> </i>
                 <span th:text="${group.name}">...</span>
             </td>
 

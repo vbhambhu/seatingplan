@@ -75,11 +75,11 @@ $('.s2-option').exists(function() {
 
 
 
-$('.color').exists(function() {
-    $( ".color" ).each(function( index ) {
-        $(this).css("color", "#"+$( this ).data('color'));
-    });
-});
+// $('.color').exists(function() {
+//     $( ".color" ).each(function( index ) {
+//         $(this).css("color", "#"+$( this ).data('color'));
+//     });
+// });
 
 
 
