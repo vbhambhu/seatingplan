@@ -14,7 +14,20 @@
                     th:text="${user.getFullName()}">{name}</option>
         </select>
     </div>
+    <hr>
 
+    <h5>Assigned to:</h5>
+
+    <div class="not-assigned">
+        None
+    </div>
+
+    <div class="assigned invisible">
+    <div><strong>Name:</strong> <span class="eu-name"></span></div>
+    <div class="mt-1"><strong>Group:</strong> <span class="eu-group"></span></div>
+    <div class="mt-1"><strong>Username:</strong> <span class="eu-username"></span></div>
+    <div class="mt-1"><strong>Email:</strong> <span class="eu-email"></span></div>
+    </div>
 
 
 </div>

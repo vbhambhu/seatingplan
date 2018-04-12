@@ -31,7 +31,6 @@ $('.datatable').exists(function() {
 
 
 if(localStorage.getItem("toggle") == "no"){
-
     $('#sidebar, #content').css("transition" , 'none');
     $('#sidebar, #content').toggleClass('active');
     $('.toggle-icon').toggleClass("fa-align-right");
@@ -131,7 +130,7 @@ function formatDropdownValue (result) {
 
 $('.select2-global-search').on("change", function(e) {
 
-    var fid = $(this).select2('data')[0].floorId;
+    var fid = $(this).select2('data')[0].floor.id;
     window.location.replace("/?floorid="+fid+"&uid="+$(this).val());
 
 });

@@ -1,10 +1,9 @@
-var windowWidth,windowHeight;
-
-//var seatsData = [];
+var windowWidth,windowHeight,userData;
 
 var floorId = $("#sfloor_id").val();
 var draw = SVG('seating-plan');
-var loader;
+var pop_template = '<div class="popover user-details-block" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>';
+
 
 $.ajax({
     type:"get",
@@ -17,92 +16,53 @@ $.ajax({
         //hide your loading file here
         windowWidth = response.width;
         windowHeight = response.height;
+        userData = response.users;
         draw.svg(response.svgContent);
-        //draw.size(100,100);
         modifyElements();
         $(".loading-page").css("display", "none");
+
+
+        //add group colour coding
+        var garr = [];
+
+
+
+
+
 
 });
 
 
 function modifyElements(){
 
-
-    // var floorBoundary = draw.select('.floor').fill('#f06');
-    // console.log(floorBoundary)
-
-    draw.each(function(i,chi) {
-
+    draw.each(function() {
 
         if(typeof this.data('user-id') != "undefined" && this.data('user-id') != 0){
 
             this.animate({ duration: 250 }).flip('x');
 
-            //fill group color
-            this.fill('#'+this.data('group-color'));
-            //add user name on seat
-            var username = (typeof this.data('user-name') === "undefined") ? '' : this.data('user-name');
+            var user = getUserById(this.data('user-id'))[0];
 
+            //fill group color
+            this.fill('#'+user.groups[0].color);
+            //add user name on seat
+            var username = user.firstName + "\n" + user.lastName;
             var group = draw.group();
             group.add(this);
             group.addClass("seat");
             group.data('user-id', this.data('user-id'));
-            group.data('user-name', this.data('user-name'));
-            group.data('group-name', this.data('group-name'));
-
-            var text = group.text(username + "\nS").font({ fill: '#000', family: 'Poppins', size:16 });
+            var text = group.text(username).font({ fill: '#000', family: 'Poppins', size:16 });
             text.move(this.x() + 5,this.y() + (this.height() / 2) - (text.bbox().h /2));
 
-
-
-            // var x =  this.x() + 5;
-            // var y =  this.cy() - 15;
-            // var text = draw.text(username)
-            // text.move(x,y).font({ fill: '#FFF', family: 'Inconsolata' }).addClass("nametext").data('user-id', this.data('user-id'));
-            // var wrap = draw.rect(this.width(), this.height()).move(this.x() , this.y()).opacity(0);
-            // wrap.addClass("seat");
-            // wrap.data('user-id', this.data('user-id'))
-
-
-            // var group = draw.group();
-            // group.add(selectedShape)
-            //
-            // var text = group.text("Hello World").font({ fill: '#FFF', family: 'Inconsolata', size:20 });
-            // //var txt_y = (selectedShape.height() / 2) - (text.bbox().h /2);
-
-
-
-            //seatsData.push({name:username, group: "dsd", data: this});
-
-            // text.mouseover(function() {
-            //
-            //     console.log("do nams")
-            //
-            // })
             group.mouseover(function() {
                 this.attr('cursor', 'pointer');
             });
-            // wrap.mouseout(function() {
-            //     //this.attr('cursor', 'pointer');
-            //     //this.animate({ duration: 250 }).rotate(-90)
-            // });
         }
-        //var userId = (typeof elem.data('user-id') === "undefined") ? 0 : elem.data('user-id');
     });
 
 
-    //make full size
-     //draw.viewbox(0,0,floorBoundaryEle.width() + 20,floorBoundaryEle.height())
-
-
-    console.log("Screen  Width=" + windowWidth + " and height =" + windowHeight)
-
     draw.viewbox(0,0,windowWidth ,windowHeight)
-   // draw.viewbox(0,0,windowWidth ,windowHeight)
 
-
-
-    var pop_template = '<div class="popover user-details-block" role="tooltip"><div class="arrow"></div><div class="popover-body"></div></div>';
 
     $('.seat').mouseenter(function() {
         var e=$(this);
@@ -120,7 +80,7 @@ function modifyElements(){
             details += '<div class="row cdcol"><div class="col-sm-5 udrow">Phone: </div><div class="col-sm-7">'+userdata.phone +'</div></div>';
             details += '<div class="row cdcol"><div class="col-sm-5 udrow">Email: </div><div class="col-sm-7">'+userdata.email +'</div></div>';
             details += '<div class="row cdcol"><div class="col-sm-5 udrow">Computer: </div><div class="col-sm-7">'+userdata.computerDetails +'</div></div>';
-            details += '<div class="row cdcol"><div class="col-sm-5 udrow">Groups: </div><div class="col-sm-7">'+ grps.join(", ")  +'</div></div>';
+            details += '<div class="row cdcol"><div class="col-sm-5 udrow">Group(s): </div><div class="col-sm-7">'+ grps.join(", ")  +'</div></div>';
             details += '<div class="row cdcol"><div class="col-sm-5 udrow">Notes: </div><div class="col-sm-7">'+userdata.notes +'</div></div>';
             e.popover({
                 title: userdata.firstName + " " + userdata.lastName,
@@ -131,20 +91,19 @@ function modifyElements(){
             }).popover('show');
         });
     });
+
     $('.seat').mouseleave(function() {
         $(this).popover('dispose')
     });
 
-//
-// draw.panZoom({zoomMin: 0.5, zoomMax: 20})
-//
-//     draw.zoom(1) // uses center of viewport by default
-//         .animate()
-//         .zoom(2, {x:100, y:100}) // zoom into specified point
-
 }
 
 
+function getUserById(id) {
+    return userData.filter(
+        function(userData){ return userData.id == id }
+    );
+}
 
 
 $('#search-by-group-on-floor').keyup(function() {
@@ -156,7 +115,10 @@ $('#search-by-group-on-floor').keyup(function() {
         draw.each(function() {
 
             if(typeof this.data('user-id') != "undefined" && this.type == "g" || this.data('type') == "crect"){
-                var group = (typeof this.data('group-name') === "undefined") ? '' : this.data('group-name');
+
+                var user = getUserById(this.data('user-id'))[0];
+                var group = user.groups[0].name;
+
                 if(!group.toLowerCase().includes(query)){
                     this.hide();
                 } else{
@@ -179,7 +141,10 @@ $('#search-by-name-on-floor').keyup(function() {
 
         draw.each(function() {
             if(typeof this.data('user-id') != "undefined" && this.type == "g" || this.data('type') == "crect"){
-                var username = (typeof this.data('user-name') === "undefined") ? '' : this.data('user-name');
+
+                var user = getUserById(this.data('user-id'))[0];
+                var username = user.firstName + " " + user.lastName;
+
                 if(!username.toLowerCase().includes(query)){
                     this.hide();
                 } else{

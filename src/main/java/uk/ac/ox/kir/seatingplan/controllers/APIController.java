@@ -25,8 +25,15 @@ public class APIController {
 
     @ResponseBody
     @RequestMapping(value = "/api/user/search", method = RequestMethod.GET)
-    public List<User>searchUser(@RequestParam("q") String q){
+    public List<User> searchUser(@RequestParam("q") String q){
         return userService.search(q);
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/api/user/get", method = RequestMethod.GET)
+    public User searchUser(@RequestParam("id") Long id){
+        return userService.getUserById(id);
     }
 
 

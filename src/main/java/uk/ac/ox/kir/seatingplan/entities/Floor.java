@@ -1,10 +1,7 @@
 package uk.ac.ox.kir.seatingplan.entities;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -13,7 +10,9 @@ import java.util.Date;
 import java.util.List;
 
 
+
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
 public class Floor {
 
     @Id
@@ -33,8 +32,9 @@ public class Floor {
 
     private String bgImage;
 
-    @JsonManagedReference
-    @OneToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "floor")
+
+
+    @OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, mappedBy = "floor")
     private List<User> users;
 
 
