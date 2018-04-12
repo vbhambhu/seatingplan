@@ -103,6 +103,10 @@ public class FloorService {
         return floorRepository.findTopByOrderByIdAsc();
     }
 
+    public Floor findById(Long floorid) {
+        return floorRepository.getOne(floorid);
+    }
+
 //    public int getCountById(Long aLong) {
 //
 //        Long countByName(String name);

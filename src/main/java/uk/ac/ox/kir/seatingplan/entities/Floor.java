@@ -1,11 +1,16 @@
 package uk.ac.ox.kir.seatingplan.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -27,6 +32,12 @@ public class Floor {
     private int height;
 
     private String bgImage;
+
+    @JsonManagedReference
+    @OneToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "floor")
+    private List<User> users;
+
+
 
     private Date createdAt;
 
@@ -85,5 +96,13 @@ public class Floor {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

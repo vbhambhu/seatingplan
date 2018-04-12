@@ -76,7 +76,8 @@ public class APIController {
     public String updateUsersOnFloor(@RequestParam("floorid") Long floorid,
                                      @RequestParam("userid") Long userId){
         User user = userService.getUserById(userId);
-        user.setFloorId(floorid);
+        Floor floor = floorService.findById(floorid);
+        user.setFloor(floor);
         userService.update(user);
         return "Saved successfully!";
 

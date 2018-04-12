@@ -48,7 +48,10 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 
 
+        createRoleIfNotFound("ROLE_SUPER_ADMIN");
         createRoleIfNotFound("ROLE_ADMIN");
+        createRoleIfNotFound("ROLE_USER");
+
         createGroupIfNotFound("Default Group");
 
 
@@ -58,7 +61,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
             return;
         }
 
-        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+        Role adminRole = roleRepository.findByName("ROLE_SUPER_ADMIN");
         Group adminGroup = groupRepository.findByName("Default Group");
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

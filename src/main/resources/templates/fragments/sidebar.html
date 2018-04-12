@@ -1,8 +1,8 @@
 <div th:fragment="editor">
 
-    <button type="button" class="btn btn-success btn-block" id="save_svg">Save</button>
+    <!--<button type="button" class="btn btn-success btn-block" id="save_svg">Save</button>-->
 
-<hr>
+<!--<hr>-->
 
     <div class="form-group">
         <label>Attach User</label><br>
@@ -11,8 +11,7 @@
             <option
                     th:each="user : ${users}"
                     th:value="${user.id}"
-                    th:text="${user.getFullName()}"
-                    th:attr="data-user-name=${user.getsortName()},data-group-color=${user.groups[0].color},data-group-name=${user.groups[0].name}">{name}</option>
+                    th:text="${user.getFullName()}">{name}</option>
         </select>
     </div>
 

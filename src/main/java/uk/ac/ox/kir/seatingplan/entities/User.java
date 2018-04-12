@@ -1,5 +1,6 @@
 package uk.ac.ox.kir.seatingplan.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Email;
@@ -62,7 +63,10 @@ public class User {
 
     private String notes;
 
-    private Long floorId;
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "floor_id")
+    private Floor floor;
 
     private String loginToken;
 
@@ -247,12 +251,12 @@ public class User {
     }
 
 
-    public Long getFloorId() {
-        return floorId;
+    public Floor getFloor() {
+        return floor;
     }
 
-    public void setFloorId(Long floorId) {
-        this.floorId = floorId;
+    public void setFloor(Floor floor) {
+        this.floor = floor;
     }
 
     public String getPhone() {

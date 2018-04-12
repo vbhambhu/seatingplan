@@ -62,7 +62,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/group/list">Groups</a>
                     </li>
-                    <li class="nav-item">
+                    <li sec:authorize="hasRole('ROLE_SUPER_ADMIN')" class="nav-item">
                         <a class="nav-link" href="/role/list">Roles</a>
                     </li>
                 </ul>

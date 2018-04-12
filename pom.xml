@@ -10,7 +10,6 @@
 
 	<name>seatingplan</name>
 	<description>Seating plan app</description>
-
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -66,6 +65,15 @@
 			<artifactId>jackson-dataformat-csv</artifactId>
 			<version>2.5.3</version>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+            <scope>compile</scope>
+        </dependency>
 	</dependencies>
 	<build>
 		<plugins>
