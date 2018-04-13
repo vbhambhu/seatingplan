@@ -23,12 +23,14 @@ $.ajax({
 
 
         //add group colour coding
-        var garr = [];
-
-
-
-
-
+        var group_flag = [];
+        for (i = 0; i < userData.length; i++) {
+            if(userData[i].groups.length > 0){
+                if(group_flag[userData[i].groups[0].id]) continue;
+                group_flag[userData[i].groups[0].id] = true;
+                $(".group_ref").append('<span><i class="fa fa-square color" style="color:#'+userData[i].groups[0].color+'"> </i> '+userData[i].groups[0].name+'</span><br>');
+            }
+        }
 
 });
 
@@ -43,15 +45,23 @@ function modifyElements(){
 
             var user = getUserById(this.data('user-id'))[0];
 
-            //fill group color
-            this.fill('#'+user.groups[0].color);
+            if(typeof user === "undefined"){
+                return;
+            }
+
+           if(user.groups.length > 0){
+                //fill group color
+                this.fill('#'+user.groups[0].color);
+            }
+
+
             //add user name on seat
             var username = user.firstName + "\n" + user.lastName;
             var group = draw.group();
             group.add(this);
             group.addClass("seat");
             group.data('user-id', this.data('user-id'));
-            var text = group.text(username).font({ fill: '#000', family: 'Poppins', size:16 });
+            var text = group.text(username).font({ fill: '#fff', family: 'Poppins', size:14 });
             text.move(this.x() + 5,this.y() + (this.height() / 2) - (text.bbox().h /2));
 
             group.mouseover(function() {
@@ -67,6 +77,9 @@ function modifyElements(){
     $('.seat').mouseenter(function() {
         var e=$(this);
         e.off('hover');
+
+        $('.popover').not(this).popover('hide');
+
         $.get('/api/user/details',{ id: e.data('user-id')}, function(userdata) {
 
             var grps = [];
@@ -105,6 +118,12 @@ function getUserById(id) {
     );
 }
 
+function getGroupById(id, group_arr) {
+    return group_arr.filter(
+        function(group_arr){ return group_arr.id == id }
+    );
+}
+
 
 $('#search-by-group-on-floor').keyup(function() {
 
@@ -117,13 +136,24 @@ $('#search-by-group-on-floor').keyup(function() {
             if(typeof this.data('user-id') != "undefined" && this.type == "g" || this.data('type') == "crect"){
 
                 var user = getUserById(this.data('user-id'))[0];
-                var group = user.groups[0].name;
 
-                if(!group.toLowerCase().includes(query)){
-                    this.hide();
-                } else{
-                    this.show();
+                if(typeof user === "undefined"){
+                    return;
                 }
+
+                if(user.groups.length > 0){
+                    //fill group color
+                    var group = user.groups[0].name;
+
+                    if(!group.toLowerCase().includes(query)){
+                        this.hide();
+                    } else{
+                        this.show();
+                    }
+                }
+
+
+
             }
         });
         $(".loading-page").css("display", "none");
@@ -143,6 +173,11 @@ $('#search-by-name-on-floor').keyup(function() {
             if(typeof this.data('user-id') != "undefined" && this.type == "g" || this.data('type') == "crect"){
 
                 var user = getUserById(this.data('user-id'))[0];
+
+                if(typeof user === "undefined"){
+                    return;
+                }
+
                 var username = user.firstName + " " + user.lastName;
 
                 if(!username.toLowerCase().includes(query)){
