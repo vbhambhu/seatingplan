@@ -75,6 +75,7 @@ public class UserService {
         user1.setComputerDetails(user.getComputerDetails());
         user1.setPhone(user.getPhone());
         user1.setNotes(user.getNotes());
+        user1.setRoles(user.getRoles());
         user1.setUpdatedAt(new Date());
 
         userRepository.save(user1);

@@ -95,12 +95,14 @@
                 <div class="col-md-6">
 
 
-
-
-                    <div class="form-group">
-                        <label>Profile image URL</label>
-                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('imageUrl')} ? is-invalid" th:field="${user.imageUrl}" />
-                        <div class="invalid-feedback" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}">Error</div>
+                    <div sec:authorize="hasRole('ROLE_SUPER_ADMIN')" class="form-group">
+                        <label>Roles</label>
+                        <select multiple class="form-control select2_tags" th:field="${user.roles}">
+                            <option th:each="role : ${roles}"
+                                    th:text="${role.name}"
+                                    th:value="${role.id}"
+                            >1</option>
+                        </select>
                     </div>
 
 

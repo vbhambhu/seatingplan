@@ -16,6 +16,7 @@ import uk.ac.ox.kir.seatingplan.entities.BulkUserUpload;
 import uk.ac.ox.kir.seatingplan.entities.Group;
 import uk.ac.ox.kir.seatingplan.entities.User;
 import uk.ac.ox.kir.seatingplan.repositories.GroupRepository;
+import uk.ac.ox.kir.seatingplan.services.RoleService;
 import uk.ac.ox.kir.seatingplan.services.UserService;
 import uk.ac.ox.kir.seatingplan.utils.SiteHelper;
 
@@ -35,14 +36,14 @@ public class UserController {
     @Autowired
     GroupRepository groupRepository;
 
+    @Autowired
+    RoleService roleService;
+
     @RequestMapping(value = "/user/list", method = RequestMethod.GET)
     public String usersList(Model model) {
-
         model.addAttribute("users", userService.findAll());
-
         String jsFiles[] = {"datatables.min.js"};
         model.addAttribute("jsFiles", jsFiles);
-
         return "users/list";
     }
 
@@ -54,6 +55,7 @@ public class UserController {
         model.addAttribute("jsFiles", jsFiles);
         model.addAttribute("metaTitle", "User Details");
         model.addAttribute("groups", userService.findAllGroups());
+        model.addAttribute("roles", roleService.findAll());
         return "users/edit";
     }
 
@@ -68,6 +70,7 @@ public class UserController {
         if(bindingResult.hasErrors()){
 
             model.addAttribute("groups", userService.findAllGroups());
+            model.addAttribute("roles", roleService.findAll());
             return "users/edit";
         }
 
@@ -84,6 +87,7 @@ public class UserController {
         String[] jsFiles = {"bootstrap-datepicker.min.js", "select2.min.js"};
         model.addAttribute("jsFiles", jsFiles);
         model.addAttribute("groups", userService.findAllGroups());
+        model.addAttribute("roles", roleService.findAll());
         return "users/add";
 
     }
@@ -103,6 +107,7 @@ public class UserController {
             String[] jsFiles = {"bootstrap-datepicker.min.js", "select2.min.js"};
             model.addAttribute("jsFiles", jsFiles);
             model.addAttribute("groups", userService.findAllGroups());
+            model.addAttribute("roles", roleService.findAll());
             return "users/add";
         }
 
